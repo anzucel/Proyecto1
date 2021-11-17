@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    @{ViewData["Title"] = "Register";}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/writing2.ico" />
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <!--===============================================================================================-->
+</head>
+<body>
+
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-t-85 p-b-20">
+                <form class="login100-form validate-form" method="post" asp-action="Index">
+                    <!--<span class="login100-form-title p-b-70">
+                        Mensajes Relevantes S.A.
+                    </span>-->
+                    <span class="login100-form-avatar">
+                        <img src="images/WebChat.PNG" alt="AVATAR">
+                    </span>
+                    <br>
+                    <hr class="hr-count">
+                    <p class="p-acout">Crea tu cuenta aquí</p>
+                    <hr class="hr-count">
+                    <br><br><br><br>
+
+                    <!--Usuario-->
+                    <div class="wrap-input100 validate-input m-b-50" data-validate="">
+                        <input class="input100" type="text" name="Usuario" placeholder="Usuario">                      
+                    </div>
+
+                    <!--Correo electrónico-->
+                    <div class="wrap-input100-email validate-input m-b-50" data-validate="">
+                        <input class="input100" type="email" name="Correo" placeholder="Correo electrónico">
+                    </div>
+
+                    <!--contraseña-->
+                    <div class="wrap-input100 validate-input m-b-50" data-validate="">
+                        <input class="input100" type="password" name="Contraseña" placeholder="Contraseña">
+                    </div>
+
+                    <!--Confirmar contraseña-->
+                    <div class="wrap-input100 validate-input m-b-50" data-validate="">
+                        <input class="input100" type="password" name="Verificacion_C" placeholder="Confirma tu contraseña">
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <button type="submit" class="login100-form-btn">
+                            Registrarse
+                        </button>
+                    </div>
+
+                    <ul class="login-more p-t-190">
+                        <li class="m-b-8">
+                            <span class="txt1">
+                                Iniciar sesión
+                            </span>
+
+                            <a asp-controller="Login" class="txt2">
+                                regresar
+                            </a>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</body>
+</html>
