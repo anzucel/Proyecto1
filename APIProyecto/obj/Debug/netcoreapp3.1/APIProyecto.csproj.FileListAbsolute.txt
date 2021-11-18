@@ -46,3 +46,30 @@ C:\Users\andre\OneDrive\Escritorio\Proyecto1-EDII\APIProyecto\obj\Debug\netcorea
 C:\Users\andre\OneDrive\Escritorio\Proyecto1-EDII\APIProyecto\obj\Debug\netcoreapp3.1\APIProyecto.dll
 C:\Users\andre\OneDrive\Escritorio\Proyecto1-EDII\APIProyecto\obj\Debug\netcoreapp3.1\APIProyecto.pdb
 C:\Users\andre\OneDrive\Escritorio\Proyecto1-EDII\APIProyecto\obj\Debug\netcoreapp3.1\APIProyecto.genruntimeconfig.cache
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\bin\Debug\netcoreapp3.1\APIProyecto.exe
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\bin\Debug\netcoreapp3.1\APIProyecto.deps.json
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\bin\Debug\netcoreapp3.1\APIProyecto.runtimeconfig.json
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\bin\Debug\netcoreapp3.1\APIProyecto.runtimeconfig.dev.json
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\bin\Debug\netcoreapp3.1\APIProyecto.dll
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\bin\Debug\netcoreapp3.1\APIProyecto.pdb
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\bin\Debug\netcoreapp3.1\System.Net.Http.Formatting.dll
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\obj\Debug\netcoreapp3.1\APIProyecto.csproj.AssemblyReference.cache
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\obj\Debug\netcoreapp3.1\APIProyecto.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\obj\Debug\netcoreapp3.1\APIProyecto.AssemblyInfoInputs.cache
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\obj\Debug\netcoreapp3.1\APIProyecto.AssemblyInfo.cs
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\obj\Debug\netcoreapp3.1\APIProyecto.csproj.CoreCompileInputs.cache
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\obj\Debug\netcoreapp3.1\APIProyecto.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\obj\Debug\netcoreapp3.1\staticwebassets\APIProyecto.StaticWebAssets.Manifest.cache
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\obj\Debug\netcoreapp3.1\staticwebassets\APIProyecto.StaticWebAssets.xml
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\obj\Debug\netcoreapp3.1\scopedcss\bundle\APIProyecto.styles.css
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\obj\Debug\netcoreapp3.1\APIProyecto.RazorTargetAssemblyInfo.cache
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\obj\Debug\netcoreapp3.1\APIProyecto.csproj.CopyComplete
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\obj\Debug\netcoreapp3.1\APIProyecto.dll
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\obj\Debug\netcoreapp3.1\APIProyecto.pdb
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\obj\Debug\netcoreapp3.1\APIProyecto.genruntimeconfig.cache
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\bin\Debug\netcoreapp3.1\Cifrado.dll
+C:\Users\jbgir\Documents\INGENIERIA INFORMÁTICA\2021\2do Ciclo\Estructuras II\Laboratorio\Laboratorios\Proyecto1\APIProyecto\bin\Debug\netcoreapp3.1\Cifrado.pdb

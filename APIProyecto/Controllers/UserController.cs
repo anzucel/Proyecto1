@@ -5,15 +5,18 @@ using System.Threading.Tasks;
 using APIProyecto.Models;
 using Microsoft.AspNetCore.Mvc;
 
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace APIProyecto.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class UserController : ControllerBase
     {
         List<User> listUser = new List<User>();
+
         // GET: api/<UserController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -39,7 +42,7 @@ namespace APIProyecto.Controllers
                 return BadRequest("Invalid model");
             }
             // se debe agregar a la base de datos
-            listUser.Add(user);
+           listUser.Add(user);
             return Ok();
         }
 

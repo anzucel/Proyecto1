@@ -2,14 +2,18 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using Proyecto1.Helper;
+using Cifrado;
 using APIProyecto.Models;
+
 
 namespace WritingU.Controllers
 {
     public class AccoutController : Controller
     {
-        UserAPI Api = new UserAPI();    // se inicializa clase 
 
+        Cifrado.ISdes cipher = new Cifrado.Sdes();
+        UserAPI Api = new UserAPI();    // se inicializa clase 
+        
         // GET: AccoutController1
         public ActionResult Index()
         {
@@ -52,22 +56,24 @@ namespace WritingU.Controllers
         // POST: AccoutController1/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(string Usuario, string Correo,string Contraseña,string Verificacion_C/*, User user*/)
+        public ActionResult Index(User user)
         {
-            /*
-             * API-MVC 
-             * HttpClient client = Api.Initial();
 
+              
+            //API - MVC
+            HttpClient client = Api.Initial();
+           
             //Post
-            var Data = client.PostAsJsonAsync<User>("api/user", user);
+            var Data = client.PostAsJsonAsync<User>("api/user", user);         
             Data.Wait();
+
 
             var result = Data.Result;
             if (result.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index"); /si los datos son correctos al crear nueva cuenta retorna a LogIn
+                return RedirectToAction("Index"); //si los datos son correctos al crear nueva cuenta retorna a LogIn
             }
-            return View();*/
+            return View();
 
             try
             {

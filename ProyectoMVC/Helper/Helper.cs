@@ -12,7 +12,7 @@ namespace Proyecto1.Helper
         {
             //http accede a la información de la API
             var User = new HttpClient();
-            User.BaseAddress = new Uri("http://localhost:63349");
+            User.BaseAddress = new Uri("https://localhost:44355/");
             return User;
         }
     }

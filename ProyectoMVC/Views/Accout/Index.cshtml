@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model APIProyecto.Models.User
+
 <html lang="en">
 <head>
     @{ViewData["Title"] = "Register";}
@@ -15,10 +16,10 @@
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100 p-t-85 p-b-20">
-                <form class="login100-form validate-form" method="post" asp-action="Index">
-                    <!--<span class="login100-form-title p-b-70">
-                        Mensajes Relevantes S.A.
-                    </span>-->
+
+                <form class="login100-form validate-form" asp-action="Index">
+
+                    <!--logo-->
                     <span class="login100-form-avatar">
                         <img src="images/WebChat.PNG" alt="AVATAR">
                     </span>
@@ -29,31 +30,27 @@
                     <br><br><br><br>
 
                     <!--Usuario-->
-                    <div class="wrap-input100 validate-input m-b-50" data-validate="">
-                        <input class="input100" type="text" name="Usuario" placeholder="Usuario">                      
+                    <div class="wrap-input100 validate-input m-b-50">
+                        <input class="input100" type="text" asp-for="Username" placeholder="Usuario" />
+                        <span asp-validation-for="Username"></span>
                     </div>
 
-                    <!--Correo electrónico-->
-                    <div class="wrap-input100-email validate-input m-b-50" data-validate="">
-                        <input class="input100" type="email" name="Correo" placeholder="Correo electrónico">
+                    <!--Nombre-->
+                    <div class="wrap-input100-email validate-input m-b-50">
+                        <input class="input100" type="text" asp-for="Name" placeholder="Nombre" />
+                        <span asp-validation-for="Name"></span>
                     </div>
 
-                    <!--contraseña-->
-                    <div class="wrap-input100 validate-input m-b-50" data-validate="">
-                        <input class="input100" type="password" name="Contraseña" placeholder="Contraseña">
+                    <!--Password-->
+                    <div class="wrap-input100 validate-input m-b-50">
+                        <input class="input100" type="password" asp-for="Password" placeholder="Contraseña" />
+                        <span asp-validation-for="Password"></span>
                     </div>
 
-                    <!--Confirmar contraseña-->
-                    <div class="wrap-input100 validate-input m-b-50" data-validate="">
-                        <input class="input100" type="password" name="Verificacion_C" placeholder="Confirma tu contraseña">
-                    </div>
-
+                    <!--Botón registrarse-->
                     <div class="container-login100-form-btn">
-                        <button type="submit" class="login100-form-btn">
-                            Registrarse
-                        </button>
+                        <input class="login100-form-btn" type="submit" value="Registrarse" />
                     </div>
-
                     <ul class="login-more p-t-190">
                         <li class="m-b-8">
                             <span class="txt1">
@@ -65,13 +62,14 @@
                             </a>
                         </li>
                     </ul>
+
                 </form>
             </div>
         </div>
     </div>
-
-
-
-
 </body>
-</html>
+
+
+                @section Scripts {
+                    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+                }
