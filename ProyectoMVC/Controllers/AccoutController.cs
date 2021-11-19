@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using Proyecto1.Helper;
 using Cifrado;
+using System.Text;
 using APIProyecto.Models;
-
+using System.Security.Cryptography;
 
 namespace WritingU.Controllers
 {
@@ -12,6 +13,7 @@ namespace WritingU.Controllers
     {
 
         Cifrado.ISdes cipher = new Cifrado.Sdes();
+        Cifrado.ISdes cesar =  new Cifrado.Cesar();
         UserAPI Api = new UserAPI();    // se inicializa clase 
         
         // GET: AccoutController1
@@ -58,26 +60,28 @@ namespace WritingU.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(User user)
         {
-
-              
+            try
+            {
+                user.Password = cesar.CifrarCesar (user.Password, 4);
+  
             //API - MVC
             HttpClient client = Api.Initial();
            
-            //Post
+            //Post-instancia a la api
             var Data = client.PostAsJsonAsync<User>("api/user", user);         
             Data.Wait();
 
 
             var result = Data.Result;
-            if (result.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index"); //si los datos son correctos al crear nueva cuenta retorna a LogIn
-            }
-            return View();
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index","Login"); ;//si los datos son correctos al crear nueva cuenta retorna a LogIn
+                }
+                return View();
 
-            try
-            {
-                return RedirectToAction(nameof(Index));
+
+
+                // return RedirectToAction(nameof(Index));
             }
             catch
             {

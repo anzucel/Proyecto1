@@ -190,21 +190,25 @@ namespace Cifrado
             }
             return dataE;
         }
-    
-
-
-        public byte[] Descifrar(byte[] texto, int llave)
-        {
-            {
-                throw new NotImplementedException();
-            }
-        }
 
         public byte[] Cifrar(byte[] texto, int llave)
         {
-            {
-                throw new NotImplementedException();
-            }
+            throw new NotImplementedException();
+        }
+
+        public byte[] Descifrar(byte[] texto, int llave)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string CifrarCesar(string txtInicial, int Key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string DesifrarCesar(string txtInicial, int Key)
+        {
+            throw new NotImplementedException();
         }
     }
 

@@ -13,6 +13,10 @@ namespace Cifrado
 
         public   byte[] Cifrar(byte[] texto, int e, int n);
 
-         public  byte[] Descifrar(byte[] texto, int d, int n);
+
+        public string CifrarCesar(string txtInicial, int Key);
+        public string DesifrarCesar(string txtInicial, int Key);
+
+
     }
 }

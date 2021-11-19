@@ -43,7 +43,7 @@ namespace APIProyecto.Controllers
             }
             // se debe agregar a la base de datos
            listUser.Add(user);
-            return Ok();
+           return Ok();
         }
 
 

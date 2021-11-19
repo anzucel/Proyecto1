@@ -34,7 +34,18 @@ namespace WritingU.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                bool existe = false;
+                //Aquí debería de mandar a buscar en la base de datos
+
+                if(existe)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                
             }
             catch
             {

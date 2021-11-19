@@ -228,24 +228,23 @@ namespace Cifrado
 
         public List<string> generadorLlaves()
         {
-            {
-                throw new NotImplementedException();
-            }
+            throw new NotImplementedException();
         }
 
-        public byte[] Cifrar(byte[] data, int e, int n)
+        public byte[] Cifrar(byte[] texto, int e, int n)
         {
-            {
-                throw new NotImplementedException();
-            }
+            throw new NotImplementedException();
         }
 
-        public byte[] Descifrar(byte[] data, int d, int n)
+
+        public string CifrarCesar(string txtInicial, int Key)
         {
-            {
-                throw new NotImplementedException();
-            }
+            throw new NotImplementedException();
         }
 
+        public string DesifrarCesar(string txtInicial, int Key)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cifrado\Cifrado.csproj" />
+    <ProjectReference Include="..\ProyectoMVC\Proyecto1.csproj" />
   </ItemGroup>
 
 
