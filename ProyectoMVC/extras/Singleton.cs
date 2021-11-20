@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Proyecto1;
 using Proyecto1.Extra;
 using Proyecto1.Helper;
+using APIProyecto.Models;
 namespace Proyecto1.Extra
 {
     public sealed class Singleton
@@ -13,6 +14,7 @@ namespace Proyecto1.Extra
         
         //public List<> name_Original = new List<string>();
         public List<string> name_cipher = new List<string>();
+        public List<User >users ;
 
         private Singleton()
         {
