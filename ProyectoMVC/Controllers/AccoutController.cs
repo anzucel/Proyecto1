@@ -64,22 +64,20 @@ namespace WritingU.Controllers
             {
                 user.Password = cesar.CifrarCesar (user.Password, 4);
   
-            //API - MVC
-            HttpClient client = Api.Initial();
+                //API - MVC
+                HttpClient client = Api.Initial();
            
-            //Post-instancia a la api
-            var Data = client.PostAsJsonAsync<User>("api/user", user);         
-            Data.Wait();
+                //Post-instancia a la api
+                var Data = client.PostAsJsonAsync<User>("api/user/signin", user);         
+                Data.Wait();
 
 
-            var result = Data.Result;
+                var result = Data.Result;
                 if (result.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index","Login"); ;//si los datos son correctos al crear nueva cuenta retorna a LogIn
                 }
                 return View();
-
-
 
                 // return RedirectToAction(nameof(Index));
             }

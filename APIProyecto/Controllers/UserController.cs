@@ -20,7 +20,9 @@ namespace APIProyecto.Controllers
     public class UserController : ControllerBase
     {
         private IUsersCollection db = new UsersCollection();
-        List<User> listUser = new List<User>();
+        Cifrado.ISdes cipher = new Cifrado.Sdes();
+        Cifrado.ISdes cesar = new Cifrado.Cesar();
+        //List<User> listUser = new List<User>();
        
         // GET: api/<UserController>
         [HttpGet]
@@ -40,6 +42,7 @@ namespace APIProyecto.Controllers
 
         // POST api/<UserController>
         [HttpPost]
+        [Route("signin")]
         public IActionResult PostSignIn([FromBody] User user)   // recibe info para registrar usuario
         {
             if (!ModelState.IsValid)
@@ -48,9 +51,42 @@ namespace APIProyecto.Controllers
             }
             // se debe agregar a la base de datos 
             db.newUser(user);
+            //db.GetUsers();
             return Ok();
         }
 
+        [HttpPost]
+        [Route("login")]
+        public IActionResult PostLogIn(User user)   // recibe info para registrar usuario
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model");
+            }
+            else
+            {
+
+                var client = new MongoClient("mongodb://127.0.0.1:27017");
+                var db = client.GetDatabase("ChatDB");
+                var users = db.GetCollection<User>("User");
+                var buscarUsuario = users.AsQueryable<User>();
+                var result = from a in buscarUsuario
+                             where (a.Username == user.Username)
+                             select a;
+
+                foreach(User buscar in result)
+                {
+                    string passdb = buscar.Password;
+                    passdb = cesar.DesifrarCesar(passdb, 4);
+                    if(passdb == user.Password)
+                    {
+                        return Ok();
+                    }
+                }
+
+                return NoContent();
+            }
+        }
 
         /*[HttpPost]
         public void Post([FromBody] string value)

@@ -1,14 +1,20 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Proyecto1.Helper;
+using Proyecto1.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace WritingU.Controllers
 {
     public class LoginController : Controller
     {
+        UserAPI Api = new UserAPI();
+        Cifrado.ISdes cipher = new Cifrado.Sdes();
+        Cifrado.ISdes cesar = new Cifrado.Cesar();
         // GET: LoginController
         public ActionResult Index()
         {
@@ -30,12 +36,36 @@ namespace WritingU.Controllers
         // POST: LoginController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(string username,  string pass)
+        public ActionResult Index(string username, string pass)
         {
             try
             {
+                User user = new User();
+                user.Name = username;
+                user.Password = pass;
+                user.Username = username;
+                //Api-mv
+                HttpClient client = Api.Initial();
+
+                //Post- instancia a la API
+                var data = client.PostAsJsonAsync<User>("api/user/login", user);
+                data.Wait();
+
+                var result = data.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    // Debería mostrar alerta contraseña inválida
+                    return View();
+                }
+                /*
                 bool existe = false;
                 //Aquí debería de mandar a buscar en la base de datos
+                
 
                 if(existe)
                 {
@@ -44,7 +74,7 @@ namespace WritingU.Controllers
                 else
                 {
                     return RedirectToAction(nameof(Index));
-                }
+                }*/
                 
             }
             catch
