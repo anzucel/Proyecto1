@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace APIProyecto.Repositories
 {
-    interface IUsersCollection
+   public interface IUsersCollection
     {
         // se trabaja de manera asincrona
         Task newUser(User user);

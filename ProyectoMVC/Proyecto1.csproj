@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\APIProyecto\APIProyecto.csproj" />
     <ProjectReference Include="..\Cifrado\Cifrado.csproj" />
   </ItemGroup>
 
