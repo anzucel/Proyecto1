@@ -3,7 +3,7 @@
 connection.on("ReceiveMessage", (username, message) => {
     const msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     const date = new Date().toLocaleTimeString();
-    const ShowMesage = date + " <strong>" + username + "</strong>:" + msg;
+    const ShowMesage = " <strong>" + username + "</strong>:" + msg + "<br>" + date ;
     const li = document.createElement("li");
     li.innerHTML = ShowMesage;
     document.getElementById("messagesList").appendChild(li);
@@ -14,7 +14,7 @@ connection.on("ReceiveMessage", (username, message) => {
 
 connection.start().catch(err => {
     console.error(err.toString());
-    });
+});
 
 
 document.getElementById("sendButton").addEventListener("click", event => {

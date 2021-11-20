@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Proyecto1.Models;
+using Proyecto1.Extra;
+using APIProyecto.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Proyecto1.Controllers
 {
@@ -20,10 +23,27 @@ namespace Proyecto1.Controllers
 
         public IActionResult Index()
         {
+           
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Index(string mensaje, IFormFile postedFile)
+        {
+            //solo es pruebas
+            if(mensaje==null)
+            {
+                //se almacena el mensaje y todo lo que le corresponde
+            }
+            else
+            {
+                //archivos enviados
+            }
+           
+            return View(Singleton.Instance.users);
+        }
+
+            public IActionResult Privacy()
         {
             return View();
         }

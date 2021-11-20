@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\APIProyecto\Models\User.cs" Link="Helper\User.cs" />
+    <Compile Include="..\APIProyecto\Models\User.cs" Link="extras\User.cs" />
   </ItemGroup>
 
   <ItemGroup>
