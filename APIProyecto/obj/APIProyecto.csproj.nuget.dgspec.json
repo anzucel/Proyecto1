@@ -1,24 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\APIProyecto\\APIProyecto.csproj": {}
+    "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\APIProyecto\\APIProyecto.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\APIProyecto\\APIProyecto.csproj": {
+    "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\APIProyecto\\APIProyecto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\APIProyecto\\APIProyecto.csproj",
+        "projectUniqueName": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\APIProyecto\\APIProyecto.csproj",
         "projectName": "APIProyecto",
-        "projectPath": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\APIProyecto\\APIProyecto.csproj",
-        "packagesPath": "C:\\Users\\jbgir\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\APIProyecto\\obj\\",
+        "projectPath": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\APIProyecto\\APIProyecto.csproj",
+        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\APIProyecto\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\jbgir\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -29,13 +31,12 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\Cifrado\\Cifrado.csproj": {
-                "projectPath": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\Cifrado\\Cifrado.csproj"
+              "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\Cifrado\\Cifrado.csproj": {
+                "projectPath": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\Cifrado\\Cifrado.csproj"
               },
-              "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\ProyectoMVC\\Proyecto1.csproj": {
-                "projectPath": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\ProyectoMVC\\Proyecto1.csproj"
+              "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\ProyectoMVC\\Proyecto1.csproj": {
+                "projectPath": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\ProyectoMVC\\Proyecto1.csproj"
               }
             }
           }
@@ -48,11 +49,14 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.AspNet.WebApi.Client": {
               "target": "Package",
               "version": "[5.2.7, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.13.2, )"
             }
           },
           "imports": [
@@ -73,25 +77,27 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\Cifrado\\Cifrado.csproj": {
+    "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\Cifrado\\Cifrado.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\Cifrado\\Cifrado.csproj",
+        "projectUniqueName": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\Cifrado\\Cifrado.csproj",
         "projectName": "Cifrado",
-        "projectPath": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\Cifrado\\Cifrado.csproj",
-        "packagesPath": "C:\\Users\\jbgir\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\Cifrado\\obj\\",
+        "projectPath": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\Cifrado\\Cifrado.csproj",
+        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\Cifrado\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\jbgir\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -102,7 +108,6 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -114,7 +119,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "imports": [
             "net461",
             "net462",
@@ -130,25 +134,27 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\ProyectoMVC\\Proyecto1.csproj": {
+    "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\ProyectoMVC\\Proyecto1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\ProyectoMVC\\Proyecto1.csproj",
+        "projectUniqueName": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\ProyectoMVC\\Proyecto1.csproj",
         "projectName": "Proyecto1",
-        "projectPath": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\ProyectoMVC\\Proyecto1.csproj",
-        "packagesPath": "C:\\Users\\jbgir\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\ProyectoMVC\\obj\\",
+        "projectPath": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\ProyectoMVC\\Proyecto1.csproj",
+        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\ProyectoMVC\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\jbgir\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -159,10 +165,9 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\Cifrado\\Cifrado.csproj": {
-                "projectPath": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\Cifrado\\Cifrado.csproj"
+              "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\Cifrado\\Cifrado.csproj": {
+                "projectPath": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\Cifrado\\Cifrado.csproj"
               }
             }
           }
@@ -175,7 +180,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.AspNet.WebApi.Client": {
               "target": "Package",
@@ -184,6 +188,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.5, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.13.2, )"
             }
           },
           "imports": [
@@ -204,7 +212,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

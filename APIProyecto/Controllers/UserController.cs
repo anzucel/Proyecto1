@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIProyecto.Helper;
 using APIProyecto.Models;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
+using MongoDB.Bson;
+using APIProyecto.Repositories;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,8 +19,9 @@ namespace APIProyecto.Controllers
 
     public class UserController : ControllerBase
     {
+        private IUsersCollection db = new UsersCollection();
         List<User> listUser = new List<User>();
-
+       
         // GET: api/<UserController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -41,9 +46,9 @@ namespace APIProyecto.Controllers
             {
                 return BadRequest("Invalid model");
             }
-            // se debe agregar a la base de datos
-           listUser.Add(user);
-           return Ok();
+            // se debe agregar a la base de datos 
+            db.newUser(user);
+            return Ok();
         }
 
 
