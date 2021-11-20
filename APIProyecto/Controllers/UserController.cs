@@ -85,7 +85,6 @@ namespace APIProyecto.Controllers
             }
             else
             {
-
                 var client = new MongoClient("mongodb://127.0.0.1:27017");
                 var db = client.GetDatabase("ChatDB");
                 var users = db.GetCollection<User>("User");
@@ -107,13 +106,6 @@ namespace APIProyecto.Controllers
                 return NoContent();
             }
         }
-
-        /*[HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }*/
-
-
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]

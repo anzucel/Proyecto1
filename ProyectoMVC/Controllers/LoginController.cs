@@ -55,7 +55,7 @@ namespace WritingU.Controllers
 
                 if (result.IsSuccessStatusCode)
                 {
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
