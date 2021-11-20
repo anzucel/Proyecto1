@@ -1,24 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\Cifrado\\Cifrado.csproj": {}
+    "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\Cifrado\\Cifrado.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\Cifrado\\Cifrado.csproj": {
+    "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\Cifrado\\Cifrado.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\Cifrado\\Cifrado.csproj",
+        "projectUniqueName": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\Cifrado\\Cifrado.csproj",
         "projectName": "Cifrado",
-        "projectPath": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\Cifrado\\Cifrado.csproj",
-        "packagesPath": "C:\\Users\\jbgir\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jbgir\\Documents\\INGENIERIA INFORMÁTICA\\2021\\2do Ciclo\\Estructuras II\\Laboratorio\\Laboratorios\\Proyecto1\\Cifrado\\obj\\",
+        "projectPath": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\Cifrado\\Cifrado.csproj",
+        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\andre\\OneDrive\\Escritorio\\Proyecto_EDII\\Cifrado\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\jbgir\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -29,7 +31,6 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -41,7 +42,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "imports": [
             "net461",
             "net462",
@@ -57,7 +57,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -4,7 +4,7 @@ using System.Net.Http;
 using Proyecto1.Helper;
 using Cifrado;
 using System.Text;
-using APIProyecto.Models;
+using Proyecto1.Models;
 using System.Security.Cryptography;
 
 namespace WritingU.Controllers
