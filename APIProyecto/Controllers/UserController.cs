@@ -49,10 +49,30 @@ namespace APIProyecto.Controllers
             {
                 return BadRequest("Invalid model");
             }
-            // se debe agregar a la base de datos 
-            db.newUser(user);
-            //db.GetUsers();
-            return Ok();
+            else
+            {
+                var client = new MongoClient("mongodb://127.0.0.1:27017");
+                var database = client.GetDatabase("ChatDB");
+                var users = database.GetCollection<User>("User");
+                var buscarUsuario = users.AsQueryable<User>();
+                var result = from a in buscarUsuario
+                             where (a.Username.ToLower() == user.Username.ToLower())
+                             select a;
+
+                foreach(User usuarios in result)
+                {
+                    if (usuarios.Username == user.Username)
+                    {
+                        return BadRequest("Usuario ya existente");
+                    }
+                }
+
+                // se debe agregar a la base de datos 
+                db.newUser(user);
+                //db.GetUsers();
+                return Ok();
+
+            }
         }
 
         [HttpPost]
