@@ -17,6 +17,6 @@ namespace Cifrado
         public string CifrarCesar(string txtInicial, int Key);
         public string DesifrarCesar(string txtInicial, int Key);
 
-
+        
     }
 }

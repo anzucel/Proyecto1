@@ -246,5 +246,7 @@ namespace Cifrado
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }
