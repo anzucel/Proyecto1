@@ -21,30 +21,49 @@ namespace Proyecto1.Controllers
         APIProyecto.Repositories.IUsersCollection Friends = new APIProyecto.Repositories.UsersCollection();
         private readonly ILogger<HomeController> _logger;
         UserAPI Api = new UserAPI();    // se inicializa clase 
+        
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string amigo)
         {
+           List<string> ListaAmigo = new List<string>();
+            ListaAmigo.Add("Martin Bech");
+            ListaAmigo.Add("Pablo godoy");
+            ListaAmigo.Add("zucely Raxón");
+            ListaAmigo.Add("Marta Raxón");
+            ListaAmigo.Add("Lupe Gomez");
+            ListaAmigo.Add("Jason Giron");
+            ListaAmigo.Add("Maryorie Sosa");
+            ListaAmigo.Add("Lucas Perez");
+            ListaAmigo.Add("Miguel Lopez");
+            ListaAmigo.Add("Carlos Gonzalez");
+
+            ListaAmigo.Add("Martin Bech");
+            ListaAmigo.Add("Pablo godoy");
+            ListaAmigo.Add("zucely Raxón");
+            ListaAmigo.Add("Marta Raxón");
+            ListaAmigo.Add("Lupe Gomez");
+            ListaAmigo.Add("Jason Giron");
+            ListaAmigo.Add("Maryorie Sosa");
+            ListaAmigo.Add("Lucas Perez");
+            ListaAmigo.Add("Miguel Lopez");
+            ListaAmigo.Add("Carlos Gonzalez");
+            ViewBag.chatamigo= Singleton.Instance.Amigo_Chat;
+            ViewBag.LA = ListaAmigo;
+
             return View();
         }
       
-        [HttpGet]
-        public IActionResult SearchUser(string Username)
-        {
-            // Buscar usuario por el nombre de usuario registrado
-
-
-            throw new NotImplementedException();
-        }
 
         [HttpPost]
-        public IActionResult Index(string mensaje, IFormFile postedFile)
+        public IActionResult Index(string mensaje, IFormFile postedFile, string amigo, string añadiramigo)
         {
             //solo es pruebas
+            Singleton.Instance.Amigo_Chat = amigo;
             if (mensaje != null)
             {
                 try
@@ -65,7 +84,7 @@ namespace Proyecto1.Controllers
                     var result = Data.Result;
                     if (result.IsSuccessStatusCode)
                     {
-                        return RedirectToAction("Index", "Login"); ;//si los datos son correctos al crear nueva cuenta retorna a LogIn
+                        return Redirect("home/");//si los datos son correctos al crear nueva cuenta retorna a LogIn
                     }
                     return View();
                 }
@@ -80,7 +99,7 @@ namespace Proyecto1.Controllers
                 //archivos enviados
             }
 
-            return View(Singleton.Instance.users);
+            return Redirect("home/");
         }
 
         public IActionResult Privacy()
