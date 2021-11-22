@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using APIProyecto.Repositories;
+using Microsoft.AspNetCore.Http;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -32,7 +33,6 @@ namespace APIProyecto.Controllers
         }
 
         //obtener toda la lista de usuarios 
-
         // GET api/<UserController>/5
         [HttpGet("{id}")]
         public string Get(int id)
@@ -63,15 +63,13 @@ namespace APIProyecto.Controllers
                 {
                     if (usuarios.Username == user.Username)
                     {
-                        return BadRequest("Usuario ya existente");
+                        return BadRequest("Usuario ya existente"); 
                     }
                 }
 
                 // se debe agregar a la base de datos 
                 db.newUser(user);
-                //db.GetUsers();
                 return Ok();
-
             }
         }
 
@@ -99,6 +97,7 @@ namespace APIProyecto.Controllers
                     passdb = cesar.DesifrarCesar(passdb, 4);
                     if(passdb == user.Password)
                     {
+                        HttpContext.Session.SetString("userLogged", user.Username); // se crea la sesión para el usuario que inició sesión
                         return Ok();
                     }
                 }

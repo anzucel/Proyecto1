@@ -61,21 +61,7 @@ namespace WritingU.Controllers
                 {
                     // Debería mostrar alerta contraseña inválida
                     return View();
-                }
-                /*
-                bool existe = false;
-                //Aquí debería de mandar a buscar en la base de datos
-                
-
-                if(existe)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    return RedirectToAction(nameof(Index));
-                }*/
-                
+                }                
             }
             catch
             {

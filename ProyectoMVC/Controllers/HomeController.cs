@@ -29,11 +29,17 @@ namespace Proyecto1.Controllers
 
         public IActionResult Index()
         {
-           
-
             return View();
         }
       
+        [HttpGet]
+        public IActionResult SearchUser(string Username)
+        {
+            // Buscar usuario por el nombre de usuario registrado
+
+
+            throw new NotImplementedException();
+        }
 
         [HttpPost]
         public IActionResult Index(string mensaje, IFormFile postedFile)

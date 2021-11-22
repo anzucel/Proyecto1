@@ -26,6 +26,8 @@ namespace Proyecto1
         {
             services.AddControllersWithViews();
             services.AddSignalR();
+            services.AddSession();
+            services.AddMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +47,7 @@ namespace Proyecto1
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.UseSignalR(x =>

@@ -77,9 +77,9 @@ namespace WritingU.Controllers
                 {
                     return RedirectToAction("Index","Login"); ;//si los datos son correctos al crear nueva cuenta retorna a LogIn
                 }
-                return View();
 
-                // return RedirectToAction(nameof(Index));
+
+                return View(); // muestra alerta de usuario inválido porque ya existe  
             }
             catch
             {
