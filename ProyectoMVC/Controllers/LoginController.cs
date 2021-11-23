@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Proyecto1.Extra;
+using Proyecto1.Controllers;
+using Newtonsoft.Json;
 
 namespace WritingU.Controllers
 {
@@ -40,6 +43,9 @@ namespace WritingU.Controllers
         {
             try
             {
+
+
+
                 User user = new User();
                 user.Name = username;
                 user.Password = pass;
@@ -56,6 +62,9 @@ namespace WritingU.Controllers
                 if (result.IsSuccessStatusCode)
                 {
                     HttpContext.Session.SetString("userLogged", user.Username); // se crea la sesión para el usuario que inició sesión
+
+                    Singleton.Instance.ListUsers = new List<string>();
+                    GetUsers();
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -110,6 +119,22 @@ namespace WritingU.Controllers
             {
                 return View();
             }
+        }
+
+        public async void GetUsers()
+        {
+
+            HttpClient client = Api.Initial();
+            HttpResponseMessage res = await client.GetAsync("api/message/getusers");
+
+
+            if (res.IsSuccessStatusCode)
+            {
+                var results = res.Content.ReadAsStringAsync().Result;
+                Singleton.Instance.ListUsers = JsonConvert.DeserializeObject<List<string>>(results);
+                Singleton.Instance.List = Singleton.Instance.ListUsers;
+            }
+
         }
     }
 }

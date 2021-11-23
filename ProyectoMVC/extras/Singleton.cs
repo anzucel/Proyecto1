@@ -17,10 +17,11 @@ namespace Proyecto1.Extra
         public List<string> name_cipher = new List<string>();
         public List<User >users ;
         public String Amigo_Chat="";
-        public List<string> ListUsers; 
+        public List<string> ListUsers;
+        public List<string> List = new List<string>();
         private Singleton()
         {
-           
+            
         }
       
         public static Singleton Instance

@@ -30,30 +30,23 @@ namespace Proyecto1.Controllers
 
         public IActionResult Index(string amigo)
         {
-           List<string> ListaAmigo = new List<string>();
-            ListaAmigo.Add("Martin Bech");
-            ListaAmigo.Add("Pablo godoy");
-            ListaAmigo.Add("zucely Raxón");
-            ListaAmigo.Add("Marta Raxón");
-            ListaAmigo.Add("Lupe Gomez");
-            ListaAmigo.Add("Jason Giron");
-            ListaAmigo.Add("Maryorie Sosa");
-            ListaAmigo.Add("Lucas Perez");
-            ListaAmigo.Add("Miguel Lopez");
-            ListaAmigo.Add("Carlos Gonzalez");
 
-            ListaAmigo.Add("Martin Bech");
-            ListaAmigo.Add("Pablo godoy");
-            ListaAmigo.Add("zucely Raxón");
-            ListaAmigo.Add("Marta Raxón");
-            ListaAmigo.Add("Lupe Gomez");
-            ListaAmigo.Add("Jason Giron");
-            ListaAmigo.Add("Maryorie Sosa");
-            ListaAmigo.Add("Lucas Perez");
-            ListaAmigo.Add("Miguel Lopez");
-            ListaAmigo.Add("Carlos Gonzalez");
-            ViewBag.chatamigo= Singleton.Instance.Amigo_Chat;
-            ViewBag.LA = ListaAmigo;
+            //List<string> ListaAmigo = new List<string>();
+            // ListaAmigo.Add("Martin Bech");
+            // ListaAmigo.Add("Pablo godoy");
+            // ListaAmigo.Add("zucely Raxón");
+            // ListaAmigo.Add("Marta Raxón");
+            // ListaAmigo.Add("Lupe Gomez");
+            // ListaAmigo.Add("Jason Giron");
+            // ListaAmigo.Add("Maryorie Sosa");
+            // ListaAmigo.Add("Lucas Perez");
+            // ListaAmigo.Add("Miguel Lopez");
+            // ListaAmigo.Add("Carlos Gonzalez");
+            GetUsers();
+                ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
+                ViewBag.LA = Singleton.Instance.List;
+            
+                     
 
             return View();
         }
@@ -61,18 +54,26 @@ namespace Proyecto1.Controllers
         // método para obtener la lista de usuarios 
         public async void GetUsers()
         {
-            Singleton.Instance.ListUsers = new List<string>();
+            
             HttpClient client = Api.Initial();
             HttpResponseMessage res = await client.GetAsync("api/message/getusers");
+
 
             if (res.IsSuccessStatusCode)
             {
                 var results = res.Content.ReadAsStringAsync().Result;
                 Singleton.Instance.ListUsers = JsonConvert.DeserializeObject<List<string>>(results);
+                Singleton.Instance.List = Singleton.Instance.ListUsers;
             }
+           
+        }
+        [HttpPost]
+        public IActionResult Añadir_Amigo(string añadiramigo)
+        {
+            return View();
         }
 
-        [HttpPost]
+            [HttpPost]
         public IActionResult Index(string mensaje, IFormFile postedFile, string amigo, string añadiramigo)
         {
             //solo es pruebas
