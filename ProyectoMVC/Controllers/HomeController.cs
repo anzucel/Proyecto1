@@ -21,7 +21,9 @@ namespace Proyecto1.Controllers
         APIProyecto.Repositories.IUsersCollection Friends = new APIProyecto.Repositories.UsersCollection();
         private readonly ILogger<HomeController> _logger;
         UserAPI Api = new UserAPI();    // se inicializa clase 
-        
+
+        Metodos metodos = new Metodos();
+
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -42,12 +44,10 @@ namespace Proyecto1.Controllers
             // ListaAmigo.Add("Lucas Perez");
             // ListaAmigo.Add("Miguel Lopez");
             // ListaAmigo.Add("Carlos Gonzalez");
-            GetUsers();
-                ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
-                ViewBag.LA = Singleton.Instance.List;
+            //GetUsers();
+            ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
+            ViewBag.LA = Singleton.Instance.List;
             
-                     
-
             return View();
         }
       
@@ -67,6 +67,7 @@ namespace Proyecto1.Controllers
             }
            
         }
+
         [HttpPost]
         public IActionResult Añadir_Amigo(string añadiramigo)
         {
@@ -98,7 +99,6 @@ namespace Proyecto1.Controllers
                     var result = Data.Result;
                     if (result.IsSuccessStatusCode)
                     {
-                        //GetUsers();
                         return Redirect("home/");//si los datos son correctos al crear nueva cuenta retorna a LogIn
                     }
                     return View();

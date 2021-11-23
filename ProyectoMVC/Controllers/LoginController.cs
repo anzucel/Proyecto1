@@ -16,6 +16,7 @@ namespace WritingU.Controllers
     public class LoginController : Controller
     {
         UserAPI Api = new UserAPI();
+        Metodos metodos = new Metodos();
         Cifrado.ISdes cipher = new Cifrado.Sdes();
         Cifrado.ISdes cesar = new Cifrado.Cesar();
         // GET: LoginController
@@ -43,9 +44,6 @@ namespace WritingU.Controllers
         {
             try
             {
-
-
-
                 User user = new User();
                 user.Name = username;
                 user.Password = pass;
@@ -62,9 +60,10 @@ namespace WritingU.Controllers
                 if (result.IsSuccessStatusCode)
                 {
                     HttpContext.Session.SetString("userLogged", user.Username); // se crea la sesión para el usuario que inició sesión
-
                     Singleton.Instance.ListUsers = new List<string>();
-                    GetUsers();
+                    metodos.GetFriends(user.Username);
+                    metodos.GetFriendRequest(user.Username);
+                    metodos.GetUsers(user.Username);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -119,22 +118,6 @@ namespace WritingU.Controllers
             {
                 return View();
             }
-        }
-
-        public async void GetUsers()
-        {
-
-            HttpClient client = Api.Initial();
-            HttpResponseMessage res = await client.GetAsync("api/message/getusers");
-
-
-            if (res.IsSuccessStatusCode)
-            {
-                var results = res.Content.ReadAsStringAsync().Result;
-                Singleton.Instance.ListUsers = JsonConvert.DeserializeObject<List<string>>(results);
-                Singleton.Instance.List = Singleton.Instance.ListUsers;
-            }
-
         }
     }
 }

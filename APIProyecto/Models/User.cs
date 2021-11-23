@@ -25,9 +25,9 @@ namespace APIProyecto.Models
         public string Password { set; get; }
         //[BsonRepresentation(BsonType.Array)]
         //[BsonElement("friends")]
-        public User[] Fiends { set; get; }
+        public String[] Fiends { set; get; }
         //[BsonElement("friendsRequest")]
-        public User[] FriendsRequest { set; get; }
+        public String[] FriendsRequest { set; get; }
        // public bool Status { set; get; } //saber si el usuario está activo o inactivo
     }
 }
