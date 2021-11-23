@@ -21,9 +21,7 @@ namespace Proyecto1.Controllers
         APIProyecto.Repositories.IUsersCollection Friends = new APIProyecto.Repositories.UsersCollection();
         private readonly ILogger<HomeController> _logger;
         UserAPI Api = new UserAPI();    // se inicializa clase 
-
-        Metodos metodos = new Metodos();
-
+        
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -44,23 +42,37 @@ namespace Proyecto1.Controllers
             // ListaAmigo.Add("Lucas Perez");
             // ListaAmigo.Add("Miguel Lopez");
             // ListaAmigo.Add("Carlos Gonzalez");
-            //GetUsers();
-            ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
-            ViewBag.LA = Singleton.Instance.List;
+                GetUsers();
+                ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
+                ViewBag.LA = Singleton.Instance.List;
             
+                     
+
             return View();
         }
 
         [HttpPost]
         public IActionResult Añadir_Amigo(string usernameToAdd)
         {
+<<<<<<< HEAD
             usernameToAdd = "CarolV"; // temporal
             string user = HttpContext.Session.GetString("userLogged");
             HttpClient client = Api.Initial();
+=======
+            try {
+                HttpResponseMessage res = null;
+                while (res == null)
+                {
+                    HttpClient client = Api.Initial();
+                    res = await client.GetAsync("api/message/getusers");
+                }
+
+>>>>>>> b3efdf7ba6e8bba713f92d72b6df8d0fb25baaa1
 
             var data = client.PostAsJsonAsync<string>($"api/user/sendrequest/{usernameToAdd}/{user}", usernameToAdd);
             data.Wait();
 
+<<<<<<< HEAD
             var result = data.Result;
 
             if (result.IsSuccessStatusCode) {
@@ -72,10 +84,39 @@ namespace Proyecto1.Controllers
                 // retorna alerta que no se pudo realizar la peticion
                 return Redirect("home/");
             }
+=======
+                if (res.IsSuccessStatusCode)
+                {
+                    var results = res.Content.ReadAsStringAsync().Result;
+                    Singleton.Instance.ListUsers = JsonConvert.DeserializeObject<List<string>>(results);
+                    Singleton.Instance.List = Singleton.Instance.ListUsers;
+                }
+            }
+            catch 
+            {
+                GetUsers();
+            }
+           
+        }
+        //Post  para enviar solicitud de amistad
+        [HttpPost]
+        public IActionResult Añadir_Amigo(string añadiramigo)
+        {
+
+            return Redirect("home/");
         }
 
-            [HttpPost]
-        public IActionResult Index(string mensaje, IFormFile postedFile, string amigo, string añadiramigo)
+        //Post  para aceptar/rechazar solicitud de amistad
+        [HttpPost]
+        public IActionResult solicitudes(bool estatus)
+        {
+
+            return Redirect("/home");
+>>>>>>> b3efdf7ba6e8bba713f92d72b6df8d0fb25baaa1
+        }
+
+        [HttpPost]
+        public IActionResult Index(string mensaje, IFormFile postedFile, string amigo)
         {
             //solo es pruebas
             Singleton.Instance.Amigo_Chat = amigo;
@@ -99,6 +140,7 @@ namespace Proyecto1.Controllers
                     var result = Data.Result;
                     if (result.IsSuccessStatusCode)
                     {
+                        //GetUsers();
                         return Redirect("home/");//si los datos son correctos al crear nueva cuenta retorna a LogIn
                     }
                     return View();
