@@ -141,17 +141,17 @@
 <div class="card chat-app">
     <div id="plist" class="people-list">
         <h4>+ Añadir amigos </h4>
-        <form method="post" asp-action="Añadir_Amigo">
-            <select class="cb-añadir" aria-label="Default select example" name="añadiramigo">
+        <form method="post" asp-action="SendRequest">
+            <select class="cb-añadir" aria-label="Default select example" name="usernameToAdd">
                 <option selected>buscar...</option>
                 @{ foreach (var usuario in ViewBag.LA)
                     {
-                        <option name="añadiramigo" value="@usuario">@usuario</option>
+                        <option name="usernameToAdd" value="@usuario">@usuario</option>
                     }
                 }
             </select>
 
-            <button class="btnmas" type="submit" name="añadiramigo" value="añadiramigo">+</button>
+            <button class="btnmas" type="submit" name="añadiramigo" value="usernameToAdd">+</button>
         </form>
         <br />
         <hr />
