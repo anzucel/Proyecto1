@@ -47,8 +47,8 @@ namespace Proyecto1
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseSession();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseSignalR(x =>
             { x.MapHub<ChatHub>("/chat");

@@ -58,6 +58,19 @@ namespace Proyecto1.Controllers
             return View();
         }
       
+        // método para obtener la lista de usuarios 
+        public async void GetUsers()
+        {
+            Singleton.Instance.ListUsers = new List<string>();
+            HttpClient client = Api.Initial();
+            HttpResponseMessage res = await client.GetAsync("api/message/getusers");
+
+            if (res.IsSuccessStatusCode)
+            {
+                var results = res.Content.ReadAsStringAsync().Result;
+                Singleton.Instance.ListUsers = JsonConvert.DeserializeObject<List<string>>(results);
+            }
+        }
 
         [HttpPost]
         public IActionResult Index(string mensaje, IFormFile postedFile, string amigo, string añadiramigo)
@@ -84,6 +97,7 @@ namespace Proyecto1.Controllers
                     var result = Data.Result;
                     if (result.IsSuccessStatusCode)
                     {
+                        //GetUsers();
                         return Redirect("home/");//si los datos son correctos al crear nueva cuenta retorna a LogIn
                     }
                     return View();

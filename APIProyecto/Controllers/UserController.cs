@@ -97,7 +97,7 @@ namespace APIProyecto.Controllers
                     passdb = cesar.DesifrarCesar(passdb, 4);
                     if(passdb == user.Password)
                     {
-                        HttpContext.Session.SetString("userLogged", user.Username); // se crea la sesión para el usuario que inició sesión
+                        //HttpContext.Session.SetString("userLogged", user.Username); // se crea la sesión para el usuario que inició sesión
                         return Ok();
                     }
                 }

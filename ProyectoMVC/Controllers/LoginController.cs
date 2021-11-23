@@ -55,6 +55,7 @@ namespace WritingU.Controllers
 
                 if (result.IsSuccessStatusCode)
                 {
+                    HttpContext.Session.SetString("userLogged", user.Username); // se crea la sesión para el usuario que inició sesión
                     return RedirectToAction("Index", "Home");
                 }
                 else

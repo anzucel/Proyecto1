@@ -17,10 +17,33 @@ namespace APIProyecto.Controllers
     {
         // GET: api/<MessageController>
         Sdes sdes = new Sdes();
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Route("getusers")]
+        public List<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            //return new string[] { "value1", "value2" };
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
+            else
+            {
+                List<string> ListUsers = new List<string>();
+                var client = new MongoClient("mongodb://127.0.0.1:27017");
+                var database = client.GetDatabase("ChatDB");
+                var dbmessages = database.GetCollection<User>("User");
+                var buscarUsuario = dbmessages.AsQueryable<User>();
+                var result = from a in buscarUsuario
+                             select a;
+
+                foreach (User users in result)
+                {
+                    string username = users.Username;
+                    ListUsers.Add(username);
+                }
+                return ListUsers;
+            }
         }
 
         // GET api/<MessageController>/5
@@ -49,13 +72,13 @@ namespace APIProyecto.Controllers
                              where (message.UsuarioEmisor == a.UsuarioEmisor || message.UsuarioReceptor == a.UsuarioReceptor)
                              select a;
 
-                int id = result.Count() + 1; // empieza en 0
+                //int id = result.Count() + 2; // empieza en 0
 
                 Messages newMessage = new Messages();
                 newMessage.UsuarioEmisor = "";
                 newMessage.UsuarioReceptor = "";
                 newMessage.Fecha_envio = DateTime.Now.ToString("yy-MM-dd H:m:ss");
-                newMessage.Id = id;
+                //newMessage.Id = id;
                 newMessage.Texto = sdes.Cifrar(message.Texto, 192);
                 dbmessages.InsertOne(newMessage);
 
