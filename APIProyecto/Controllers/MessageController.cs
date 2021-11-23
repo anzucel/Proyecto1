@@ -45,14 +45,14 @@ namespace APIProyecto.Controllers
 
                 foreach (User users in result)
                 {
-                    for (int i = 0; i < users.Fiends.Length; i++)
+                    for (int i = 0; i < users.Fiends.Count; i++)
                     {
-                        ListUsers.Add(users.Fiends.GetValue(i).ToString());
+                        ListUsers.Add(users.Fiends.ElementAt(i).ToString());
                     }
 
-                    for (int j = 0; j < users.FriendsRequest.Length; j++)
+                    for (int j = 0; j < users.FriendsRequest.Count; j++)
                     {
-                        ListUsers.Add(users.FriendsRequest.GetValue(j).ToString());
+                        ListUsers.Add(users.FriendsRequest.ElementAt(j).ToString());
                     }
                 }
 
@@ -91,9 +91,9 @@ namespace APIProyecto.Controllers
 
                 foreach (User users in result)
                 {
-                    for (int i = 0; i < users.Fiends.Length; i++)
+                    for (int i = 0; i < users.Fiends.Count; i++)
                     {
-                        ListUsers.Add(users.Fiends.GetValue(i).ToString());
+                        ListUsers.Add(users.Fiends.ElementAt(i).ToString());
                     }
                 }
                 return ListUsers;
@@ -122,9 +122,9 @@ namespace APIProyecto.Controllers
 
                 foreach (User users in result)
                 {
-                    for (int i = 0; i < users.FriendsRequest.Length; i++)
+                    for (int i = 0; i < users.FriendsRequest.Count; i++)
                     {
-                        ListUsers.Add(users.FriendsRequest.GetValue(i).ToString());
+                        ListUsers.Add(users.FriendsRequest.ElementAt(i).ToString());
                     }
                 }
                 return ListUsers;

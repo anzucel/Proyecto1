@@ -50,28 +50,28 @@ namespace Proyecto1.Controllers
             
             return View();
         }
-      
-        // método para obtener la lista de usuarios 
-        public async void GetUsers()
-        {
-            
-            HttpClient client = Api.Initial();
-            HttpResponseMessage res = await client.GetAsync("api/message/getusers");
-
-
-            if (res.IsSuccessStatusCode)
-            {
-                var results = res.Content.ReadAsStringAsync().Result;
-                Singleton.Instance.ListUsers = JsonConvert.DeserializeObject<List<string>>(results);
-                Singleton.Instance.List = Singleton.Instance.ListUsers;
-            }
-           
-        }
 
         [HttpPost]
-        public IActionResult Añadir_Amigo(string añadiramigo)
+        public IActionResult Añadir_Amigo(string usernameToAdd)
         {
-            return View();
+            usernameToAdd = "CarolV"; // temporal
+            string user = HttpContext.Session.GetString("userLogged");
+            HttpClient client = Api.Initial();
+
+            var data = client.PostAsJsonAsync<string>($"api/user/sendrequest/{usernameToAdd}/{user}", usernameToAdd);
+            data.Wait();
+
+            var result = data.Result;
+
+            if (result.IsSuccessStatusCode) {
+                // retorna mensaje indicando que se envió la solicitud
+                return Redirect("home/");
+            }
+            else
+            {
+                // retorna alerta que no se pudo realizar la peticion
+                return Redirect("home/");
+            }
         }
 
             [HttpPost]

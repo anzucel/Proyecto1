@@ -32,14 +32,6 @@ namespace APIProyecto.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        //obtener toda la lista de usuarios 
-        // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/<UserController>
         [HttpPost]
         [Route("signin")]
@@ -67,7 +59,6 @@ namespace APIProyecto.Controllers
                     }
                 }
 
-                // se debe agregar a la base de datos 
                 db.newUser(user);
                 return Ok();
             }
@@ -97,13 +88,57 @@ namespace APIProyecto.Controllers
                     passdb = cesar.DesifrarCesar(passdb, 4);
                     if(passdb == user.Password)
                     {
-                        //HttpContext.Session.SetString("userLogged", user.Username); // se crea la sesión para el usuario que inició sesión
                         return Ok();
                     }
                 }
 
-                return NoContent();
+                return BadRequest("No existe el usuario");
             }
+        }
+
+
+        [HttpPost]
+        [Route("sendrequest/{user}/{usernameToAdd}")]
+        public IActionResult SendRequest([FromRoute] string user, [FromRoute] string usernameToAdd)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model");
+            }
+            else
+            {
+                var client = new MongoClient("mongodb://127.0.0.1:27017");
+                var database = client.GetDatabase("ChatDB");
+                var dbUsers = database.GetCollection<User>("User");
+                var buscarUsuario = dbUsers.AsQueryable<User>();
+                var result = from a in buscarUsuario
+                             where (a.Username == user)
+                             select a;
+
+                User dataUser = new User();
+                foreach (User data in result)
+                {
+                    dataUser.Username = data.Username;
+                    dataUser.Name = data.Name;
+                    dataUser.Password = data.Password;
+                    dataUser.Fiends = data.Fiends;
+                    dataUser.FriendsRequest = data.FriendsRequest;
+
+                    List<string> Requests = dataUser.FriendsRequest;
+                    if(Requests == null)
+                    {
+                        Requests = new List<string>();
+                    }
+                    Requests.Add(usernameToAdd);
+
+                    dataUser.FriendsRequest = Requests;
+                }
+
+                dbUsers.ReplaceOne(u => u.Username == user, dataUser);
+
+                return Ok();
+            }
+
         }
 
         // PUT api/<UserController>/5
