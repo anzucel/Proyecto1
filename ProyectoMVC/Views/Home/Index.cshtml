@@ -42,148 +42,270 @@
             width: 25px;
             font-family: 'Agency FB';
         }
+
+        .chat-app .chat-list {
+            height: 10em;
+            overflow-x: auto
+        }
+
+        .chat .chat-history {
+            padding: 20px;
+            border-bottom: 2px solid #fff;
+            height: 40em;
+        }
+
+        .bt-solicitud {
+            border-style: none;
+            background: #c2c2c2;
+            border-radius: 4px;
+        }
     </style>
 
 </head>
 
-<div>
-    <div class="card chat-app">
-        <!--Amigos que se tienen agregados-->
-        <div id="plist" class="people-list">
-            <h4>+ Añadir amigos </h4>
-            <form method="post" asp-action="Añadir_Amigo">
-                <select class="cb-añadir" aria-label="Default select example" name="añadiramigo">
-                    <option selected>buscar...</option>
-                    @{ foreach (var usuario in ViewBag.LA)
-                        {
-                            <option name="añadiramigo" value="@usuario">@usuario</option>
-                        }
-                    }
-                </select>
-
-                <button class="btnmas" type="submit" name="añadiramigo" value="añadiramigo">+</button>
-            </form>
-            <br />
-            <hr />
-
-            <div style="height:600px; overflow-x: hidden!important; ">
-                <h2>Amigos</h2>
-                <!--li en donde devolvera el listado de amigos-->
+<!--pruebas-->
+<!-- Modal para crear grupos -->
+<!--<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Solicitud de amistades</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
                 @{
                     foreach (var amigo in ViewBag.LA)
                     {
 
-                        <form method="post" asp-action="index">
-
-                            <button class="btn-friend" type="submit" name="amigo" value="@amigo"><img width="25px;" src="https://cdn-icons-png.flaticon.com/512/17/17115.png">@amigo</button>
-
+                        <form method="post" asp-action="solicitudes">
+                            <div>
+                                <font style="font-size:20px; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"> @amigo &nbsp; &nbsp;// </font> <button class="bt-solicitud" name="estatus" value="true">aceptar</button> &nbsp; <button class="bt-solicitud" name="estatus" value="false">rechazar</button>
+                            </div>
                         </form>
 
                     }
-
                 }
             </div>
-            @*<ul class="list-unstyled chat-list mt-2 mb-0">
-                    <li class="clearfix active">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
-                        <div class="about">
-                            <div class="name">@amigo</div><br />
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-                        </div>
-                    </li>
-                </ul>*@
+            </div>
+        </div>
+    </div>
+</div>
+<button style="float:right" type="button" width="100%" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter2" value="Solicitud de amistad"><img width="30px" style="float:left;" src="https://cdn-icons-png.flaticon.com/512/1189/1189193.png" /> <font size="4px">Tus solicitudes de amistad</font></button>-->
 
+<!--pruebas-->
+<!-- Modal de solicitudes -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Solicitud de amistades</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @{
+                    foreach (var amigo in ViewBag.LA)
+                    {
+
+                        <form method="post" asp-action="solicitudes">
+                            <div>
+                                <font style="font-size:20px; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"> @amigo &nbsp; &nbsp; </font> <button class="bt-solicitud" name="estatus" value="true">aceptar</button> &nbsp; <button class="bt-solicitud" name="estatus" value="false">rechazar</button>
+                            </div>
+                        </form>
+
+                    }
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div style="background: #258d19; ">
+    <center>
+        <font size="4" style="font-family:Bahnschrift;color:#fff"> MENSAJERIAS S.A.</font>
+    </center>
+</div>
+<!--Buscar y agregar personas-->
+<div class="card chat-app">
+    <div id="plist" class="people-list">
+        <h4>+ Añadir amigos </h4>
+        <form method="post" asp-action="Añadir_Amigo">
+            <select class="cb-añadir" aria-label="Default select example" name="añadiramigo">
+                <option selected>buscar...</option>
+                @{ foreach (var usuario in ViewBag.LA)
+                    {
+                        <option name="añadiramigo" value="@usuario">@usuario</option>
+                    }
+                }
+            </select>
+
+            <button class="btnmas" type="submit" name="añadiramigo" value="añadiramigo">+</button>
+        </form>
+        <br />
+        <hr />
+
+
+
+
+        <!--Mis amigos-->
+        <div style="height:250px; overflow-x: hidden!important; ">
+            <h2>Amigos</h2>
+            @{
+                foreach (var amigo in ViewBag.LA)
+                {
+
+                    <form method="post" asp-action="index">
+
+                        <button class="btn-friend" type="submit" name="amigo" value="@amigo"><img width="25px;" src="https://cdn-icons-png.flaticon.com/512/17/17115.png">@amigo</button>
+
+                    </form>
+
+                }
+
+            }
+        </div>
+        <hr />
+
+        <!--Grupos--------->
+        <div style="height:300px; overflow-x: hidden!important; ">
+            <h2>Grupos</h2>
+            @{
+                foreach (var amigo in ViewBag.LA)
+                {
+
+                    <form method="post" asp-action="index">
+
+                        <button class="btn-friend" type="submit" name="amigo" value="@amigo"><img width="25px;" src="https://cdn-icons-png.flaticon.com/512/17/17115.png">@amigo</button>
+
+                    </form>
+
+                }
+
+            }
         </div>
 
+        <!-- mis Solicitud de amistades -->
+        @{
+            <!--depende si hay solicitudes cambia de color el botón-->
+            if (ViewBag.LA.Count != 0)
+            {
+                <button style="float:right" type="button" width="100%" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter" value="Solicitud de amistad"><img width="30px" style="float:left;" src="https://cdn-icons-png.flaticon.com/512/1189/1189193.png" /> <font size="4px">Tus solicitudes de amistad</font></button>
 
+            }
+            else
+            {
+                <button style="float:right" type="button" width="100%" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter" value="Solicitud de amistad"><img width="30px" style="float:left;" src="https://cdn-icons-png.flaticon.com/512/1189/1189193.png" /> <font size="4px">Tus solicitudes de amistad</font></button>
 
+            }
+        }
 
-        <div class="chat">
-
-            <div class="chat-header clearfix">
-                <div class="row">
-                    <div class="col-lg-6">
-
-
-                        <!--Infoemación con quien inicia el chat-->
-                        <div class="chat-about">
-                            <h6 class="m-b-0" style="color: #fff; font-size: 37px; margin-bottom: -6px;">@ViewBag.chatamigo</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!--CHATS Y MENSAJES===============================================================================-->
-            <div class="chat-history">
-                <ul class="m-b-0">
-                    @{string user = "emisor";
-                        if (Model != null)
-                        {
-                            foreach (var item in Model)
-                            {
-                                if (user == item.Name)
-                                {<!--Chat del usuario logiado-->
-                                    <li class="clearfix">
-                                        <div class="message-data text-right">
-                                            <span class="message-data-time">10:10 AM, Today</span>
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                                        </div>
-                                        <div class="message other-message float-right"> <font>@item.Username </font></div>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <!--Chat del amigo -->
-                                    <li class="clearfix">
-                                        <div class="message my-message"><p>@item.Username </p></div>
-                                        <!---<div class="message-data"> <span class="message-data-time">10:15 AM, Today</span></div>-->
-                                    </li>
-
-                                }
-
-                            }
-                        }
-                    }
-                </ul>
-
-
-            </div>
-            <!--Escribir mensaje y archivos-->
-            <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
-                <div class="chat-message clearfix">
-
-                    <div class="input-group mb-0">
-                        <!--Botones-->
-                        <div class="input-group-prepend">
-                            <!--Enviar-->
-
-                            <input class="input-group-text" type="submit" value="enviar">
-                        </div>
-
-                        <!--Escribir mensaje...-->
-                        <input name="mensaje" type="text" class="form-control" placeholder="Escribe un mensaje aqu&iacute;">
-                    </div>
-                    <!--Archivos-->
-                    <span style="width:450px;" class="input-group-text"><i class="fa fa-send"><input type="file" name="postedFile" /></i></span>
-                </div>
-            </form>
-        </div><!--fin-->
 
     </div>
 
 
 
 
-    <script src="~/lib/signalr/signalr.js"></script>
-    <script src="~/js/ChatView.js"></script>
+    <div class="chat">
+
+        <div class="chat-header clearfix">
+            <div class="row">
+                <div class="col-lg-6" style="width:100%!important">
 
 
-    <!--Usuario:
-    <input type="text" id="userInput" />-->
-    @*<br />
-            Mensaje:
-        <input type="text" id="messageInput" />
-        <input type="button" id="sendButton" value="Enviar Mensaje" />
+                    <!--Infoemación con quien inicia el chat-->
+                    <div class="chat-about">
 
-        <ul id="messagesList"></ul>*@
+                        <h6 class="m-b-0" style="color: #fff; font-size: 37px; margin-bottom: -6px; ">@ViewBag.chatamigo</h6>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--CHATS Y MENSAJES===============================================================================-->
+        <div class="chat-history">
+            <ul class="m-b-0">
+                @{string user = "emisor";
+                    if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            if (user == item.Name)
+                            {<!--Chat del usuario logiado-->
+                                <li class="clearfix">
+                                    <div class="message-data text-right">
+                                        <span class="message-data-time">10:10 AM, Today</span>
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                                    </div>
+                                    <div class="message other-message float-right"> <font>@item.Username </font></div>
+                                </li>
+                            }
+                            else
+                            {
+                                <!--Chat del amigo -->
+                                <li class="clearfix">
+                                    <div class="message my-message"><p>@item.Username </p></div>
+                                    <!---<div class="message-data"> <span class="message-data-time">10:15 AM, Today</span></div>-->
+                                </li>
+
+                            }
+
+                        }
+                    }
+                }
+            </ul>
+
+
+        </div>
+        <!--Escribir mensaje y archivos-->
+        <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
+            <div class="chat-message clearfix">
+
+                <div class="input-group mb-0">
+                    <!--Botones-->
+                    <div class="input-group-prepend">
+                        <!--Enviar-->
+
+                        <input class="input-group-text" type="submit" value="enviar">
+                    </div>
+
+                    <!--Escribir mensaje...-->
+                    <input name="mensaje" type="text" class="form-control" placeholder="Escribe un mensaje aqu&iacute;">
+                </div>
+                <!--Archivos-->
+                <span style="width:450px;" class="input-group-text"><i class="fa fa-send"><input type="file" name="postedFile" /></i></span>
+            </div>
+        </form>
+    </div><!--fin-->
+
+</div>
+
+
+
+
+
+<script src="~/lib/signalr/signalr.js"></script>
+<script src="~/js/ChatView.js"></script>
+
+
+<!--Usuario:
+<input type="text" id="userInput" />-->
+@*<br />
+        Mensaje:
+    <input type="text" id="messageInput" />
+    <input type="button" id="sendButton" value="Enviar Mensaje" />
+
+    <ul id="messagesList"></ul>*@

@@ -42,7 +42,7 @@ namespace Proyecto1.Controllers
             // ListaAmigo.Add("Lucas Perez");
             // ListaAmigo.Add("Miguel Lopez");
             // ListaAmigo.Add("Carlos Gonzalez");
-            GetUsers();
+                GetUsers();
                 ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
                 ViewBag.LA = Singleton.Instance.List;
             
@@ -54,27 +54,47 @@ namespace Proyecto1.Controllers
         // método para obtener la lista de usuarios 
         public async void GetUsers()
         {
-            
-            HttpClient client = Api.Initial();
-            HttpResponseMessage res = await client.GetAsync("api/message/getusers");
+            try {
+                HttpResponseMessage res = null;
+                while (res == null)
+                {
+                    HttpClient client = Api.Initial();
+                    res = await client.GetAsync("api/message/getusers");
+                }
 
 
-            if (res.IsSuccessStatusCode)
+
+                if (res.IsSuccessStatusCode)
+                {
+                    var results = res.Content.ReadAsStringAsync().Result;
+                    Singleton.Instance.ListUsers = JsonConvert.DeserializeObject<List<string>>(results);
+                    Singleton.Instance.List = Singleton.Instance.ListUsers;
+                }
+            }
+            catch 
             {
-                var results = res.Content.ReadAsStringAsync().Result;
-                Singleton.Instance.ListUsers = JsonConvert.DeserializeObject<List<string>>(results);
-                Singleton.Instance.List = Singleton.Instance.ListUsers;
+                GetUsers();
             }
            
         }
+        //Post  para enviar solicitud de amistad
         [HttpPost]
         public IActionResult Añadir_Amigo(string añadiramigo)
         {
-            return View();
+
+            return Redirect("home/");
         }
 
-            [HttpPost]
-        public IActionResult Index(string mensaje, IFormFile postedFile, string amigo, string añadiramigo)
+        //Post  para aceptar/rechazar solicitud de amistad
+        [HttpPost]
+        public IActionResult solicitudes(bool estatus)
+        {
+
+            return Redirect("/home");
+        }
+
+        [HttpPost]
+        public IActionResult Index(string mensaje, IFormFile postedFile, string amigo)
         {
             //solo es pruebas
             Singleton.Instance.Amigo_Chat = amigo;
