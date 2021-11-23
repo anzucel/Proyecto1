@@ -42,62 +42,57 @@ namespace Proyecto1.Controllers
             // ListaAmigo.Add("Lucas Perez");
             // ListaAmigo.Add("Miguel Lopez");
             // ListaAmigo.Add("Carlos Gonzalez");
-                GetUsers();
+               // GetUsers();
                 ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
                 ViewBag.LA = Singleton.Instance.List;
             
-                     
-
             return View();
         }
 
         [HttpPost]
-        public IActionResult Añadir_Amigo(string usernameToAdd)
+        public IActionResult SendRequest(string usernameToAdd)
         {
-<<<<<<< HEAD
             usernameToAdd = "CarolV"; // temporal
             string user = HttpContext.Session.GetString("userLogged");
             HttpClient client = Api.Initial();
-=======
             try {
-                HttpResponseMessage res = null;
-                while (res == null)
+                //HttpResponseMessage res = null;
+                //while (res == null)
+                //{
+                //    HttpClient client = Api.Initial();
+                //    res = await client.GetAsync("api/message/getusers");
+                //}
+
+                var data = client.PostAsJsonAsync<string>($"api/user/sendrequest/{usernameToAdd}/{user}", usernameToAdd);
+                data.Wait();
+
+                var result = data.Result;
+
+                if (result.IsSuccessStatusCode)
                 {
-                    HttpClient client = Api.Initial();
-                    res = await client.GetAsync("api/message/getusers");
+                    // retorna mensaje indicando que se envió la solicitud
+                    return Redirect("home/");
                 }
-
->>>>>>> b3efdf7ba6e8bba713f92d72b6df8d0fb25baaa1
-
-            var data = client.PostAsJsonAsync<string>($"api/user/sendrequest/{usernameToAdd}/{user}", usernameToAdd);
-            data.Wait();
-
-<<<<<<< HEAD
-            var result = data.Result;
-
-            if (result.IsSuccessStatusCode) {
-                // retorna mensaje indicando que se envió la solicitud
-                return Redirect("home/");
-            }
-            else
-            {
-                // retorna alerta que no se pudo realizar la peticion
-                return Redirect("home/");
-            }
-=======
-                if (res.IsSuccessStatusCode)
+                else
                 {
-                    var results = res.Content.ReadAsStringAsync().Result;
-                    Singleton.Instance.ListUsers = JsonConvert.DeserializeObject<List<string>>(results);
-                    Singleton.Instance.List = Singleton.Instance.ListUsers;
+                    // retorna alerta que no se pudo realizar la peticion
+                    return Redirect("home/");
                 }
+                //}
+                //if (res.IsSuccessStatusCode)
+                //{
+                //    var results = res.Content.ReadAsStringAsync().Result;
+                //    Singleton.Instance.ListUsers = JsonConvert.DeserializeObject<List<string>>(results);
+                //    Singleton.Instance.List = Singleton.Instance.ListUsers;
+                //}
             }
             catch 
             {
-                GetUsers();
+                return Redirect("home/");
             }
            
         }
+
         //Post  para enviar solicitud de amistad
         [HttpPost]
         public IActionResult Añadir_Amigo(string añadiramigo)
@@ -112,7 +107,6 @@ namespace Proyecto1.Controllers
         {
 
             return Redirect("/home");
->>>>>>> b3efdf7ba6e8bba713f92d72b6df8d0fb25baaa1
         }
 
         [HttpPost]
