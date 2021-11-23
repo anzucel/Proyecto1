@@ -18,11 +18,62 @@ namespace APIProyecto.Controllers
         // GET: api/<MessageController>
         Sdes sdes = new Sdes();
 
+        // obtiene la lista de usuarios
         [HttpGet]
-        [Route("getusers")]
-        public List<string> Get()
+        [Route("getusers/{username}")]
+        public List<string> GetUsers([FromRoute] string username)
         {
-            //return new string[] { "value1", "value2" };
+            // obtiene el listado de usuarios existentes
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
+            else
+            {
+                List<string> ListUsers = new List<string>();
+                List<string> activeUsers = new List<string>();
+                var client = new MongoClient("mongodb://127.0.0.1:27017");
+                var database = client.GetDatabase("ChatDB");
+                var dbmessages = database.GetCollection<User>("User");
+                var buscarUsuario = dbmessages.AsQueryable<User>();
+                var result = from a in buscarUsuario
+                             where (a.Username == username)
+                             select a;
+                var result2 = from a in buscarUsuario
+                              where (a.Username != username)
+                              select a;
+
+                foreach (User users in result)
+                {
+                    for (int i = 0; i < users.Fiends.Length; i++)
+                    {
+                        ListUsers.Add(users.Fiends.GetValue(i).ToString());
+                    }
+
+                    for (int j = 0; j < users.FriendsRequest.Length; j++)
+                    {
+                        ListUsers.Add(users.FriendsRequest.GetValue(j).ToString());
+                    }
+                }
+
+                foreach (User users in result2)
+                {
+                    string uname = users.Username;
+                    bool exist = ListUsers.Contains(uname);
+                    if (exist == false)
+                    {
+                        activeUsers.Add(uname);
+                    }
+                }
+                return activeUsers;
+            }
+        }
+
+        [HttpGet]
+        [Route("getfriends/{username}")]
+        public List<string> GetFriends([FromRoute] string username)
+        {
+            // obtiene el listado de amigos
             if (!ModelState.IsValid)
             {
                 return null;
@@ -35,12 +86,46 @@ namespace APIProyecto.Controllers
                 var dbmessages = database.GetCollection<User>("User");
                 var buscarUsuario = dbmessages.AsQueryable<User>();
                 var result = from a in buscarUsuario
+                             where (a.Username == username)
                              select a;
 
                 foreach (User users in result)
                 {
-                    string username = users.Username;
-                    ListUsers.Add(username);
+                    for (int i = 0; i < users.Fiends.Length; i++)
+                    {
+                        ListUsers.Add(users.Fiends.GetValue(i).ToString());
+                    }
+                }
+                return ListUsers;
+            }
+        }
+
+        [HttpGet]
+        [Route("getrequests/{username}")]
+        public List<string> GetRequest([FromRoute] string username)
+        {
+            // obtiene el listado de solicitudes
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
+            else
+            {
+                List<string> ListUsers = new List<string>();
+                var client = new MongoClient("mongodb://127.0.0.1:27017");
+                var database = client.GetDatabase("ChatDB");
+                var dbmessages = database.GetCollection<User>("User");
+                var buscarUsuario = dbmessages.AsQueryable<User>();
+                var result = from a in buscarUsuario
+                             where (a.Username == username)
+                             select a;
+
+                foreach (User users in result)
+                {
+                    for (int i = 0; i < users.FriendsRequest.Length; i++)
+                    {
+                        ListUsers.Add(users.FriendsRequest.GetValue(i).ToString());
+                    }
                 }
                 return ListUsers;
             }
@@ -80,7 +165,7 @@ namespace APIProyecto.Controllers
                 newMessage.Fecha_envio = DateTime.Now.ToString("yy-MM-dd H:m:ss");
                 //newMessage.Id = id;
                 newMessage.Texto = sdes.Cifrar(message.Texto, 192);
-                dbmessages.InsertOne(newMessage);
+                //dbmessages.InsertOne(newMessage);
 
                 return Ok();
             }

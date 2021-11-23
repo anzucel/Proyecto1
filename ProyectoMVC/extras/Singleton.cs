@@ -17,7 +17,10 @@ namespace Proyecto1.Extra
         public List<string> name_cipher = new List<string>();
         public List<User >users ;
         public String Amigo_Chat="";
-        public List<string> ListUsers;
+        public List<string> ListUsers; // lista de usuarios existentes
+        public List<string> ListFriends; // lista de amigos
+        public List<string> ListRequests; // lista de solicitudes
+
         public List<string> List = new List<string>();
         private Singleton()
         {

@@ -71,7 +71,6 @@ namespace WritingU.Controllers
                 var Data = client.PostAsJsonAsync<User>("api/user/signin", user);         
                 Data.Wait();
 
-
                 var result = Data.Result;
                 if (result.IsSuccessStatusCode)
                 {
