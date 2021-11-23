@@ -1,133 +1,189 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@model List<User>;
-@ViewBag String 
+
 <head>
     <title itemprop="name">WhitingU</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
     <link rel="stylesheet" type="text/css" href="~/css/styleWeb.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style type="text/css">
+        .btn-friend {
+            width: 100%;
+            height: 50px;
+            background-color: #B5DEB0;
+            border-style: none;
+            text-align: left;
+            font-size: 20px;
+        }
+
+            .btn-friend:hover {
+                width: 100%;
+                height: 50px;
+                background-color: #fff;
+                border-style: none;
+            }
+
+        .cb-añadir {
+            width: 90%;
+            background-color: #fff;
+            height: 30px;
+            font-size: 18px;
+            border-radius: 3px;
+            float: left;
+        }
+
+        .btnmas {
+            background-color: #fff;
+            border-radius: 4px;
+            border-style: none;
+            font-size: 20px;
+            width: 25px;
+            font-family: 'Agency FB';
+        }
+    </style>
+
 </head>
 
+<div>
+    <div class="card chat-app">
+        <!--Amigos que se tienen agregados-->
+        <div id="plist" class="people-list">
+            <h4>+ Añadir amigos </h4>
+            <form method="post" asp-action="index">
+                <select class="cb-añadir" aria-label="Default select example" name="añadiramigo">
+                    <option selected>buscar...</option>
+                    @{ foreach (var usuario in ViewBag.LA)
+                        {
+                            <option name="añadiramigo" value="@usuario">@usuario</option>
+                        }
+                    }
+                </select>
 
-<div class="card chat-app">
-    <!--Amigos que se tienen agregados-->
-    <div id="plist" class="people-list">
-        <h2>Amigos</h2>
-        <!--Agregar amigos-->
-        <div class="dropdown show">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown link
-            </a>
+                <button class="btnmas" type="submit" name="añadiramigo" value="añadiramigo">+</button>
+            </form>
+            <br />
+            <hr />
 
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="#">Action</a>
+            <div style="height:600px; overflow-x: hidden!important; ">
+                <h2>Amigos</h2>
+                <!--li en donde devolvera el listado de amigos-->
+                @{
+                    foreach (var amigo in ViewBag.LA)
+                    {
+
+                        <form method="post" asp-action="index">
+
+                            <button class="btn-friend" type="submit" name="amigo" value="@amigo"><img width="25px;" src="https://cdn-icons-png.flaticon.com/512/17/17115.png">@amigo</button>
+
+                        </form>
+
+                    }
+
+                }
+            </div>
+            @*<ul class="list-unstyled chat-list mt-2 mb-0">
+                    <li class="clearfix active">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
+                        <div class="about">
+                            <div class="name">@amigo</div><br />
+
+                        </div>
+                    </li>
+                </ul>*@
+
+        </div>
+
+
+
+
+        <div class="chat">
+
+            <div class="chat-header clearfix">
+                <div class="row">
+                    <div class="col-lg-6">
+
+
+                        <!--Infoemación con quien inicia el chat-->
+                        <div class="chat-about">
+                            <h6 class="m-b-0" style="color: #fff; font-size: 37px; margin-bottom: -6px;">@ViewBag.chatamigo</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--CHATS Y MENSAJES===============================================================================-->
+            <div class="chat-history">
+                <ul class="m-b-0">
+                    @{string user = "emisor";
+                        if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                if (user == item.Name)
+                                {<!--Chat del usuario logiado-->
+                                    <li class="clearfix">
+                                        <div class="message-data text-right">
+                                            <span class="message-data-time">10:10 AM, Today</span>
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
+                                        </div>
+                                        <div class="message other-message float-right"> <font>@item.Username </font></div>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <!--Chat del amigo -->
+                                    <li class="clearfix">
+                                        <div class="message my-message"><p>@item.Username </p></div>
+                                        <!---<div class="message-data"> <span class="message-data-time">10:15 AM, Today</span></div>-->
+                                    </li>
+
+                                }
+
+                            }
+                        }
+                    }
+                </ul>
+
 
             </div>
-        </div>
-        <ul class="list-unstyled chat-list mt-2 mb-0">
+            <!--Escribir mensaje y archivos-->
+            <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
+                <div class="chat-message clearfix">
 
-            <!--li en donde devolvera el listado de amigos-->
-            <li class="clearfix active">
-                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
-                <div class="about">
-                    <div class="name">Aiden Chavez</div>
-                    <div class="status"> <i class="fa fa-circle online"></i> online</div>
+                    <div class="input-group mb-0">
+                        <!--Botones-->
+                        <div class="input-group-prepend">
+                            <!--Enviar-->
+
+                            <input class="input-group-text" type="submit" value="enviar">
+                        </div>
+
+                        <!--Escribir mensaje...-->
+                        <input name="mensaje" type="text" class="form-control" placeholder="Escribe un mensaje aqu&iacute;">
+                    </div>
+                    <!--Archivos-->
+                    <span style="width:450px;" class="input-group-text"><i class="fa fa-send"><input type="file" name="postedFile" /></i></span>
                 </div>
-            </li>
-        </ul>
+            </form>
+        </div><!--fin-->
+
     </div>
 
 
 
 
-    <div class="chat">
-
-        <div class="chat-header clearfix">
-            <div class="row">
-                <div class="col-lg-6">
+    <script src="~/lib/signalr/signalr.js"></script>
+    <script src="~/js/ChatView.js"></script>
 
 
-                    <!--Infoemación con quien inicia el chat-->
-                    <div class="chat-about">
-                        <h6 class="m-b-0" style="color: #fff; font-size: 37px; margin-bottom: -6px;">Aiden Chavez</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!--Usuario:
+    <input type="text" id="userInput" />-->
+    @*<br />
+            Mensaje:
+        <input type="text" id="messageInput" />
+        <input type="button" id="sendButton" value="Enviar Mensaje" />
 
-
-        <!--CHATS Y MENSAJES===============================================================================-->
-        <div class="chat-history">
-            <ul class="m-b-0">
-                @{string user = "emisor";
-                    if (Model != null)
-                    {
-                        foreach (var item in Model)
-                        {
-                            if (user == item.Name)
-                            {<!--Chat del usuario logiado-->
-                                <li class="clearfix">
-                                    <div class="message-data text-right">
-                                        <span class="message-data-time">10:10 AM, Today</span>
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                                    </div>
-                                    <div class="message other-message float-right"> <font>@item.Username </font></div>
-                                </li>
-                            }
-                            else
-                            {
-                                <!--Chat del amigo -->
-                                <li class="clearfix">
-                                    <div class="message my-message"><p>@item.Username </p></div>
-                                <!---<div class="message-data"> <span class="message-data-time">10:15 AM, Today</span></div>-->
-                                </li>
-
-                            }
-
-                        }
-                    }
-                }
-            </ul>
-
-
-        </div>
-        <!--Escribir mensaje y archivos-->
-        <form asp-controller="Home" asp-action="Index" method="post" enctype="multipart/form-data">
-            <div class="chat-message clearfix">
-
-                <div class="input-group mb-0">
-                    <!--Botones-->
-                    <div class="input-group-prepend">
-                        <!--Enviar-->
-
-                        <input class="input-group-text" type="submit" value="enviar">
-                    </div>
-
-                    <!--Escribir mensaje...-->
-                    <input name="mensaje" type="text" class="form-control" placeholder="Escribe un mensaje aqu&iacute;">
-                </div>
-                <!--Archivos-->
-                <span style="width:450px;" class="input-group-text"><i class="fa fa-send"><input type="file" name="postedFile" /></i></span>
-            </div>
-        </form>
-    </div><!--fin-->
-
-</div>
-
-
-
-
-<script src="~/lib/signalr/signalr.js"></script>
-<script src="~/js/ChatView.js"></script>
-
-
-<!--Usuario:
-<input type="text" id="userInput" />-->
-@*<br />
-        Mensaje:
-    <input type="text" id="messageInput" />
-    <input type="button" id="sendButton" value="Enviar Mensaje" />
-
-    <ul id="messagesList"></ul>*@
+        <ul id="messagesList"></ul>*@
