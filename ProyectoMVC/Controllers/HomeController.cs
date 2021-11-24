@@ -121,15 +121,25 @@ namespace Proyecto1.Controllers
         }
 
         [HttpPost]
+        public IActionResult creatgroup(string[] members, string name)
+        {
+            return Redirect("index");
+        }
+
+        [HttpPost]
         public IActionResult Index(string mensaje, IFormFile postedFile, string amigo)
         {
+            if(amigo != null)
+            {
+                Singleton.Instance.Amigo_Chat = amigo;
+            }
             //solo es pruebas
-            Singleton.Instance.Amigo_Chat = amigo;
+           
             if (mensaje != null)
             {
                 try
                 {
-                    amigo = "MariaG"; // se debe leer desde el parámetro
+                    amigo = Singleton.Instance.Amigo_Chat; // se debe leer desde el parámetro
                     string emisor = HttpContext.Session.GetString("userLogged");
 
                     Message message = new Message();    

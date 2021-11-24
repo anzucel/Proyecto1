@@ -185,11 +185,11 @@ namespace APIProyecto.Controllers
                 }
 
                 // extra ======================
-                Messages descifrado = new Messages();
-                foreach (Messages mess in result1)
-                {
-                    descifrado.Texto = mess.Texto;
-                }
+                //Messages descifrado = new Messages();
+                //foreach (Messages mess in result1)
+                //{
+                //    descifrado.Texto = mess.Texto;
+                //}
                 //=============================
 
                 Messages newMessage = new Messages();
@@ -200,7 +200,7 @@ namespace APIProyecto.Controllers
 
                 // extra ======================
                 newMessage.Texto = sdes.Cifrar(message.Texto, key);
-                descifrado.Texto = sdes.Descifrar(descifrado.Texto, key);
+                // descifrado.Texto = sdes.Descifrar( newMessage.Texto, key);
                 //=============================
 
                 dbmessages.InsertOne(newMessage);
