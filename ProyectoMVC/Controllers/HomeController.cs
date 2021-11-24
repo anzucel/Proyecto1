@@ -132,12 +132,17 @@ namespace Proyecto1.Controllers
             {
                 try
                 {
-                    Message message = new Message();
+                    amigo = "MariaG"; // se debe leer desde el parámetro
+                    string emisor = HttpContext.Session.GetString("userLogged");
+
+                    Message message = new Message();    
                     
                     byte[] byteM = new byte[mensaje.Length * sizeof(char)];
                     Buffer.BlockCopy(mensaje.ToCharArray(), 0, byteM, 0, byteM.Length);
-
                     message.Texto = byteM;
+                    message.UsuarioEmisor = emisor;
+                    message.UsuarioReceptor = amigo;
+
                     //API - MVC
                     HttpClient client = Api.Initial();
 

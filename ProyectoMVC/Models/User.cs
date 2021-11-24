@@ -25,6 +25,7 @@ namespace Proyecto1.Models
         public string Password { set; get; }
         //[BsonRepresentation(BsonType.Array)]
         //[BsonElement("friends")]
+        public int Key { set; get; }
         public List<String> Fiends { set; get; }
         //[BsonElement("friendsRequest")]
         public List<String> FriendsRequest { set; get; }

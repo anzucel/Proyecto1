@@ -6,6 +6,7 @@ using Cifrado;
 using System.Text;
 using Proyecto1.Models;
 using System.Security.Cryptography;
+using System;
 
 namespace WritingU.Controllers
 {
@@ -62,7 +63,10 @@ namespace WritingU.Controllers
         {
             try
             {
+                Random random = new Random();
+                int key = random.Next(1, 100);
                 user.Password = cesar.CifrarCesar (user.Password, 4);
+                user.Key = key;
               
                 //API - MVC
                 HttpClient client = Api.Initial();

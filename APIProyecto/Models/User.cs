@@ -26,6 +26,7 @@ namespace APIProyecto.Models
         //[BsonRepresentation(BsonType.Array)]
         //[BsonElement("friends")]
         //public String[] Fiends { set; get; }
+        public int Key { set; get; }
         public List<String> Fiends { set; get; }
         //[BsonElement("friendsRequest")]
         //public String[] FriendsRequest { set; get; }

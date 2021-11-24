@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using APIProyecto.Models;
 using MongoDB.Driver;
 using Cifrado;
+using System.Numerics;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -158,27 +159,73 @@ namespace APIProyecto.Controllers
             }
             else
             {
+                int keyEmisor = 0, keyReceptor = 0, key;
                 var client = new MongoClient("mongodb://127.0.0.1:27017");
                 var database = client.GetDatabase("ChatDB");
                 var dbmessages = database.GetCollection<Messages>("Messages");
-                var buscarUsuario = dbmessages.AsQueryable<Messages>();
+                
+                //extra===========================
+                var buscarMensaje = dbmessages.AsQueryable<Messages>(); //comentado
+                var result1 = from a in buscarMensaje
+                             where (a.UsuarioEmisor == message.UsuarioEmisor && message.UsuarioReceptor == a.UsuarioReceptor)
+                             select a;
+                //================================
+
+                var dbusers = database.GetCollection<User>("User");
+                var buscarUsuario = dbusers.AsQueryable<User>();
                 var result = from a in buscarUsuario
-                             where (message.UsuarioEmisor == a.UsuarioEmisor || message.UsuarioReceptor == a.UsuarioReceptor)
+                             where (message.UsuarioEmisor == a.Username || message.UsuarioReceptor == a.Username)
                              select a;
 
-                //int id = result.Count() + 2; // empieza en 0
+
+                foreach (User users in result)
+                {
+                    if(users.Username == message.UsuarioEmisor) { keyEmisor = users.Key; }
+                    if(users.Username == message.UsuarioReceptor) { keyReceptor = users.Key; }
+                }
+
+                // extra ======================
+                Messages descifrado = new Messages();
+                foreach (Messages mess in result1)
+                {
+                    descifrado.Texto = mess.Texto;
+                }
+                //=============================
 
                 Messages newMessage = new Messages();
-                newMessage.UsuarioEmisor = "";
-                newMessage.UsuarioReceptor = "";
+                newMessage.UsuarioEmisor = message.UsuarioEmisor;
+                newMessage.UsuarioReceptor = message.UsuarioReceptor;
                 newMessage.Fecha_envio = DateTime.Now.ToString("yy-MM-dd H:m:ss");
-                //newMessage.Id = id;
-                newMessage.Texto = sdes.Cifrar(message.Texto, 192);
-                //dbmessages.InsertOne(newMessage);
+                key = GenerateKey(keyEmisor, keyReceptor);
+
+                // extra ======================
+                newMessage.Texto = sdes.Cifrar(message.Texto, key);
+                descifrado.Texto = sdes.Descifrar(descifrado.Texto, key);
+                //=============================
+
+                dbmessages.InsertOne(newMessage);
 
                 return Ok();
             }
         }
+
+        // Metodo obtener llave secreta entre emisor y receptor
+        public int GenerateKey(int KEmisor, int KReceptor)
+        {
+            int g = 11, p = 23;
+            //double B = Math.Pow(g, KReceptor);
+            BigInteger B = BigInteger.ModPow(g, KReceptor, p);
+            //double piv = Math.Pow(B, KEmisor);
+            //double K = piv % p;
+            BigInteger K = BigInteger.ModPow(B, KEmisor, p);
+
+            object obj = K;
+            BigInteger big = (BigInteger)obj;
+            int key = (int)big;
+
+            return key;
+        }
+
 
         // PUT api/<MessageController>/5
         [HttpPut("{id}")]

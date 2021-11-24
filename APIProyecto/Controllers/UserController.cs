@@ -121,6 +121,7 @@ namespace APIProyecto.Controllers
                     dataUser.Username = data.Username;
                     dataUser.Name = data.Name;
                     dataUser.Password = data.Password;
+                    dataUser.Key = data.Key;
                     dataUser.Fiends = data.Fiends;
                     dataUser.FriendsRequest = data.FriendsRequest;
 
@@ -172,6 +173,7 @@ namespace APIProyecto.Controllers
                     dataUser.Username = data.Username;
                     dataUser.Name = data.Name;
                     dataUser.Password = data.Password;
+                    dataUser.Key = data.Key;
                     dataUser.Fiends = data.Fiends;
                     dataUser.FriendsRequest = data.FriendsRequest;
 
@@ -197,6 +199,7 @@ namespace APIProyecto.Controllers
                             dataUser2.Username = user2.Username;
                             dataUser2.Name = user2.Name;
                             dataUser2.Password = user2.Password;
+                            dataUser2.Key = user2.Key;
                             dataUser2.Fiends = user2.Fiends;
                             dataUser2.FriendsRequest = user2.FriendsRequest;
 

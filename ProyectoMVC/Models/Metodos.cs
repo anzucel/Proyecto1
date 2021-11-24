@@ -54,6 +54,5 @@ namespace Proyecto1.Models
                 Singleton.Instance.ListRequests = JsonConvert.DeserializeObject<List<string>>(results);
             }
         }
-
     }
 }
