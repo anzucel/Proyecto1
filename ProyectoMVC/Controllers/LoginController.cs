@@ -22,6 +22,7 @@ namespace WritingU.Controllers
         // GET: LoginController
         public ActionResult Index()
         {
+            ViewBag.error = false;
             return View();
         }
 
@@ -48,6 +49,7 @@ namespace WritingU.Controllers
                 user.Name = username;
                 user.Password = pass;
                 user.Username = username;
+                bool error = false;
                 //Api-mv
                 HttpClient client = Api.Initial();
 
@@ -64,11 +66,15 @@ namespace WritingU.Controllers
                     metodos.GetFriends(user.Username);
                     metodos.GetFriendRequest(user.Username);
                     metodos.GetUsers(user.Username);
+
+                    
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
                     // Debería mostrar alerta contraseña inválida
+                   error = true;
+                    ViewBag.error = error;
                     return View();
                 }                
             }

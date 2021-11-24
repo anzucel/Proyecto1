@@ -34,13 +34,18 @@
                         <br>
 
                         <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate="Enter username">
-                            <input class="input100" type="text" name="username" placeholder="Usuario o correo electrónico">
+                            <input class="input100" type="text" name="username" placeholder="Usuario">
                         </div>
 
                         <div class="wrap-input100 validate-input m-b-50" data-validate="Enter password">
                             <input class="input100" type="password" name="pass" placeholder="Contraseña">
                         </div>
-                       
+                        @if (ViewBag.error == true)
+                        {
+                            <font style="color:red">Usuario o contraseña incorrecta, por favor verifica bien tus datos e intenta nuevamente</font>
+
+                        }
+                        <br />
                         <div class="container-login100-form-btn">
                             <button type="submit" class="login100-form-btn">
                                 Iniciar Sesión
