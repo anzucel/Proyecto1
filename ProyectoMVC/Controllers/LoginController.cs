@@ -23,7 +23,7 @@ namespace WritingU.Controllers
         public ActionResult Index()
         {
             ViewBag.error = false;
-            return View();
+             return View();
         }
 
         // GET: LoginController/Details/5

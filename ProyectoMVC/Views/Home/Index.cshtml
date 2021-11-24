@@ -76,9 +76,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                @{
-                    foreach (var amigo in ViewBag.FriendsRequest)
+                @{if (ViewBag.FriendsRequest != null)
                     {
+                        foreach (var amigo in ViewBag.FriendsRequest)
+                        {
 
                         <form method="post" asp-action="solicitudes">
                             <div>
@@ -86,8 +87,9 @@
                             </div>
                         </form>
 
+                            }
+                        }
                     }
-                }
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -111,11 +113,14 @@
         <form method="post" asp-action="SendRequest">
             <select class="cb-añadir" aria-label="Default select example" name="usernameToAdd">
                 <option selected>buscar...</option>
-                @{ foreach (var usuario in ViewBag.usuarios)
+                @{if (ViewBag.usuarios != null)
                     {
+                        foreach (var usuario in ViewBag.usuarios)
+                        {
                         <option name="usernameToAdd" value="@usuario">@usuario</option>
+                        }
+                     }
                     }
-                }
             </select>
 
             <button class="btnmas" type="submit" name="usernameToAdd" value="usernameToAdd">+</button>
@@ -129,9 +134,10 @@
         <!--Mis amigos-->
         <div style="height:250px; overflow-x: hidden!important; ">
             <h2>Amigos</h2>
-            @{
-                foreach (var amigo in ViewBag.Friends)
+            @{ if (ViewBag.Friends != null)
                 {
+                    foreach (var amigo in ViewBag.Friends)
+                    {
 
                     <form method="post" asp-action="index">
 
@@ -139,18 +145,20 @@
 
                     </form>
 
-                }
+                        }
+                    }
 
-            }
+                }
         </div>
         <hr />
 
         <!--Grupos--------->
         <div style="height:300px; overflow-x: hidden!important; ">
             <h2>Grupos</h2>
-            @{
-                foreach (var amigo in ViewBag.Friends)
+            @{if (ViewBag.Friends != null)
                 {
+                    foreach (var amigo in ViewBag.Friends)
+                    {
 
                     <form method="post" asp-action="index">
 
@@ -158,25 +166,29 @@
 
                     </form>
 
-                }
+                        }
+                    }
 
-            }
+                }
         </div>
 
         <!-- mis Solicitud de amistades -->
         @{
             <!--depende si hay solicitudes cambia de color el botón-->
-            if (ViewBag.FriendsRequest.Count != 0)
+            if (ViewBag.FriendsRequest != null)
             {
+                if (ViewBag.FriendsRequest.Count != 0)
+                {
                 <button style="float:right" type="button" width="100%" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter" value="Solicitud de amistad"><img width="30px" style="float:left;" src="https://cdn-icons-png.flaticon.com/512/1189/1189193.png" /> <font size="4px">Tus solicitudes de amistad</font></button>
 
-            }
-            else
-            {
+                }
+                else
+                {
                 <button style="float:right" type="button" width="100%" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter" value="Solicitud de amistad"><img width="30px" style="float:left;" src="https://cdn-icons-png.flaticon.com/512/1189/1189193.png" /> <font size="4px">Tus solicitudes de amistad</font></button>
 
+                    }
+                }
             }
-        }
 
 
     </div>
