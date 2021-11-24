@@ -42,39 +42,32 @@ namespace APIProyecto.Controllers
                 var result2 = from a in buscarUsuario
                               where (a.Username != username)
                               select a;
-                
-                    foreach (User users in result)
-                    {
-                    if (users.Fiends != null)
+
+                foreach (User users in result)
+                {
+                    if(users.Fiends != null && users.FriendsRequest != null)
                     {
                         for (int i = 0; i < users.Fiends.Count; i++)
                         {
                             ListUsers.Add(users.Fiends.ElementAt(i).ToString());
                         }
-                    }
 
-                    if (users.FriendsRequest != null)
-                    {
                         for (int j = 0; j < users.FriendsRequest.Count; j++)
                         {
                             ListUsers.Add(users.FriendsRequest.ElementAt(j).ToString());
                         }
                     }
-                    
-                    }
-                
+                }
 
-               
-                    foreach (User users in result2)
+                foreach (User users in result2)
+                {
+                    string uname = users.Username;
+                    bool exist = ListUsers.Contains(uname);
+                    if (exist == false)
                     {
-                        string uname = users.Username;
-                        bool exist = ListUsers.Contains(uname);
-                        if (exist == false)
-                        {
-                            activeUsers.Add(uname);
-                        }
+                        activeUsers.Add(uname);
                     }
-                
+                }
                 return activeUsers;
             }
         }
@@ -98,18 +91,17 @@ namespace APIProyecto.Controllers
                 var result = from a in buscarUsuario
                              where (a.Username == username)
                              select a;
-                
-                    foreach (User users in result)
-                    {
-                    if (users.Fiends != null)
+
+                foreach (User users in result)
+                {
+                    if(users.Fiends != null)
                     {
                         for (int i = 0; i < users.Fiends.Count; i++)
                         {
                             ListUsers.Add(users.Fiends.ElementAt(i).ToString());
                         }
                     }
-                    }
-                
+                }
                 return ListUsers;
             }
         }
@@ -133,16 +125,15 @@ namespace APIProyecto.Controllers
                 var result = from a in buscarUsuario
                              where (a.Username == username)
                              select a;
-               
+
                 foreach (User users in result)
                 {
-                    if (users.FriendsRequest != null)
+                    if(users.FriendsRequest != null)
                     {
                         for (int i = 0; i < users.FriendsRequest.Count; i++)
                         {
                             ListUsers.Add(users.FriendsRequest.ElementAt(i).ToString());
                         }
-                    
                     }
                 }
                 return ListUsers;

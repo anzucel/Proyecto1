@@ -141,6 +141,85 @@ namespace APIProyecto.Controllers
 
         }
 
+
+        [HttpPost]
+        [Route("acceptrequest/{usernameToAdd}/{user}/{estatus}")]
+        public IActionResult AcceptRequest([FromRoute] string usernameToAdd, [FromRoute] string user, [FromRoute] bool estatus)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model");
+            }
+            else
+            {
+                var client = new MongoClient("mongodb://127.0.0.1:27017");
+                var database = client.GetDatabase("ChatDB");
+                var dbUsers = database.GetCollection<User>("User");
+                var buscarUsuario = dbUsers.AsQueryable<User>();
+                var result = from a in buscarUsuario
+                             where (a.Username == user)
+                             select a;
+
+                var result2 = from a in buscarUsuario
+                             where (a.Username == usernameToAdd)
+                             select a;
+
+
+                User dataUser = new User();
+                User dataUser2 = new User();
+                foreach (User data in result)
+                {
+                    dataUser.Username = data.Username;
+                    dataUser.Name = data.Name;
+                    dataUser.Password = data.Password;
+                    dataUser.Fiends = data.Fiends;
+                    dataUser.FriendsRequest = data.FriendsRequest;
+
+                    //eliminar de la lista de solicitudes                    
+                    List<string> Requests = dataUser.FriendsRequest;
+                    Requests.Remove(usernameToAdd);
+                    dataUser.FriendsRequest = Requests;
+
+                    //añadir a la lista de amigos
+                    if (estatus)
+                    {
+                        List<string> Friends = dataUser.Fiends;
+                        if(Friends == null)
+                        {
+                            Friends = new List<string>();
+                        }
+                        Friends.Add(usernameToAdd);
+                        dataUser.Fiends = Friends;
+
+                        // añadir a la lista de amigos en el usuario que envió la solicitud
+                        foreach (User user2 in result2)
+                        {
+                            dataUser2.Username = user2.Username;
+                            dataUser2.Name = user2.Name;
+                            dataUser2.Password = user2.Password;
+                            dataUser2.Fiends = user2.Fiends;
+                            dataUser2.FriendsRequest = user2.FriendsRequest;
+
+                            List<string> Friends2 = dataUser2.Fiends;
+                            if(Friends2 == null)
+                            {
+                                Friends2 = new List<string>();
+                            }
+                            Friends2.Add(user);
+                            dataUser2.Fiends = Friends2;
+
+                            dbUsers.ReplaceOne(u => u.Username == usernameToAdd, dataUser2);
+                        }
+                    }
+                }
+
+                dbUsers.ReplaceOne(u => u.Username == user, dataUser);
+
+                return Ok();
+            }
+
+        }
+
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)

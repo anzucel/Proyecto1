@@ -53,13 +53,6 @@ namespace Proyecto1.Controllers
             string user = HttpContext.Session.GetString("userLogged");
             HttpClient client = Api.Initial();
             try {
-                //HttpResponseMessage res = null;
-                //while (res == null)
-                //{
-                //    HttpClient client = Api.Initial();
-                //    res = await client.GetAsync("api/message/getusers");
-                //}
-
                 var data = client.PostAsJsonAsync<string>($"api/user/sendrequest/{usernameToAdd}/{user}", usernameToAdd);
                 data.Wait();
 
@@ -67,6 +60,9 @@ namespace Proyecto1.Controllers
 
                 if (result.IsSuccessStatusCode)
                 {
+                    metodos.GetFriends(user);
+                    metodos.GetFriendRequest(user);
+                    metodos.GetUsers(user);
                     // retorna mensaje indicando que se envió la solicitud
                     return Redirect("index");
                 }
@@ -75,13 +71,6 @@ namespace Proyecto1.Controllers
                     // retorna alerta que no se pudo realizar la peticion
                     return Redirect("index");
                 }
-                //}
-                //if (res.IsSuccessStatusCode)
-                //{
-                //    var results = res.Content.ReadAsStringAsync().Result;
-                //    Singleton.Instance.ListUsers = JsonConvert.DeserializeObject<List<string>>(results);
-                //    Singleton.Instance.List = Singleton.Instance.ListUsers;
-                //}
             }
             catch 
             {
@@ -89,8 +78,7 @@ namespace Proyecto1.Controllers
             }
            
         }
-
-
+        
         //Post  para aceptar/rechazar solicitud de amistad
         [HttpPost]
         public IActionResult solicitudes(string info)
@@ -98,9 +86,38 @@ namespace Proyecto1.Controllers
             //se trae en la variable info el usuario que envía la solicitud y si se acepta/recahaza
             //se hace split para separar los parametros
             string[] split = info.Split(",");
-            string user = split[0];
+            string userToAdd = split[0];
             bool estatus = Convert.ToBoolean( split[1]);
-            return Redirect("/home");
+
+            string user = HttpContext.Session.GetString("userLogged");
+
+            try
+            {
+                HttpClient client = Api.Initial();
+                var data = client.PostAsJsonAsync<string>($"api/user/acceptrequest/{userToAdd}/{user}/{estatus}", userToAdd);
+
+                data.Wait();
+
+                var result = data.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    metodos.GetFriends(user);
+                    metodos.GetFriendRequest(user);
+                    metodos.GetUsers(user);
+                    // muestra mensaje de solicitud aceptada
+                    return Redirect("index");
+                }
+                else
+                {
+                    //muestra mensaje de solicitud rechazada
+                    return Redirect("index");
+                }
+            }
+            catch 
+            {
+                return Redirect("/home");
+            }
         }
 
         [HttpPost]
