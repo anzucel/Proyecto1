@@ -21,6 +21,7 @@ namespace Proyecto1.Extra
         public List<string> ListFriends; // lista de amigos
         public List<string> ListRequests; // lista de solicitudes
         public User user = new User();
+        public User userSesion = new User();
         public List<string> List = new List<string>();
         private Singleton()
         {
