@@ -45,14 +45,17 @@ namespace APIProyecto.Controllers
 
                 foreach (User users in result)
                 {
-                    for (int i = 0; i < users.Fiends.Count; i++)
+                    if(users.Fiends != null && users.FriendsRequest != null)
                     {
-                        ListUsers.Add(users.Fiends.ElementAt(i).ToString());
-                    }
+                        for (int i = 0; i < users.Fiends.Count; i++)
+                        {
+                            ListUsers.Add(users.Fiends.ElementAt(i).ToString());
+                        }
 
-                    for (int j = 0; j < users.FriendsRequest.Count; j++)
-                    {
-                        ListUsers.Add(users.FriendsRequest.ElementAt(j).ToString());
+                        for (int j = 0; j < users.FriendsRequest.Count; j++)
+                        {
+                            ListUsers.Add(users.FriendsRequest.ElementAt(j).ToString());
+                        }
                     }
                 }
 
@@ -91,9 +94,12 @@ namespace APIProyecto.Controllers
 
                 foreach (User users in result)
                 {
-                    for (int i = 0; i < users.Fiends.Count; i++)
+                    if(users.Fiends != null)
                     {
-                        ListUsers.Add(users.Fiends.ElementAt(i).ToString());
+                        for (int i = 0; i < users.Fiends.Count; i++)
+                        {
+                            ListUsers.Add(users.Fiends.ElementAt(i).ToString());
+                        }
                     }
                 }
                 return ListUsers;
@@ -122,9 +128,12 @@ namespace APIProyecto.Controllers
 
                 foreach (User users in result)
                 {
-                    for (int i = 0; i < users.FriendsRequest.Count; i++)
+                    if(users.FriendsRequest != null)
                     {
-                        ListUsers.Add(users.FriendsRequest.ElementAt(i).ToString());
+                        for (int i = 0; i < users.FriendsRequest.Count; i++)
+                        {
+                            ListUsers.Add(users.FriendsRequest.ElementAt(i).ToString());
+                        }
                     }
                 }
                 return ListUsers;
