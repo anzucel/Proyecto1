@@ -36,16 +36,13 @@ namespace Proyecto1.Controllers
             metodos.GetFriends(user.Username);
             metodos.GetFriendRequest(user.Username);
             metodos.GetUsers(user.Username);
-
+            //usuario logiado
+            ViewBag.userLogin = HttpContext.Session.GetString("userLogged");
             ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
             ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
             ViewBag.usuarios = Singleton.Instance.ListUsers;
             ViewBag.Friends = Singleton.Instance.List;
-            ViewBag.FriendsRequest = Singleton.Instance.ListRequests;
-
-           
-             
-            
+            ViewBag.FriendsRequest = Singleton.Instance.ListRequests;           
             return View();
         }
 

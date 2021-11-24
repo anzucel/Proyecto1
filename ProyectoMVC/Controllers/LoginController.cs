@@ -66,8 +66,11 @@ namespace WritingU.Controllers
                     metodos.GetFriends(user.Username);
                     metodos.GetFriendRequest(user.Username);
                     metodos.GetUsers(user.Username);
-
                     
+
+
+
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
