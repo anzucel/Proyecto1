@@ -63,41 +63,8 @@
 
 </head>
 
-<!--pruebas-->
-<!-- Modal para crear grupos -->
-<!--<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Solicitud de amistades</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                @{
-                    foreach (var amigo in ViewBag.LA)
-                    {
 
-                        <form method="post" asp-action="solicitudes">
-                            <div>
-                                <font style="font-size:20px; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"> @amigo &nbsp; &nbsp;// </font> <button class="bt-solicitud" name="estatus" value="true">aceptar</button> &nbsp; <button class="bt-solicitud" name="estatus" value="false">rechazar</button>
-                            </div>
-                        </form>
 
-                    }
-                }
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-<button style="float:right" type="button" width="100%" class="btn btn-light" data-toggle="modal" data-target="#exampleModalCenter2" value="Solicitud de amistad"><img width="30px" style="float:left;" src="https://cdn-icons-png.flaticon.com/512/1189/1189193.png" /> <font size="4px">Tus solicitudes de amistad</font></button>-->
-
-<!--pruebas-->
 <!-- Modal de solicitudes -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -110,12 +77,12 @@
             </div>
             <div class="modal-body">
                 @{
-                    foreach (var amigo in ViewBag.LA)
+                    foreach (var amigo in ViewBag.FriendsRequest)
                     {
 
                         <form method="post" asp-action="solicitudes">
                             <div>
-                                <font style="font-size:20px; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"> @amigo &nbsp; &nbsp; </font> <button class="bt-solicitud" name="estatus" value="true">aceptar</button> &nbsp; <button class="bt-solicitud" name="estatus" value="false">rechazar</button>
+                                <font style="font-size:20px; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"> @amigo &nbsp; &nbsp; </font> <button class="bt-solicitud" name="info"   value="@amigo,true">aceptar</button> &nbsp; <button class="bt-solicitud" name="info" value="@amigo,false">rechazar</button>
                             </div>
                         </form>
 
@@ -144,14 +111,14 @@
         <form method="post" asp-action="SendRequest">
             <select class="cb-añadir" aria-label="Default select example" name="usernameToAdd">
                 <option selected>buscar...</option>
-                @{ foreach (var usuario in ViewBag.LA)
+                @{ foreach (var usuario in ViewBag.usuarios)
                     {
                         <option name="usernameToAdd" value="@usuario">@usuario</option>
                     }
                 }
             </select>
 
-            <button class="btnmas" type="submit" name="añadiramigo" value="usernameToAdd">+</button>
+            <button class="btnmas" type="submit" name="usernameToAdd" value="usernameToAdd">+</button>
         </form>
         <br />
         <hr />
@@ -163,7 +130,7 @@
         <div style="height:250px; overflow-x: hidden!important; ">
             <h2>Amigos</h2>
             @{
-                foreach (var amigo in ViewBag.LA)
+                foreach (var amigo in ViewBag.Friends)
                 {
 
                     <form method="post" asp-action="index">
@@ -182,7 +149,7 @@
         <div style="height:300px; overflow-x: hidden!important; ">
             <h2>Grupos</h2>
             @{
-                foreach (var amigo in ViewBag.LA)
+                foreach (var amigo in ViewBag.Friends)
                 {
 
                     <form method="post" asp-action="index">
@@ -199,7 +166,7 @@
         <!-- mis Solicitud de amistades -->
         @{
             <!--depende si hay solicitudes cambia de color el botón-->
-            if (ViewBag.LA.Count != 0)
+            if (ViewBag.FriendsRequest.Count != 0)
             {
                 <button style="float:right" type="button" width="100%" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter" value="Solicitud de amistad"><img width="30px" style="float:left;" src="https://cdn-icons-png.flaticon.com/512/1189/1189193.png" /> <font size="4px">Tus solicitudes de amistad</font></button>
 

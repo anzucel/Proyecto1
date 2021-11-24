@@ -21,7 +21,7 @@ namespace Proyecto1.Controllers
         APIProyecto.Repositories.IUsersCollection Friends = new APIProyecto.Repositories.UsersCollection();
         private readonly ILogger<HomeController> _logger;
         UserAPI Api = new UserAPI();    // se inicializa clase 
-        
+        Metodos metodos = new Metodos();
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -31,20 +31,20 @@ namespace Proyecto1.Controllers
         public IActionResult Index(string amigo)
         {
 
-            //List<string> ListaAmigo = new List<string>();
-            // ListaAmigo.Add("Martin Bech");
-            // ListaAmigo.Add("Pablo godoy");
-            // ListaAmigo.Add("zucely Raxón");
-            // ListaAmigo.Add("Marta Raxón");
-            // ListaAmigo.Add("Lupe Gomez");
-            // ListaAmigo.Add("Jason Giron");
-            // ListaAmigo.Add("Maryorie Sosa");
-            // ListaAmigo.Add("Lucas Perez");
-            // ListaAmigo.Add("Miguel Lopez");
-            // ListaAmigo.Add("Carlos Gonzalez");
-               // GetUsers();
-                ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
-                ViewBag.LA = Singleton.Instance.List;
+            User user = new User();
+            user = Singleton.Instance.user;
+            metodos.GetFriends(user.Username);
+            metodos.GetFriendRequest(user.Username);
+            metodos.GetUsers(user.Username);
+
+            ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
+            ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
+            ViewBag.usuarios = Singleton.Instance.ListUsers;
+            ViewBag.Friends = Singleton.Instance.List;
+            ViewBag.FriendsRequest = Singleton.Instance.ListRequests;
+
+           
+             
             
             return View();
         }
@@ -52,7 +52,7 @@ namespace Proyecto1.Controllers
         [HttpPost]
         public IActionResult SendRequest(string usernameToAdd)
         {
-            usernameToAdd = "CarolV"; // temporal
+           // usernameToAdd = "CarolV"; // temporal
             string user = HttpContext.Session.GetString("userLogged");
             HttpClient client = Api.Initial();
             try {
@@ -71,12 +71,12 @@ namespace Proyecto1.Controllers
                 if (result.IsSuccessStatusCode)
                 {
                     // retorna mensaje indicando que se envió la solicitud
-                    return Redirect("home/");
+                    return Redirect("index");
                 }
                 else
                 {
                     // retorna alerta que no se pudo realizar la peticion
-                    return Redirect("home/");
+                    return Redirect("index");
                 }
                 //}
                 //if (res.IsSuccessStatusCode)
@@ -88,24 +88,21 @@ namespace Proyecto1.Controllers
             }
             catch 
             {
-                return Redirect("home/");
+                return Redirect("index");
             }
            
         }
 
-        //Post  para enviar solicitud de amistad
-        [HttpPost]
-        public IActionResult Añadir_Amigo(string añadiramigo)
-        {
-
-            return Redirect("home/");
-        }
 
         //Post  para aceptar/rechazar solicitud de amistad
         [HttpPost]
-        public IActionResult solicitudes(bool estatus)
+        public IActionResult solicitudes(string info)
         {
-
+            //se trae en la variable info el usuario que envía la solicitud y si se acepta/recahaza
+            //se hace split para separar los parametros
+            string[] split = info.Split(",");
+            string user = split[0];
+            bool estatus = Convert.ToBoolean( split[1]);
             return Redirect("/home");
         }
 
