@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Cifrado;
 using APIProyecto.Models;
 using System.IO;
+using System.Net.Http;
+using Microsoft.AspNetCore.Hosting;
+using MongoDB.Driver;
 
 namespace APIProyecto.Controllers
 {
@@ -14,48 +17,60 @@ namespace APIProyecto.Controllers
     [ApiController]
     public class LZWCompressController : CompressIController
     {
+        private IWebHostEnvironment Environment;
+        public LZWCompressController(IWebHostEnvironment _environment)
+        {
+            Environment = _environment;
+        }
+
         [Route ("sendfile")]
         [HttpPost]
-        public IActionResult compress([FromBody] IFormFile files/*, string name*/)
+        public IActionResult compress([FromBody] Messages message /*, string name*/)
         {
-            string path = Path.Combine("../", "Archivos");
-
-            //IFormFile file = files[0];
-            byte[] fileBytes = null;
             try
             {
-
-
-                using (var ms = new MemoryStream())
+                if (!ModelState.IsValid)
                 {
-                    files.CopyTo(ms);
-                    fileBytes = ms.ToArray();
-                    fileBytes = LZWCompresscs.Compress(fileBytes);
+                    return BadRequest("Invalid model");
                 }
+                else
+                {
 
-                double SrazonDeCompresion = Convert.ToDouble((Convert.ToDouble(fileBytes.Length) / Convert.ToDouble(files.Length)) * 100);
-                double SfactorDeCompresion = Convert.ToDouble(100 / SrazonDeCompresion);
-                double SporcentajeDeReduccion = Convert.ToDouble(100 - SrazonDeCompresion);
-                CompressionData compress = new CompressionData(files.FileName, Path.Combine(path, files.FileName), SrazonDeCompresion, SfactorDeCompresion, SporcentajeDeReduccion);
-                uploadedFiles.Add(compress);
+                    byte[] fileBytes = LZWCompresscs.Compress(message.Texto); // comprime el archivo 
 
+                    //byte[] fileBytesD = LZWCompresscs.Decompress(fileBytes); // comprime el archivo 
+
+                    // almacena el archivo compreso en el servidor
+                    if (!Directory.Exists(Environment.WebRootPath + "\\FilesLZW\\"))
+                    {
+                        Directory.CreateDirectory(Environment.WebRootPath + "\\FilesLZW\\");
+                    }
+
+                    System.IO.File.WriteAllBytes(Environment.WebRootPath + "\\FilesLZW\\" + message.FilePath + ".lzw", fileBytes);
+                    //System.IO.File.WriteAllBytes(Environment.WebRootPath + "\\FilesLZW\\" + message.FilePath + ".txt", fileBytesD);
+
+                    var client = new MongoClient("mongodb://127.0.0.1:27017");
+                    var database = client.GetDatabase("ChatDB");
+                    var dbmessages = database.GetCollection<Messages>("Messages");
+
+
+                    Messages newMessage = new Messages();
+                    newMessage.UsuarioEmisor = message.UsuarioEmisor;
+                    newMessage.UsuarioReceptor = message.UsuarioReceptor;
+                    newMessage.Fecha_envio = DateTime.Now.ToString("yy-MM-dd H:m:ss");
+                    newMessage.FilePath = message.FilePath + ".lzw";
+                    newMessage.Texto = fileBytes;
+
+                    dbmessages.InsertOne(newMessage);
+
+                    return Ok();
+                }
             }
             catch (Exception e)
             {
                 StatusCodeResult x = new StatusCodeResult(StatusCodes.Status500InternalServerError);
                 return x;
             }
-          //  string newFileName = name + ".lzw";
-            var cd = new System.Net.Mime.ContentDisposition
-            {
-                //FileName = newFileName,
-                Inline = true,
-            };
-
-            Response.Headers.Add("Content-Disposition", cd.ToString());
-
-            // return File(fileBytes, "text/plain");
-            return Ok();
         }
     }
 }

@@ -261,10 +261,7 @@ namespace APIProyecto.Controllers
         public int GenerateKey(int KEmisor, int KReceptor)
         {
             int g = 11, p = 23;
-            //double B = Math.Pow(g, KReceptor);
             BigInteger B = BigInteger.ModPow(g, KReceptor, p);
-            //double piv = Math.Pow(B, KEmisor);
-            //double K = piv % p;
             BigInteger K = BigInteger.ModPow(B, KEmisor, p);
 
             object obj = K;

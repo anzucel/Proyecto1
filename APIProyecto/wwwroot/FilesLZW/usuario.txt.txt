@@ -1,0 +1,6 @@
+FAndrea|Andrea|Hernandez|AndreaH323$|2|Mon Oct 04 00:00:00 CST 2021|andrea@correo|3246864|C:\MEIA\usuario1.jpg|1|
+HugoS|Hugo|Ortega|HOrtega83$|2|Sat Oct 02 00:00:00 CST 2021|hugo@correo|23642345|C:\MEIA\usuario2.jpg|1|
+MariaG|Maria|Gonzalez|MariaG92$|1|Sat Oct 02 00:00:00 CST 2021|maria@correo|3938348|C:\MEIA\usuario1.jpg|1|
+SofiaF|Sofia|Fuentes|SofiaF92$|2|Fri Oct 01 00:00:00 CST 2021|Sofia@correo|32541134|C:\MEIA\usuario2.jpg|1|
+VanesaL|Vanesa|Lopez|VAnsaL92$|1|Sat Oct 02 00:00:00 CST 2021|vanesa@correo|32567532|C:\MEIA\usuario2.jpg|1|
+ZucelyH|Zucelu|HErnandez|zhernandez34$|2|Fri Oct 01 00:00:00 CST 2021|zucely@correo|34574321|C:\MEIA\usuario1.jpg|1|

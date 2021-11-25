@@ -14,6 +14,7 @@ namespace APIProyecto.Models
         public String UsuarioEmisor { get; set; }
         public String UsuarioReceptor { get; set; }
         public byte[] Texto { get; set; }
+        public string FilePath { get; set; } 
         public string Fecha_envio { get; set; }
         public int SalaID { get; set; }
     }
