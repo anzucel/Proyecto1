@@ -38,7 +38,7 @@ namespace APIProyecto.Controllers
 
                     byte[] fileBytes = LZWCompresscs.Compress(message.Texto); // comprime el archivo 
 
-                    byte[] fileBytesD = LZWCompresscs.Decompress(fileBytes); // comprime el archivo 
+                    //byte[] fileBytesD = LZWCompresscs.Decompress(fileBytes); // comprime el archivo 
 
                     // almacena el archivo compreso en el servidor
                     if (!Directory.Exists(Environment.WebRootPath + "\\FilesLZW\\"))
@@ -47,7 +47,7 @@ namespace APIProyecto.Controllers
                     }
 
                     System.IO.File.WriteAllBytes(Environment.WebRootPath + "\\FilesLZW\\" + message.FilePath + ".lzw", fileBytes);
-                    System.IO.File.WriteAllBytes(Environment.WebRootPath + "\\FilesLZW\\" + message.FilePath + ".txt", fileBytesD);
+                    //System.IO.File.WriteAllBytes(Environment.WebRootPath + "\\FilesLZW\\" + message.FilePath + ".txt", fileBytesD);
 
                     var client = new MongoClient("mongodb://127.0.0.1:27017");
                     var database = client.GetDatabase("ChatDB");
