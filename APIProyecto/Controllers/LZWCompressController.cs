@@ -72,5 +72,47 @@ namespace APIProyecto.Controllers
                 return x;
             }
         }
+
+        [HttpGet]
+        [Route("downloadFile/{emisor}/{receptor}/{Filename}")]
+        public Messages DownloadFile([FromRoute] string emisor, [FromRoute] string receptor, [FromRoute] string Filename)
+        {
+            Messages message = new Messages();
+            byte[] fileBytesD = null;
+
+            var client = new MongoClient("mongodb://127.0.0.1:27017");
+            var database = client.GetDatabase("ChatDB");
+
+            //bd mensajes
+            var dbmessages = database.GetCollection<Messages>("Messages");
+            var buscarMensaje = dbmessages.AsQueryable<Messages>(); //comentado
+            var result = from a in buscarMensaje
+                         where (((a.UsuarioEmisor == emisor && a.UsuarioReceptor == receptor) ||
+                                (a.UsuarioEmisor == receptor && a.UsuarioReceptor == emisor)) &&
+                                (a.FilePath == Filename + ".lzw"))
+                         select a;
+
+            foreach (Messages mess in result)
+            {
+                message.UsuarioEmisor = mess.UsuarioEmisor;
+                message.UsuarioReceptor = mess.UsuarioReceptor;
+                fileBytesD = LZWCompresscs.Decompress(mess.Texto); // guarda los bytes del archivo decompreso
+            }
+
+            // Guardar archivo 
+            if (!Directory.Exists(Environment.WebRootPath + "\\Files\\"))
+            {
+                Directory.CreateDirectory(Environment.WebRootPath + "\\Files\\");
+            }
+
+            string[] splt = message.FilePath.Split('.');
+            string type = "." + splt[1];
+
+            message.FilePath = splt[0] + type;
+
+            System.IO.File.WriteAllBytes(Environment.WebRootPath + "\\Files\\" + splt[0] + type, fileBytesD);
+
+            return message;
+        }
     }
 }

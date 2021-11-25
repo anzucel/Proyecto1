@@ -151,6 +151,34 @@ namespace Proyecto1.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DownloadFile(string Filename, string receptor)
+        {
+            try
+            {
+                receptor = null;//"MariaG";
+                string emisor = HttpContext.Session.GetString("userLogged");
+
+                HttpClient client = Api.Initial();
+
+                HttpResponseMessage res = await client.GetAsync($"api/lzwcompress/downloadFile/{emisor}/{receptor}/{Filename}");
+
+                if (res.IsSuccessStatusCode)
+                {
+                    var results = res.Content.ReadAsStringAsync().Result;
+                    Message message = JsonConvert.DeserializeObject<Message>(results); //  guarda todos los mensajes
+
+
+                    // en message.FilePath se encuentra el nombre del archivo guardado en la carpeta \\Files\\
+                }
+
+                return Redirect("index");
+            }
+            catch
+            {
+                return Redirect("/home");
+            }
+        }
 
         [HttpPost]
         public IActionResult creatgroup(string[] members, string name)
@@ -203,8 +231,10 @@ namespace Proyecto1.Controllers
                 }
 
             }
+
             if(files!= null)
             {
+                amigo = Singleton.Instance.Amigo_Chat; // se debe leer desde el parámetro
                 Message message = new Message();
 
                 //archivos enviados
