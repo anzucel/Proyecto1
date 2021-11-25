@@ -47,23 +47,24 @@ namespace Proyecto1.Controllers
             metodos.GetUsers(Singleton.Instance.usuario);
             //usuario logiado
             ViewBag.userLogin = Singleton.Instance.usuario;//HttpContext.Session.GetString("userLogged");
-            ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;           
-           // DownloadMessages(Singleton.Instance.Amigo_Chat);
+            ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
+            // DownloadMessages(Singleton.Instance.Amigo_Chat);
 
             ViewBag.usuarios = Singleton.Instance.ListUsers;
             ViewBag.Friends = Singleton.Instance.List;
             ViewBag.FriendsRequest = Singleton.Instance.ListRequests;
-            ViewBag.chat=  Singleton.Instance.ListMessages;
+            ViewBag.chat = Singleton.Instance.ListMessages;
             return View();
         }
 
         [HttpPost]
         public IActionResult SendRequest(string usernameToAdd)
         {
-           // usernameToAdd = "CarolV"; // temporal
+            // usernameToAdd = "CarolV"; // temporal
             string user = HttpContext.Session.GetString("userLogged");
             HttpClient client = Api.Initial();
-            try {
+            try
+            {
                 var data = client.PostAsJsonAsync<string>($"api/user/sendrequest/{usernameToAdd}/{user}", usernameToAdd);
                 data.Wait();
 
@@ -83,13 +84,13 @@ namespace Proyecto1.Controllers
                     return Redirect("index");
                 }
             }
-            catch 
+            catch
             {
                 return Redirect("index");
             }
-           
+
         }
-        
+
         //Post  para aceptar/rechazar solicitud de amistad
         [HttpPost]
         public IActionResult solicitudes(string info)
@@ -98,7 +99,7 @@ namespace Proyecto1.Controllers
             //se hace split para separar los parametros
             string[] split = info.Split(",");
             string userToAdd = split[0];
-            bool estatus = Convert.ToBoolean( split[1]);
+            bool estatus = Convert.ToBoolean(split[1]);
 
             string user = HttpContext.Session.GetString("userLogged");
 
@@ -125,13 +126,13 @@ namespace Proyecto1.Controllers
                     return Redirect("index");
                 }
             }
-            catch 
+            catch
             {
                 return Redirect("/home");
             }
         }
 
-      [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> DownloadMessages(string receptor)
         {
             try
@@ -152,12 +153,12 @@ namespace Proyecto1.Controllers
                     var results = res.Content.ReadAsStringAsync().Result;
                     Singleton.Instance.ListMessages = JsonConvert.DeserializeObject<List<StringMessage>>(results); //  guarda todos los mensajes
                 }
-               
+
                 ViewBag.chat = Singleton.Instance.ListMessages;
                 return RedirectToAction(nameof(Index));
 
             }
-            catch 
+            catch
             {
                 ViewBag.chat = Singleton.Instance.ListMessages;
                 return RedirectToAction(nameof(Index));
@@ -169,9 +170,9 @@ namespace Proyecto1.Controllers
         {
             try
             {
-                receptor = null;//"MariaG";
+                receptor = "andreaxd";//"MariaG";
                 string emisor = HttpContext.Session.GetString("userLogged");
-
+                emisor = "jasonxd";
                 HttpClient client = Api.Initial();
 
                 HttpResponseMessage res = await client.GetAsync($"api/lzwcompress/downloadFile/{emisor}/{receptor}/{Filename}");
@@ -202,8 +203,8 @@ namespace Proyecto1.Controllers
         [HttpPost]
         public IActionResult Index(string mensaje, IFormFile files, string amigo)
         {
-            if(amigo != null)
-            {                
+            if (amigo != null)
+            {
                 Singleton.Instance.Amigo_Chat = amigo;
                 DownloadMessages(amigo);
             }
@@ -246,7 +247,7 @@ namespace Proyecto1.Controllers
 
             }
 
-            if(files!= null)
+            if (files != null)
             {
 
                 amigo = Singleton.Instance.Amigo_Chat; // se debe leer desde el parámetro
@@ -303,26 +304,37 @@ namespace Proyecto1.Controllers
             //if ()
             //{
             name = "usuario2.jpg";
-            var filePath = "files\\"+name;
+            var filePath = "files\\" + name;
             var fileName = string.Empty;
-                for (int i = filePath.Length - 1; i > -1; i--)
+            for (int i = filePath.Length - 1; i > -1; i--)
+            {
+                if (filePath[i] == '\\')
                 {
-                    if (filePath[i] == '\\')
-                    {
-                        i++;
-                        fileName = filePath.Substring(i, filePath.Length - i);
-                        break;
-                    }
+                    i++;
+                    fileName = filePath.Substring(i, filePath.Length - i);
+                    break;
                 }
-                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-                //System.IO.File.Delete(filePath);
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-           // }
+            }
+            byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+            //System.IO.File.Delete(filePath);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            // }
             //else
             //{
             //    return RedirectToAction("Error");
             //}
+
+
         }
 
-    }
+
+        //delete message
+        public IActionResult DeleteMessage(string deleteM, string Texto, string usuario_delete)
+        {
+            //deleteM = me-> eliminar para mi || all->eliminar para todos
+            //Texto = mensaje que se quiere eliminar
+            //usuario_delete = el usuario que esta haciendo la acción de eliminar
+            return RedirectToAction(nameof(Index));
+        }
+    }     
 }
