@@ -66,9 +66,14 @@ namespace WritingU.Controllers
                     metodos.GetFriends(user.Username);
                     metodos.GetFriendRequest(user.Username);
                     metodos.GetUsers(user.Username);
-                    
 
 
+                    //resetear información de la peronsa logeada antes
+                    Singleton.Instance.Amigo_Chat = null;
+                    Singleton.Instance.ListUsers = null;
+                    Singleton.Instance.List = null;
+                    Singleton.Instance.ListRequests = null;
+                    Singleton.Instance.ListMessages=null;
 
 
                     return RedirectToAction("Index", "Home");
