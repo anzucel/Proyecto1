@@ -14,10 +14,12 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Proyecto1.Helper;
 using System.Net.Http;
-using System.IO;
 using System.Text;
 using System.Net;
 using System.Web;
+using Cifrado;
+
+
 namespace Proyecto1.Controllers
 {
     public class HomeController : Controller
@@ -246,12 +248,14 @@ namespace Proyecto1.Controllers
 
             if(files!= null)
             {
+
                 amigo = Singleton.Instance.Amigo_Chat; // se debe leer desde el parámetro
+
                 Message message = new Message();
 
                 //archivos enviados
                 byte[] readText = null;
-                using(var ms = new MemoryStream())
+                using (var ms = new MemoryStream())
                 {
                     files.CopyTo(ms);
                     readText = ms.ToArray();
@@ -272,7 +276,8 @@ namespace Proyecto1.Controllers
                 if (result.IsSuccessStatusCode)
                 {
                     //GetUsers();
-                    return Redirect("home/");//si los datos son correctos al crear nueva cuenta retorna a LogIn
+                    return RedirectToAction("Index", "Home");//si los datos son correctos al crear nueva cuenta retorna a LogIn
+
                 }
             }
 
@@ -310,7 +315,7 @@ namespace Proyecto1.Controllers
                     }
                 }
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-               // System.IO.File.Delete(filePath);
+                //System.IO.File.Delete(filePath);
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
            // }
             //else
