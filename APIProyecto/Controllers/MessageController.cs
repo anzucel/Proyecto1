@@ -181,10 +181,19 @@ namespace APIProyecto.Controllers
             foreach (Messages mess in result)
             {
                 StringMessage message = new StringMessage();
-                byte[] DesMessages = sdes.Descifrar(mess.Texto, key); // se guarda el texto descifrado
-                char[] chars = new char[DesMessages.Length / sizeof(char)];
-                Buffer.BlockCopy(DesMessages, 0, chars, 0, DesMessages.Length);
-                message.Texto = new string(chars);
+                if(mess.FilePath != null)
+                {
+                    string[] splt = mess.FilePath.Split('.');
+                    string filename = splt[0] + "." + splt[1];
+                    message.Texto = filename;
+                }
+                else
+                {
+                    byte[] DesMessages = sdes.Descifrar(mess.Texto, key); // se guarda el texto descifrado
+                    char[] chars = new char[DesMessages.Length / sizeof(char)];
+                    Buffer.BlockCopy(DesMessages, 0, chars, 0, DesMessages.Length);
+                    message.Texto = new string(chars);
+                }
                 message.Fecha_envio = mess.Fecha_envio;
                 message.UsuarioEmisor = mess.UsuarioEmisor;
                 message.UsuarioReceptor = mess.UsuarioReceptor;
