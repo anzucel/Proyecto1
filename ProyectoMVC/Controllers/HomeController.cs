@@ -14,8 +14,10 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Proyecto1.Helper;
 using System.Net.Http;
-using Cifrado;
-
+using System.IO;
+using System.Text;
+using System.Net;
+using System.Web;
 namespace Proyecto1.Controllers
 {
     public class HomeController : Controller
@@ -30,8 +32,10 @@ namespace Proyecto1.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index(string amigo)
         {
+            
 
             User user = new User();
             user = Singleton.Instance.user;
@@ -40,11 +44,13 @@ namespace Proyecto1.Controllers
             metodos.GetUsers(user.Username);
             //usuario logiado
             ViewBag.userLogin = HttpContext.Session.GetString("userLogged");
-            ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
-            ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
+            ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;           
+           // DownloadMessages(Singleton.Instance.Amigo_Chat);
+
             ViewBag.usuarios = Singleton.Instance.ListUsers;
             ViewBag.Friends = Singleton.Instance.List;
-            ViewBag.FriendsRequest = Singleton.Instance.ListRequests;           
+            ViewBag.FriendsRequest = Singleton.Instance.ListRequests;
+            ViewBag.chat=  Singleton.Instance.ListMessages;
             return View();
         }
 
@@ -122,12 +128,13 @@ namespace Proyecto1.Controllers
             }
         }
 
-        [HttpGet]
+      [HttpGet]
         public async Task<IActionResult> DownloadMessages(string receptor)
         {
             try
             {
-                receptor = "ZucelyH";//"MariaG";
+                // receptor = receptor;//"MariaG";
+                Singleton.Instance.ListMessages = null;
                 string emisor = HttpContext.Session.GetString("userLogged");
                 Message mensajes = new Message();
                 mensajes.UsuarioEmisor = emisor;
@@ -142,12 +149,15 @@ namespace Proyecto1.Controllers
                     var results = res.Content.ReadAsStringAsync().Result;
                     Singleton.Instance.ListMessages = JsonConvert.DeserializeObject<List<StringMessage>>(results); //  guarda todos los mensajes
                 }
-                
-                return Redirect("index");
+               
+                ViewBag.chat = Singleton.Instance.ListMessages;
+                return RedirectToAction(nameof(Index));
+
             }
             catch 
             {
-                return Redirect("/home");
+                ViewBag.chat = Singleton.Instance.ListMessages;
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -190,8 +200,9 @@ namespace Proyecto1.Controllers
         public IActionResult Index(string mensaje, IFormFile files, string amigo)
         {
             if(amigo != null)
-            {
+            {                
                 Singleton.Instance.Amigo_Chat = amigo;
+                DownloadMessages(amigo);
             }
             //solo es pruebas
 
@@ -220,14 +231,14 @@ namespace Proyecto1.Controllers
                     var result = Data.Result;
                     if (result.IsSuccessStatusCode)
                     {
-                        //GetUsers();
-                        return Redirect("home/");//si los datos son correctos al crear nueva cuenta retorna a LogIn
+                        DownloadMessages(amigo);
+                        return RedirectToAction(nameof(Index));//si los datos son correctos al crear nueva cuenta retorna a LogIn
                     }
-                    return View();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch
                 {
-                    return View();
+                    return RedirectToAction(nameof(Index));
                 }
 
             }
@@ -264,7 +275,7 @@ namespace Proyecto1.Controllers
                 }
             }
 
-            return Redirect("home/");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Privacy()
@@ -277,5 +288,35 @@ namespace Proyecto1.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        //PUREBA
+        public ActionResult GetFile(string name)
+        {
+
+            //if ()
+            //{
+            name = "usuario2.jpg";
+            var filePath = "files\\"+name;
+            var fileName = string.Empty;
+                for (int i = filePath.Length - 1; i > -1; i--)
+                {
+                    if (filePath[i] == '\\')
+                    {
+                        i++;
+                        fileName = filePath.Substring(i, filePath.Length - i);
+                        break;
+                    }
+                }
+                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+               // System.IO.File.Delete(filePath);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+           // }
+            //else
+            //{
+            //    return RedirectToAction("Error");
+            //}
+        }
+
     }
 }
