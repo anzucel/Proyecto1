@@ -196,6 +196,9 @@ namespace Proyecto1.Controllers
         [HttpPost]
         public IActionResult creatgroup(string[] members, string name)
         {
+
+
+
             return Redirect("index");
         }
 
