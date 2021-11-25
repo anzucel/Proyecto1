@@ -24,6 +24,8 @@ namespace Proyecto1.Extra
         public User userSesion = new User();
         public string AmigoChatear;
         public List<string> List = new List<string>();
+        public List<StringMessage> ListMessages = new List<StringMessage>();
+
         private Singleton()
         {
             

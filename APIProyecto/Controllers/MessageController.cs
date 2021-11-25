@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -141,11 +142,58 @@ namespace APIProyecto.Controllers
             }
         }
 
-        // GET api/<MessageController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        [Route("download/{emisor}/{receptor}")]
+        public List<StringMessage> GetMessages([FromRoute] string emisor, [FromRoute] string receptor)
         {
-            return "value";
+
+            int keyEmisor = 0, keyReceptor = 0, key;
+            List<StringMessage> ListMessages = new List<StringMessage>();
+
+            var client = new MongoClient("mongodb://127.0.0.1:27017");
+            var database = client.GetDatabase("ChatDB");
+
+            //bd mensajes
+            var dbmessages = database.GetCollection<Messages>("Messages");
+            var buscarMensaje = dbmessages.AsQueryable<Messages>(); //comentado
+            var result = from a in buscarMensaje
+                          where ((a.UsuarioEmisor == emisor && a.UsuarioReceptor == receptor) || 
+                                 (a.UsuarioEmisor == receptor && a.UsuarioReceptor == emisor))
+                          select a;
+
+            //bd usuarios 
+            var dbusers = database.GetCollection<User>("User");
+            var buscarUsuario = dbusers.AsQueryable<User>();
+            var resultusers = from a in buscarUsuario
+                         where (a.Username == emisor || a.Username == receptor)
+                         select a;
+
+            // Buscar llave entre usuarios 
+            foreach (User users in resultusers)
+            {
+                if (users.Username == emisor) { keyEmisor = users.Key; }
+                if (users.Username == receptor) { keyReceptor = users.Key; }
+            }
+
+            key = GenerateKey(keyEmisor, keyReceptor);
+
+            // Descifrar mensajes 
+            foreach (Messages mess in result)
+            {
+                StringMessage message = new StringMessage();
+                byte[] DesMessages = sdes.Descifrar(mess.Texto, key); // se guarda el texto descifrado
+                char[] chars = new char[DesMessages.Length / sizeof(char)];
+                Buffer.BlockCopy(DesMessages, 0, chars, 0, DesMessages.Length);
+                message.Texto = new string(chars);
+                message.Fecha_envio = mess.Fecha_envio;
+                message.UsuarioEmisor = mess.UsuarioEmisor;
+                message.UsuarioReceptor = mess.UsuarioReceptor;
+
+                ListMessages.Add(message);
+            }
+
+            // retorna la lista de mensajes
+            return ListMessages;
         }
 
         // POST api/<MessageController>
@@ -197,9 +245,9 @@ namespace APIProyecto.Controllers
                 newMessage.UsuarioReceptor = message.UsuarioReceptor;
                 newMessage.Fecha_envio = DateTime.Now.ToString("yy-MM-dd H:m:ss");
                 key = GenerateKey(keyEmisor, keyReceptor);
+                newMessage.Texto = sdes.Cifrar(message.Texto, key);
 
                 // extra ======================
-                newMessage.Texto = sdes.Cifrar(message.Texto, key);
                 // descifrado.Texto = sdes.Descifrar( newMessage.Texto, key);
                 //=============================
 

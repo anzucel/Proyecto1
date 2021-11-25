@@ -312,6 +312,14 @@
                 <span style="width:450px;" class="input-group-text"><i class="fa fa-send"><input type="file" name="postedFile" /></i></span>
             </div>
         </form>
+
+        <form asp-controller="Home" asp-action="DownloadMessages" method="get" enctype="multipart/form-data">
+            <div class="input-group-prepend" asp-controller="Home" asp-action="DownloadMessages" method="get" enctype="multipart/form-data">
+                <!--Nuevos mensajes-->
+                <input class="input-group-text" type="submit" value="recibir">
+            </div>
+        </form>
+
     </div><!--fin-->
 
 </div>

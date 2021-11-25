@@ -120,6 +120,36 @@ namespace Proyecto1.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DownloadMessages(string receptor)
+        {
+            try
+            {
+                receptor = "ZucelyH";//"MariaG";
+                string emisor = HttpContext.Session.GetString("userLogged");
+                Message mensajes = new Message();
+                mensajes.UsuarioEmisor = emisor;
+                mensajes.UsuarioReceptor = receptor;
+
+                HttpClient client = Api.Initial();
+
+                HttpResponseMessage res = await client.GetAsync($"api/message/download/{emisor}/{receptor}");
+
+                if (res.IsSuccessStatusCode)
+                {
+                    var results = res.Content.ReadAsStringAsync().Result;
+                    Singleton.Instance.ListMessages = JsonConvert.DeserializeObject<List<StringMessage>>(results); //  guarda todos los mensajes
+                }
+                
+                return Redirect("index");
+            }
+            catch 
+            {
+                return Redirect("/home");
+            }
+        }
+
+
         [HttpPost]
         public IActionResult creatgroup(string[] members, string name)
         {
