@@ -11,6 +11,7 @@ namespace Proyecto1.Models
         public String UsuarioReceptor { get; set; }
         public String Texto { get; set; }
         public string Fecha_envio { get; set; }
+        public string FilePath { get; set; }
         public int SalaID { get; set; }
     }
 }

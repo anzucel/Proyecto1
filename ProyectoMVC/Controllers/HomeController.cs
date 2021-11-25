@@ -35,15 +35,16 @@ namespace Proyecto1.Controllers
         [HttpGet]
         public IActionResult Index(string amigo)
         {
-            
+            //string userSession = HttpContext.Session.GetString("userLogged");
+            Singleton.Instance.usuario = HttpContext.Session.GetString("userLogged");
 
             User user = new User();
             user = Singleton.Instance.user;
-            metodos.GetFriends(user.Username);
-            metodos.GetFriendRequest(user.Username);
-            metodos.GetUsers(user.Username);
+            metodos.GetFriends(Singleton.Instance.usuario);
+            metodos.GetFriendRequest(Singleton.Instance.usuario);
+            metodos.GetUsers(Singleton.Instance.usuario);
             //usuario logiado
-            ViewBag.userLogin = HttpContext.Session.GetString("userLogged");
+            ViewBag.userLogin = Singleton.Instance.usuario;//HttpContext.Session.GetString("userLogged");
             ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;           
            // DownloadMessages(Singleton.Instance.Amigo_Chat);
 

@@ -62,10 +62,13 @@ namespace WritingU.Controllers
                 if (result.IsSuccessStatusCode)
                 {
                     HttpContext.Session.SetString("userLogged", user.Username); // se crea la sesión para el usuario que inició sesión
+
+                    string userSession = HttpContext.Session.GetString("userLogged");
+
                     Singleton.Instance.ListUsers = new List<string>();
-                    metodos.GetFriends(user.Username);
-                    metodos.GetFriendRequest(user.Username);
-                    metodos.GetUsers(user.Username);
+                    metodos.GetFriends(userSession);
+                    metodos.GetFriendRequest(userSession);
+                    metodos.GetUsers(userSession);
 
 
                     //resetear información de la peronsa logeada antes
