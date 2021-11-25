@@ -247,7 +247,9 @@ namespace Proyecto1.Controllers
 
             if(files!= null)
             {
+
                 amigo = Singleton.Instance.Amigo_Chat; // se debe leer desde el parámetro
+
                 Message message = new Message();
 
                 //archivos enviados
