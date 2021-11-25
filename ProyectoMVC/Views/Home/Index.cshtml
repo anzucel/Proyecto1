@@ -69,12 +69,12 @@
             border-radius: 4px;
         }
         .el-1 {
-            color: #E8F1F3;
+            color: #E8F1F3!important;
             font-size:11px;
         }
 
         .el-1:hover {
-            color:blue;
+            color:blue!important;
             font-size: 11px;
         }
     </style>
@@ -294,8 +294,9 @@
                                     if (ViewBag.userLogin == item.UsuarioEmisor)
                                     {
                                         <li class="clearfix"><!--Chat del usuario logiado-->
+                                            
                                             <!--<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">-->
-                                            <!--mesaje--> <div class="message other-message float-right"><center><a class="el-1" asp-action="index">eliminar para mí</a><a class="el-1" asp-action="index">eliminar</a> <p>@item.Texto </p></center></div><br /><br /><br /><br /><br />
+                                            <!--mesaje--> <div class="message other-message float-right"><center><font class="el-1">@Html.ActionLink("delete", "DeleteMessage", new { deleteM = "me",Texto = item.Texto, usuario_delete = ViewBag.userLogin})</font> &nbsp; &nbsp; <font class="el-1">@Html.ActionLink("delete all", "DeleteMessage", new { deleteM = "all", Texto = item.Texto, usuario_delete = ViewBag.userLogin })</font> <p>@item.Texto </p></center></div><br /><br /><br /><br /><br />
                                            <!--fecha--> <div class="message-data text-right"><span class="message-data-time"><font style="font-size:11px; color:#808080"> @item.Fecha_envio </font></span>
 
                                         </li>
@@ -305,7 +306,7 @@
                                     {
                                         
                                         <li class="clearfix"><!--Chat del amigo -->
-                                            <!--mensaje-->    <div class="message my-message"><center><p><a class="el-1" asp-action="index">eliminar para mí</a><a class="el-1" asp-action="index">eliminar</a><br /> @item.Texto </p></center></div>
+                                            <!--mensaje-->    <div class="message my-message"><center><p> @item.Texto </p></center></div>
                                             <!--fecha-->    <div class="message-data"> <span class="message-data-time"><font style="font-size:11px; color:#808080">@item.Fecha_envio </font></span></div>
                                         </li>
 
