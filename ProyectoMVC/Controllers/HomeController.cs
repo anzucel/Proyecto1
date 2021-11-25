@@ -157,7 +157,7 @@ namespace Proyecto1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string mensaje, IFormFile postedFile, string amigo)
+        public IActionResult Index(string mensaje, IFormFile files, string amigo)
         {
             if(amigo != null)
             {
@@ -204,6 +204,17 @@ namespace Proyecto1.Controllers
             else
             {
                 //archivos enviados
+                //API - MVC
+                HttpClient client = Api.Initial();
+                //Post-instancia a la api
+                var Data = client.PostAsJsonAsync<IFormFile>("api/lzwcompress/sendfile", files);
+                Data.Wait();
+                var result = Data.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    //GetUsers();
+                    return Redirect("home/");//si los datos son correctos al crear nueva cuenta retorna a LogIn
+                }
             }
 
             return Redirect("home/");
