@@ -14,5 +14,10 @@
     <ProjectReference Include="..\Cifrado\Cifrado.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\FilesLZW\" />
+  </ItemGroup>
+
 
 </Project>

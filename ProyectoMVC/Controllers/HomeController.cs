@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,6 +14,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Proyecto1.Helper;
 using System.Net.Http;
+using Cifrado;
 
 namespace Proyecto1.Controllers
 {
@@ -164,7 +166,7 @@ namespace Proyecto1.Controllers
                 Singleton.Instance.Amigo_Chat = amigo;
             }
             //solo es pruebas
-           
+
             if (mensaje != null)
             {
                 try
@@ -172,8 +174,8 @@ namespace Proyecto1.Controllers
                     amigo = Singleton.Instance.Amigo_Chat; // se debe leer desde el parámetro
                     string emisor = HttpContext.Session.GetString("userLogged");
 
-                    Message message = new Message();    
-                    
+                    Message message = new Message();
+
                     byte[] byteM = new byte[mensaje.Length * sizeof(char)];
                     Buffer.BlockCopy(mensaje.ToCharArray(), 0, byteM, 0, byteM.Length);
                     message.Texto = byteM;
@@ -201,14 +203,29 @@ namespace Proyecto1.Controllers
                 }
 
             }
-            else
+            if(files!= null)
             {
+                Message message = new Message();
+
                 //archivos enviados
+                byte[] readText = null;
+                using(var ms = new MemoryStream())
+                {
+                    files.CopyTo(ms);
+                    readText = ms.ToArray();
+                }
+
+                message.Texto = readText;
+                message.UsuarioEmisor = HttpContext.Session.GetString("userLogged");
+                message.UsuarioReceptor = amigo;
+                message.FilePath = files.FileName.ToString();
+
                 //API - MVC
                 HttpClient client = Api.Initial();
                 //Post-instancia a la api
-                var Data = client.PostAsJsonAsync<IFormFile>("api/lzwcompress/sendfile", files);
+                var Data = client.PostAsJsonAsync<Message>("api/lzwcompress/sendfile", message);
                 Data.Wait();
+
                 var result = Data.Result;
                 if (result.IsSuccessStatusCode)
                 {
