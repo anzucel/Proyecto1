@@ -296,7 +296,7 @@
                                         <li class="clearfix"><!--Chat del usuario logiado-->
                                             
                                             <!--<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">-->
-                                            <!--mesaje--> <div class="message other-message float-right"><center><font class="el-1">@Html.ActionLink("delete", "DeleteMessage", new { deleteM = "me",Texto = item.Texto, usuario_delete = ViewBag.userLogin})</font> &nbsp; &nbsp; <font class="el-1">@Html.ActionLink("delete all", "DeleteMessage", new { deleteM = "all", Texto = item.Texto, usuario_delete = ViewBag.userLogin })</font> <p>@item.Texto </p></center></div><br /><br /><br /><br /><br />
+                                            <!--mesaje--> <div class="message other-message float-right"><center><font class="el-1">@Html.ActionLink("delete", "DeleteMessage", new { deleteM = "me",Texto = item.Texto, emisor = ViewBag.userLogin,receptor = item.UsuarioReceptor })</font> &nbsp; &nbsp; <font class="el-1">@Html.ActionLink("delete all", "DeleteMessage", new { deleteM = "all", Texto = item.Texto, emisor = ViewBag.userLogin, receptor = item.UsuarioReceptor })</font> <p>@item.Texto </p></center></div><br /><br /><br /><br /><br />
                                            <!--fecha--> <div class="message-data text-right"><span class="message-data-time"><font style="font-size:11px; color:#808080"> @item.Fecha_envio </font></span>
 
                                         </li>

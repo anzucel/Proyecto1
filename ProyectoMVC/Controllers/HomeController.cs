@@ -332,8 +332,7 @@ namespace Proyecto1.Controllers
 
 
         //delete message
-        [HttpPost]
-        public IActionResult DeleteMessage(string deleteM, string Texto, string usuario_delete)
+        public IActionResult DeleteMessage(string deleteM, string Texto, string receptor, string emisor)
         {
             //deleteM = me-> eliminar para mi || all->eliminar para todos
             //Texto = mensaje que se quiere eliminar
