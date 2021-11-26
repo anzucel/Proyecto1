@@ -69,6 +69,7 @@ namespace WritingU.Controllers
                     metodos.GetFriends(userSession);
                     metodos.GetFriendRequest(userSession);
                     metodos.GetUsers(userSession);
+                    metodos.GetGroups(HttpContext.Session.GetString("userLogged"));
 
 
                     //resetear información de la peronsa logeada antes
