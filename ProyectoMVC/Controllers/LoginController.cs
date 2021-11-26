@@ -10,11 +10,16 @@ using System.Threading.Tasks;
 using Proyecto1.Extra;
 using Proyecto1.Controllers;
 using Newtonsoft.Json;
+using System.Web;
+
+
+
 
 namespace WritingU.Controllers
 {
     public class LoginController : Controller
     {
+       
         UserAPI Api = new UserAPI();
         Metodos metodos = new Metodos();
         Cifrado.ISdes cipher = new Cifrado.Sdes();
@@ -62,8 +67,13 @@ namespace WritingU.Controllers
                 if (result.IsSuccessStatusCode)
                 {
                     HttpContext.Session.SetString("userLogged", user.Username); // se crea la sesión para el usuario que inició sesión
+                    
 
                     string userSession = HttpContext.Session.GetString("userLogged");
+
+                    //HttpContext.Session.set ("infor",user);
+                    //HttpSessionStateBase.["amor"] = Singleton.Instance.ListRequests as List<string>;
+
 
                     Singleton.Instance.ListUsers = new List<string>();
                     metodos.GetFriends(userSession);
