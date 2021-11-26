@@ -14,6 +14,9 @@ namespace APIProyecto.Controllers
     [ApiController]
     public class GroupController : ControllerBase
     {
+
+        Cifrado.CifradoRSA RSA = new Cifrado.CifradoRSA();
+
         // GET: api/<GroupController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -34,7 +37,19 @@ namespace APIProyecto.Controllers
                 Group newGroup = new Group();
 
                 newGroup.GroupID = group.GroupID;
-                newGroup.Participants = group.Participants;
+
+                List<string> participantes = group.Participants;
+                List<string> info = new List<string>();
+
+
+                for (int i = 0; i < participantes.Count; i++)
+                {
+                    List<string> llaves = obtenerLlaves();
+                    string usuario = participantes.ElementAt(i) + "|" + llaves.ElementAt(0) + "|" + llaves.ElementAt(1);
+                    info.Add(usuario);
+                }
+
+                newGroup.Participants = info;
 
                 dbgrupos.InsertOne(newGroup);
 
@@ -65,11 +80,17 @@ namespace APIProyecto.Controllers
                 var result = from a in buscarGrupos
                              select a;
 
+
+                List<string> participantes = new List<string>();
                 foreach (Group group in result)
                 {
                     for (int i = 0; i < group.Participants.Count; i++)
                     {
-                        users.Add(group.Participants.ElementAt(i));
+                        string participante = group.Participants.ElementAt(i);
+                        string[] piv = participante.Split('|');
+                        string user = piv[0];
+
+                        users.Add(user);
                     }
 
                     if (users.Contains(username))
@@ -86,14 +107,13 @@ namespace APIProyecto.Controllers
             }
         }
 
-        [Route("keys")]
-        [HttpGet]
-        public IActionResult obtenerLlaves()
+
+        public List<string> obtenerLlaves()
         {
             Cifrado.ISdes RSA = new Cifrado.CifradoRSA();
             int[] values = generate_primos();
-            List<string> keys = RSA.generadorLlaves(values[0],values[1]);
-            return Ok();
+            List<string> keys = RSA.generadorLlaves(values[0],values[1]); // 0 publica, 1 privada
+            return keys;
         }
 
 
@@ -161,26 +181,43 @@ namespace APIProyecto.Controllers
                 var database = client.GetDatabase("ChatDB");
                 var dbmessages = database.GetCollection<Messages>("Messages");
 
-                //var dbusers = database.GetCollection<User>("User");
-                //var buscarUsuario = dbusers.AsQueryable<User>();
-                //var result = from a in buscarUsuario
-                //             where (message.UsuarioEmisor == a.Username || message.UsuarioReceptor == a.Username)
-                //             select a;
+                var dbGroup = database.GetCollection<Group>("Groups");
+                var buscarUsuario = dbGroup.AsQueryable<Group>();
+                var result = from a in buscarUsuario
+                             where (a.GroupID == message.UsuarioReceptor)
+                             select a;
+
+                List<string> participants = new List<string>();
+                string keys = "";
+                int privateK = 0;
+                int n = 0;
+                foreach (Group group in result)
+                {
+                    participants = group.Participants;
+                }
 
 
-                //foreach (User users in result)
-                //{
-                //    if (users.Username == message.UsuarioEmisor) { keyEmisor = users.Key; }
-                //    if (users.Username == message.UsuarioReceptor) { keyReceptor = users.Key; }
-                //}
+                for (int i = 0; i < participants.Count; i++)
+                {
 
-                
+                    string info = participants.ElementAt(i);
+                    string[] piv = info.Split('|');
+
+                    if (piv[0] == message.UsuarioEmisor)
+                    {
+                        keys = piv[1];
+                        string[] piv2 = keys.Split(',');
+                        privateK = Convert.ToInt32(piv2[0]);
+                        n = Convert.ToInt32(piv2[1]);
+                    }
+                }
+
                 Messages newMessage = new Messages();
                 newMessage.UsuarioEmisor = message.UsuarioEmisor;
                 newMessage.UsuarioReceptor = message.UsuarioReceptor;
                 newMessage.Fecha_envio = DateTime.Now.ToString("yy-MM-dd H:m:ss");
                 //key = GenerateKey(keyEmisor, keyReceptor);
-                newMessage.Texto = message.Texto; // se debe cifrar con RSA
+                newMessage.Texto = RSA.CifrarRSA(message.Texto, privateK, n); //message.Texto; // se debe cifrar con RSA
                 newMessage.DeleteAll = false;
                 newMessage.DeleteForMe = false;
 
@@ -206,12 +243,43 @@ namespace APIProyecto.Controllers
                          where ((a.UsuarioReceptor == receptor))
                          select a;
 
+            var dbGroup = database.GetCollection<Group>("Groups");
+            var buscarUsuario = dbGroup.AsQueryable<Group>();
+            var result2 = from a in buscarUsuario
+                         where (a.GroupID == receptor)
+                         select a;
+
+            List<string> participants = new List<string>();
+            string keys = "";
+            int publicK = 0;
+            int n = 0;
+
+            foreach (Group group in result2)
+            {
+                participants = group.Participants;
+            }
+
             // Descifrar mensajes 
             foreach (Messages mess in result)
             {
                 // mostrar el mensaje
                 if ((mess.DeleteForMe == false || (mess.DeleteForMe == true && emisor != mess.UsuarioEmisor)) && mess.DeleteAll == false)
                 {
+                    for (int i = 0; i < participants.Count; i++)
+                    {
+
+                        string info = participants.ElementAt(i);
+                        string[] piv = info.Split('|');
+
+                        if (piv[0] == mess.UsuarioEmisor)
+                        {
+                            keys = piv[2];
+                            string[] piv2 = keys.Split(',');
+                            publicK = Convert.ToInt32(piv2[0]);
+                            n = Convert.ToInt32(piv2[1]);
+                        }
+                    }
+
                     StringMessage message = new StringMessage();
                     if (mess.FilePath != null)
                     {
@@ -222,7 +290,7 @@ namespace APIProyecto.Controllers
                     }
                     else
                     {
-                        byte[] DesMessages = mess.Texto; // Descifrar con RSA
+                        byte[] DesMessages = RSA.DescifrarRSA(mess.Texto, publicK, n); //mess.Texto; // Descifrar con RSA
                         char[] chars = new char[DesMessages.Length / sizeof(char)];
                         Buffer.BlockCopy(DesMessages, 0, chars, 0, DesMessages.Length);
                         message.Texto = new string(chars);
@@ -236,7 +304,6 @@ namespace APIProyecto.Controllers
             }
 
             return ListMessages;
-
         }
 
         [HttpPost]
@@ -257,12 +324,22 @@ namespace APIProyecto.Controllers
                              where ((a.UsuarioEmisor == message.UsuarioEmisor && a.UsuarioReceptor == message.UsuarioReceptor))
                              select a;
 
-                //bd usuarios 
-                //var dbusers = database.GetCollection<User>("User");
-                //var buscarUsuario = dbusers.AsQueryable<User>();
-                //var resultusers = from a in buscarUsuario
-                //                  where (a.Username == message.UsuarioEmisor || a.Username == message.UsuarioReceptor)
-                //                  select a;
+                var dbGroup = database.GetCollection<Group>("Groups");
+                var buscarUsuario = dbGroup.AsQueryable<Group>();
+                var result2 = from a in buscarUsuario
+                              where (a.GroupID == message.UsuarioReceptor)
+                              select a;
+
+                List<string> participants = new List<string>();
+                string keys = "";
+                int publicK = 0;
+                int n = 0;
+
+                foreach (Group group in result2)
+                {
+                    participants = group.Participants;
+                }
+
 
                 // Descifrar mensajes 
                 foreach (Messages mess in result)
@@ -279,7 +356,22 @@ namespace APIProyecto.Controllers
                     }
                     else
                     {
-                        byte[] DesMessages = mess.Texto; // descifrar con RSA
+                        for (int i = 0; i < participants.Count; i++)
+                        {
+
+                            string info = participants.ElementAt(i);
+                            string[] piv = info.Split('|');
+
+                            if (piv[0] == mess.UsuarioEmisor)
+                            {
+                                keys = piv[2];
+                                string[] piv2 = keys.Split(',');
+                                publicK = Convert.ToInt32(piv2[0]);
+                                n = Convert.ToInt32(piv2[1]);
+                            }
+                        }
+
+                        byte[] DesMessages = RSA.DescifrarRSA(mess.Texto, publicK, n); //mess.Texto; // descifrar con RSA
                         char[] chars = new char[DesMessages.Length / sizeof(char)];
                         Buffer.BlockCopy(DesMessages, 0, chars, 0, DesMessages.Length);
                         mensaje = new string(chars);
