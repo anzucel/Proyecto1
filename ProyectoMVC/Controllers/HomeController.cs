@@ -166,13 +166,12 @@ namespace Proyecto1.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DownloadFile(string Filename, string receptor)
+        public async Task<IActionResult> DownloadFile(string Filename, string receptor, string emisor)
         {
             try
             {
-                receptor = "andreaxd";//"MariaG";
-                string emisor = HttpContext.Session.GetString("userLogged");
-                emisor = "jasonxd";
+                //receptor = "andreaxd";//"MariaG";
+               // string emisor = HttpContext.Session.GetString("userLogged");               
                 HttpClient client = Api.Initial();
 
                 HttpResponseMessage res = await client.GetAsync($"api/lzwcompress/downloadFile/{emisor}/{receptor}/{Filename}");
@@ -181,7 +180,21 @@ namespace Proyecto1.Controllers
                 {
                     var results = res.Content.ReadAsStringAsync().Result;
                     Message message = JsonConvert.DeserializeObject<Message>(results); //  guarda todos los mensajes
-
+                                                                                       // GetFile(Filename);
+                    var filePath = "..\\APIProyecto\\wwwroot\\Files\\" + message.FilePath;
+                    var fileName = string.Empty;
+                    for (int i = filePath.Length - 1; i > -1; i--)
+                    {
+                        if (filePath[i] == '\\')
+                        {
+                            i++;
+                            fileName = filePath.Substring(i, filePath.Length - i);
+                            break;
+                        }
+                    }
+                    byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                    System.IO.File.Delete(filePath);
+                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
 
                     // en message.FilePath se encuentra el nombre del archivo guardado en la carpeta \\Files\\
                 }
@@ -275,11 +288,12 @@ namespace Proyecto1.Controllers
                 //Post-instancia a la api
                 var Data = client.PostAsJsonAsync<Message>("api/lzwcompress/sendfile", message);
                 Data.Wait();
-
+                DownloadMessages(amigo);
                 var result = Data.Result;
                 if (result.IsSuccessStatusCode)
                 {
                     //GetUsers();
+                    DownloadMessages(amigo);
                     return RedirectToAction("Index", "Home");//si los datos son correctos al crear nueva cuenta retorna a LogIn
 
                 }
@@ -306,8 +320,8 @@ namespace Proyecto1.Controllers
 
             //if ()
             //{
-            name = "usuario2.jpg";
-            var filePath = "files\\" + name;
+            //name = "usuario2.jpg";
+            var filePath = "..\\APIProyecto\\wwwroot\\Files\\" + name;
             var fileName = string.Empty;
             for (int i = filePath.Length - 1; i > -1; i--)
             {
@@ -319,7 +333,7 @@ namespace Proyecto1.Controllers
                 }
             }
             byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-            //System.IO.File.Delete(filePath);
+            System.IO.File.Delete(filePath);
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             // }
             //else
@@ -331,8 +345,9 @@ namespace Proyecto1.Controllers
         }
 
 
-        //delete message
+
         public IActionResult DeleteMessage(string deleteM, string Texto, string receptor, string emisor)
+
         {
             //deleteM = me-> eliminar para mi || all->eliminar para todos
             //Texto = mensaje que se quiere eliminar

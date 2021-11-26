@@ -293,22 +293,51 @@
                                 {
                                     if (ViewBag.userLogin == item.UsuarioEmisor)
                                     {
-                                        <li class="clearfix"><!--Chat del usuario logiado-->
-                                            
-                                            <!--<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">-->
-                                            <!--mesaje--> <div class="message other-message float-right"><center><font class="el-1">@Html.ActionLink("delete", "DeleteMessage", new { deleteM = "me",Texto = item.Texto, emisor = ViewBag.userLogin,receptor = item.UsuarioReceptor })</font> &nbsp; &nbsp; <font class="el-1">@Html.ActionLink("delete all", "DeleteMessage", new { deleteM = "all", Texto = item.Texto, emisor = ViewBag.userLogin, receptor = item.UsuarioReceptor })</font> <p>@item.Texto </p></center></div><br /><br /><br /><br /><br />
-                                           <!--fecha--> <div class="message-data text-right"><span class="message-data-time"><font style="font-size:11px; color:#808080"> @item.Fecha_envio </font></span>
+                                        @if (item.FilePath == null)//no es archivo sino mensaje
+                                        {
+                                            <li class="clearfix">
+                                                <!--Chat del usuario logiado-->
+                                                <!--mesaje--> <div class="message other-message float-right"><center><font class="el-1">@Html.ActionLink("delete", "DeleteMessage", new { deleteM = "me", Texto = item.Texto, emisor = ViewBag.userLogin, receptor = item.UsuarioReceptor })</font> &nbsp; &nbsp; <font class="el-1">@Html.ActionLink("delete all", "DeleteMessage", new { deleteM = "all", Texto = item.Texto, emisor = ViewBag.userLogin, receptor = item.UsuarioReceptor })</font> <p>@item.Texto </p></center></div><br /><br /><br /><br /><br />
+                                                <!--fecha--> <div class="message-data text-right"><span class="message-data-time"><font style="font-size:11px; color:#808080"> @item.Fecha_envio </font></span></div>
 
-                                        </li>
-                                        
+                                            </li>
+                                        }
+
+                                        else //es un archivo
+                                        {
+                                            <!--mesaje-->
+                                            <div class="message other-message float-right"><center><font class="el-1">@Html.ActionLink("delete", "DeleteMessage", new { deleteM = "me", Texto = item.Texto, emisor = ViewBag.userLogin, receptor = item.UsuarioReceptor })</font> &nbsp; &nbsp; <font class="el-1">@Html.ActionLink("delete all", "DeleteMessage", new { deleteM = "all", Texto = item.Texto, emisor = ViewBag.userLogin, receptor = item.UsuarioReceptor })</font> <p>@Html.ActionLink((string)item.Texto, "DownloadFile", new { Filename = item.Texto, receptor = item.UsuarioReceptor, emisor = item.UsuarioEmisor })</p></center></div>
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <!--fecha-->
+                                            <div class="message-data text-right"><span class="message-data-time"><font style="font-size:11px; color:#808080"> @item.Fecha_envio </font></span></div>
+
+                                        }
+
                                     }
                                     else
                                     {
-                                        
-                                        <li class="clearfix"><!--Chat del amigo -->
-                                            <!--mensaje-->    <div class="message my-message"><center><p> @item.Texto </p></center></div>
-                                            <!--fecha-->    <div class="message-data"> <span class="message-data-time"><font style="font-size:11px; color:#808080">@item.Fecha_envio </font></span></div>
-                                        </li>
+
+                                        @if (item.FilePath == null)//no es archivo sino mensaje
+                                        {
+                                            <li class="clearfix">
+                                                <!--Chat del amigo -->
+                                                <!--mensaje-->    <div class="message my-message"><center><p> @item.Texto </p></center></div>
+                                                <!--fecha-->    <div class="message-data"> <span class="message-data-time"><font style="font-size:11px; color:#808080">@item.Fecha_envio </font></span></div>
+                                            </li>
+                                        }
+
+                                        else //es un archivo
+                                        {
+                                            <li class="clearfix">
+                                                <!--Chat del amigo -->
+                                                <!--mensaje-->    <div class="message my-message"><center><p> @Html.ActionLink((string)item.Texto, "DownloadFile", new { Filename = item.Texto, receptor = item.UsuarioReceptor, emisor = item.UsuarioEmisor })</p></center></div>
+                                                <!--fecha-->    <div class="message-data"> <span class="message-data-time"><font style="font-size:11px; color:#808080">@item.Fecha_envio </font></span></div>
+                                            </li>   
+                                        }
 
                                     }
 

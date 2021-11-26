@@ -1,8 +1,0 @@
-Baterías|Baterías|C:\MEIA\baterias.jpg|50|ZucelyH|2021-10-31T17:58:27.899522600|1|
-Botellas de vino|Vidrio|C:\MEIA\botellasvino.jpg|12|ZucelyH|2021-11-01T01:23:38.634201800|1|
-Botellas|Plástico|C:\MEIA\botellas.png|15|ZucelyH|2021-10-31T17:59:13.639841300|1|
-Carton|Papel|C:\MEIA\carton.jpg|10|ZucelyH|2021-10-31T17:57:13.692498400|1|
-Hojas de papel|Papel|C:\MEIA\papel.jpg|14|ZucelyH|2021-11-09T17:58:21.872199900|1|
-Latas de aluminio|Metal|C:\MEIA\latas.jpg|50|ZucelyH|2021-11-09T00:54:41.763696400|1|
-Papel|Papel|C:\MEIA\papel.jpg|10|ZucelyH|2021-10-31T17:56:43.187129200|1|
-Vidrio|Vidrio|ewfewf|12|ZucelyH|2021-11-01T01:22:52.860444400|0|

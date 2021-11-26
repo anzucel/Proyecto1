@@ -84,6 +84,7 @@ namespace APIProyecto.Controllers
             var database = client.GetDatabase("ChatDB");
 
             //bd mensajes
+            message.FilePath = Filename + ".lzw";
             var dbmessages = database.GetCollection<Messages>("Messages");
             var buscarMensaje = dbmessages.AsQueryable<Messages>(); //comentado
             var result = from a in buscarMensaje
