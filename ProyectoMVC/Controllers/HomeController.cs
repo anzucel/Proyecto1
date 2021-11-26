@@ -243,7 +243,9 @@ namespace Proyecto1.Controllers
             try
             {
                 Group group = new Group();
+
                 group.GroupID = "@" + name;
+
                 group.Participants = members.ToList();
 
                 HttpClient client = Api.Initial();

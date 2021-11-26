@@ -331,7 +331,7 @@
                                         @if (item.FilePath == null)//no es archivo sino mensaje
                                         {
                                             <li class="clearfix">
-                                                <!--Chat del amigo -->
+                                                <!--Chat del amigo --><p>@item.UsuarioEmisor</p>
                                                 <!--mensaje-->    <div class="message my-message"><center><p> @item.Texto </p></center></div>
                                                 <!--fecha-->    <div class="message-data"> <span class="message-data-time"><font style="font-size:11px; color:#808080">@item.Fecha_envio </font></span></div>
                                             </li>
@@ -340,7 +340,7 @@
                                         else //es un archivo
                                         {
                                             <li class="clearfix">
-                                                <!--Chat del amigo -->
+                                                <!--Chat del amigo --><p>@item.UsuarioEmisor</p>
                                                 <!--mensaje-->    <div class="message my-message"><center><p> @Html.ActionLink((string)item.Texto, "DownloadFile", new { Filename = item.Texto, receptor = item.UsuarioReceptor, emisor = item.UsuarioEmisor })</p></center></div>
                                                 <!--fecha-->    <div class="message-data"> <span class="message-data-time"><font style="font-size:11px; color:#808080">@item.Fecha_envio </font></span></div>
                                             </li>   
