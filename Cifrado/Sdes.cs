@@ -247,6 +247,24 @@ namespace Cifrado
             throw new NotImplementedException();
         }
 
-        
+        public byte[] Descifrar(byte[] texto, int d, int n)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] CifrarRSA(byte[] texto, int e, int n)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] DescifrarRSA(byte[] texto, int d, int n)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> generadorLlaves(int p, int q)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -129,20 +129,8 @@ namespace Cifrado
             return resultado;
         }
 
-        /*public byte[] cifrar(byte[] data, int e, int n)
-        {
-            string dataEncryted = "";
-            dataEncryted += "15|45|65|";
-            foreach (byte by in data)
-            {
-                //C = M ^ e mod n
-                int xx = (int)BigInteger.ModPow(by, e, n);
-                dataEncryted += xx + "|";
-            }
-            return Encoding.ASCII.GetBytes(dataEncryted);
-        }*/
 
-        public byte[] Cifrar(byte[] data, int e, int n)
+        public byte[] CifrarRSA(byte[] data, int e, int n)
         {
             List<byte> dataEncryted = new List<byte>();
             for (int i = 0; i < 8; i++)
@@ -169,7 +157,7 @@ namespace Cifrado
             return dataEncryted.ToArray();
         }
 
-        public byte[] Descifrar(byte[] data, int d, int n)
+        public byte[] DescifrarRSA(byte[] data, int d, int n)
         {
             //M = C ^ d mod n
             byte[] dataE = new byte[(data.Length - 8) / 8];

@@ -11,5 +11,9 @@ namespace Proyecto1.Models
         [BsonId]
         public string GroupID { set; get; }
         public List<string> Participants { set; get; }
+
+        int[] keyprivate { get; set; }
+        int[] keypublic { get; set; }
+
     }
 }

@@ -223,6 +223,11 @@ namespace APIProyecto.Controllers
 
         }
 
+
+
+
+
+
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)

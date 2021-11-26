@@ -9,9 +9,10 @@ namespace Cifrado
         public byte[] Cifrar(byte[] texto, int llave);
         public byte[] Descifrar(byte[] texto, int llave);
 
-        List<string> generadorLlaves();
+        List<string> generadorLlaves(int p, int q);
 
-        public   byte[] Cifrar(byte[] texto, int e, int n);
+        public   byte[] CifrarRSA(byte[] texto, int e, int n);
+        public byte[] DescifrarRSA(byte[] texto, int d, int n);
 
 
         public string CifrarCesar(string txtInicial, int Key);
