@@ -340,10 +340,6 @@ namespace Proyecto1.Controllers
             //usuario_delete = el usuario que esta haciendo la acción de eliminar
             try
             {
-
-
-
-
                 return RedirectToAction(nameof(Index));
             }
             catch
