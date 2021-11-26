@@ -17,5 +17,7 @@ namespace Proyecto1.Models
 		public string FilePath { get; set; }
 		public string Fecha_envio { get; set; }
 		public int SalaID { get; set; }
+		public bool DeleteForMe { set; get; }
+		public bool DeleteAll { set; get; }
 	}
 }
