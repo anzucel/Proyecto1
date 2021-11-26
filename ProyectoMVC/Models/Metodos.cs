@@ -54,5 +54,18 @@ namespace Proyecto1.Models
                 Singleton.Instance.ListRequests = JsonConvert.DeserializeObject<List<string>>(results);
             }
         }
+
+
+        public async void GetGroups(string username)
+        {
+            HttpClient client = Api.Initial();
+            HttpResponseMessage res = await client.GetAsync($"api/group/getgroups/{username}");
+
+            if (res.IsSuccessStatusCode)
+            {
+                var results = res.Content.ReadAsStringAsync().Result;
+                Singleton.Instance.ListGroups = JsonConvert.DeserializeObject<List<string>>(results);
+            }
+        }
     }
 }

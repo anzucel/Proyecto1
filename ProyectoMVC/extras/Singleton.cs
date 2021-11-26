@@ -25,7 +25,8 @@ namespace Proyecto1.Extra
         public string AmigoChatear;
         public List<string> List = new List<string>();
         public List<StringMessage> ListMessages = new List<StringMessage>();
-        public string usuario = ""; 
+        public string usuario = "";
+        public List<string> ListGroups; // lista de grupos
 
         private Singleton()
         {

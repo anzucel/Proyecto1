@@ -210,10 +210,34 @@ namespace Proyecto1.Controllers
         [HttpPost]
         public IActionResult creatgroup(string[] members, string name)
         {
+            try
+            {
+                Group group = new Group();
+                group.GroupID = name;
+                group.Participants = members.ToList();
 
+                HttpClient client = Api.Initial();
+                var data = client.PostAsJsonAsync<Group>($"api/group/create/", group);
 
+                data.Wait();
 
-            return Redirect("index");
+                var result = data.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    // muestra mensaje de solicitud aceptada
+                    return Redirect("index");
+                }
+                else
+                {
+                    //muestra mensaje de solicitud rechazada
+                    return Redirect("index");
+                }
+            }
+            catch
+            {
+                return Redirect("/home");
+            }
         }
 
         [HttpPost]
@@ -379,7 +403,6 @@ namespace Proyecto1.Controllers
                     DownloadMessages(receptor);
                     return RedirectToAction(nameof(Index));//si los datos son correctos al crear nueva cuenta retorna a LogIn
                 }
-                return RedirectToAction(nameof(Index));
                 return RedirectToAction(nameof(Index));
             }
             catch
