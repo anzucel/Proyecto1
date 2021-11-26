@@ -85,5 +85,96 @@ namespace APIProyecto.Controllers
                 return null;
             }
         }
+
+        [HttpPost]
+        [Route("send")]
+        public IActionResult SendMessage([FromBody] Messages message)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid model");
+            }
+            else
+            {
+                var client = new MongoClient("mongodb://127.0.0.1:27017");
+                var database = client.GetDatabase("ChatDB");
+                var dbmessages = database.GetCollection<Messages>("Messages");
+
+                //var dbusers = database.GetCollection<User>("User");
+                //var buscarUsuario = dbusers.AsQueryable<User>();
+                //var result = from a in buscarUsuario
+                //             where (message.UsuarioEmisor == a.Username || message.UsuarioReceptor == a.Username)
+                //             select a;
+
+
+                //foreach (User users in result)
+                //{
+                //    if (users.Username == message.UsuarioEmisor) { keyEmisor = users.Key; }
+                //    if (users.Username == message.UsuarioReceptor) { keyReceptor = users.Key; }
+                //}
+
+                
+                Messages newMessage = new Messages();
+                newMessage.UsuarioEmisor = message.UsuarioEmisor;
+                newMessage.UsuarioReceptor = message.UsuarioReceptor;
+                newMessage.Fecha_envio = DateTime.Now.ToString("yy-MM-dd H:m:ss");
+                //key = GenerateKey(keyEmisor, keyReceptor);
+                newMessage.Texto = message.Texto; // se debe cifrar con RSA
+                newMessage.DeleteAll = false;
+                newMessage.DeleteForMe = false;
+
+                dbmessages.InsertOne(newMessage);
+
+                return Ok();
+            }
+        }
+
+        [HttpGet]
+        [Route("download/{emisor}/{receptor}")]
+        public List<StringMessage> GetMessages([FromRoute] string emisor, [FromRoute] string receptor)
+        {
+            List<StringMessage> ListMessages = new List<StringMessage>();
+
+            var client = new MongoClient("mongodb://127.0.0.1:27017");
+            var database = client.GetDatabase("ChatDB");
+
+            //bd mensajes
+            var dbmessages = database.GetCollection<Messages>("Messages");
+            var buscarMensaje = dbmessages.AsQueryable<Messages>(); //comentado
+            var result = from a in buscarMensaje
+                         where ((a.UsuarioReceptor == receptor))
+                         select a;
+
+            // Descifrar mensajes 
+            foreach (Messages mess in result)
+            {
+                // mostrar el mensaje
+                if ((mess.DeleteForMe == false || (mess.DeleteForMe == true && emisor != mess.UsuarioEmisor)) && mess.DeleteAll == false)
+                {
+                    StringMessage message = new StringMessage();
+                    if (mess.FilePath != null)
+                    {
+                        string[] splt = mess.FilePath.Split('.');
+                        string filename = splt[0] + "." + splt[1];
+                        message.Texto = filename;
+                        message.FilePath = filename;
+                    }
+                    else
+                    {
+                        byte[] DesMessages = mess.Texto; // Descifrar con RSA
+                        char[] chars = new char[DesMessages.Length / sizeof(char)];
+                        Buffer.BlockCopy(DesMessages, 0, chars, 0, DesMessages.Length);
+                        message.Texto = new string(chars);
+                    }
+                    message.Fecha_envio = mess.Fecha_envio;
+                    message.UsuarioEmisor = mess.UsuarioEmisor;
+                    message.UsuarioReceptor = mess.UsuarioReceptor;
+
+                    ListMessages.Add(message);
+                }
+            }
+
+            return ListMessages;
+        }
     }
 }

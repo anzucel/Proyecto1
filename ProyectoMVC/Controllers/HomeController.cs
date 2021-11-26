@@ -138,26 +138,55 @@ namespace Proyecto1.Controllers
         {
             try
             {
-                // receptor = receptor;//"MariaG";
-                Singleton.Instance.ListMessages = null;
-                string emisor = HttpContext.Session.GetString("userLogged");
-                Message mensajes = new Message();
-                mensajes.UsuarioEmisor = emisor;
-                mensajes.UsuarioReceptor = receptor;
+                string caracter = receptor.Substring(0, 1);
 
-                HttpClient client = Api.Initial();
-
-                HttpResponseMessage res = await client.GetAsync($"api/message/download/{emisor}/{receptor}");
-
-                if (res.IsSuccessStatusCode)
+                if(caracter != "@")
                 {
-                    var results = res.Content.ReadAsStringAsync().Result;
-                    Singleton.Instance.ListMessages = JsonConvert.DeserializeObject<List<StringMessage>>(results); //  guarda todos los mensajes
+                    // receptor = receptor;//"MariaG";
+                    Singleton.Instance.ListMessages = null;
+                    string emisor = HttpContext.Session.GetString("userLogged");
+                    Message mensajes = new Message();
+                    mensajes.UsuarioEmisor = emisor;
+                    mensajes.UsuarioReceptor = receptor;
+
+                    HttpClient client = Api.Initial();
+
+                    HttpResponseMessage res = await client.GetAsync($"api/message/download/{emisor}/{receptor}");
+
+                    if (res.IsSuccessStatusCode)
+                    {
+                        var results = res.Content.ReadAsStringAsync().Result;
+                        Singleton.Instance.ListMessages = JsonConvert.DeserializeObject<List<StringMessage>>(results); //  guarda todos los mensajes
+                    }
+
+                    ViewBag.chat = Singleton.Instance.ListMessages;
+                    return RedirectToAction(nameof(Index));
+                }
+                
+                if(caracter == "@")
+                {
+                    // receptor = receptor;//"MariaG";
+                    Singleton.Instance.ListMessages = null;
+                    string emisor = HttpContext.Session.GetString("userLogged");
+                    Message mensajes = new Message();
+                    mensajes.UsuarioEmisor = emisor;
+                    mensajes.UsuarioReceptor = receptor;
+
+                    HttpClient client = Api.Initial();
+
+                    HttpResponseMessage res = await client.GetAsync($"api/group/download/{emisor}/{receptor}");
+
+                    if (res.IsSuccessStatusCode)
+                    {
+                        var results = res.Content.ReadAsStringAsync().Result;
+                        Singleton.Instance.ListMessages = JsonConvert.DeserializeObject<List<StringMessage>>(results); //  guarda todos los mensajes
+                    }
+
+                    ViewBag.chat = Singleton.Instance.ListMessages;
+                    return RedirectToAction(nameof(Index));
                 }
 
-                ViewBag.chat = Singleton.Instance.ListMessages;
                 return RedirectToAction(nameof(Index));
-
             }
             catch
             {
@@ -213,9 +242,8 @@ namespace Proyecto1.Controllers
         {
             try
             {
-                
                 Group group = new Group();
-                group.GroupID = name;
+                group.GroupID = "@" + name;
                 group.Participants = members.ToList();
 
                 HttpClient client = Api.Initial();
@@ -231,11 +259,12 @@ namespace Proyecto1.Controllers
                     // muestra mensaje de solicitud aceptada
                     return RedirectToAction(nameof(Index));
                 }
-                else
-                {
-                    //muestra mensaje de solicitud rechazada
-                    return RedirectToAction(nameof(Index));
-                }
+                return RedirectToAction(nameof(Index));
+                //else
+                //{
+                //    //muestra mensaje de solicitud rechazada
+                //    return RedirectToAction(nameof(Index));
+                //}
             }
             catch
             {
@@ -251,77 +280,131 @@ namespace Proyecto1.Controllers
                 Singleton.Instance.Amigo_Chat = amigo;
                 DownloadMessages(amigo);
             }
-            //solo es pruebas
 
-            if (mensaje != null)
+            //validar el nombre del receptor
+            amigo = Singleton.Instance.Amigo_Chat;
+            string caracter = amigo.Substring(0, 1);
+            if (caracter != "@")
             {
-                try
+                if (mensaje != null)
                 {
+                    try
+                    {
+                        amigo = Singleton.Instance.Amigo_Chat; // se debe leer desde el parámetro
+                        string emisor = HttpContext.Session.GetString("userLogged");
+
+                        Message message = new Message();
+
+                        byte[] byteM = new byte[mensaje.Length * sizeof(char)];
+                        Buffer.BlockCopy(mensaje.ToCharArray(), 0, byteM, 0, byteM.Length);
+                        message.Texto = byteM;
+                        message.UsuarioEmisor = emisor;
+                        message.UsuarioReceptor = amigo;
+
+                        //API - MVC
+                        HttpClient client = Api.Initial();
+
+                        //Post-instancia a la api
+                        var Data = client.PostAsJsonAsync<Message>("api/message/send", message);
+                        Data.Wait();
+
+                        var result = Data.Result;
+                        if (result.IsSuccessStatusCode)
+                        {
+                            DownloadMessages(amigo);
+                            return RedirectToAction(nameof(Index));//si los datos son correctos al crear nueva cuenta retorna a LogIn
+                        }
+                        return RedirectToAction(nameof(Index));
+                    }
+                    catch
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+
+                }
+
+                if (files != null)
+                {
+
                     amigo = Singleton.Instance.Amigo_Chat; // se debe leer desde el parámetro
-                    string emisor = HttpContext.Session.GetString("userLogged");
 
                     Message message = new Message();
 
-                    byte[] byteM = new byte[mensaje.Length * sizeof(char)];
-                    Buffer.BlockCopy(mensaje.ToCharArray(), 0, byteM, 0, byteM.Length);
-                    message.Texto = byteM;
-                    message.UsuarioEmisor = emisor;
+                    //archivos enviados
+                    byte[] readText = null;
+                    using (var ms = new MemoryStream())
+                    {
+                        files.CopyTo(ms);
+                        readText = ms.ToArray();
+                    }
+
+                    message.Texto = readText;
+                    message.UsuarioEmisor = HttpContext.Session.GetString("userLogged");
                     message.UsuarioReceptor = amigo;
+                    message.FilePath = files.FileName.ToString();
 
                     //API - MVC
                     HttpClient client = Api.Initial();
-
                     //Post-instancia a la api
-                    var Data = client.PostAsJsonAsync<Message>("api/message/send", message);
+                    var Data = client.PostAsJsonAsync<Message>("api/lzwcompress/sendfile", message);
                     Data.Wait();
-
+                    DownloadMessages(amigo);
                     var result = Data.Result;
                     if (result.IsSuccessStatusCode)
                     {
+                        //GetUsers();
                         DownloadMessages(amigo);
-                        return RedirectToAction(nameof(Index));//si los datos son correctos al crear nueva cuenta retorna a LogIn
-                    }
-                    return RedirectToAction(nameof(Index));
-                }
-                catch
-                {
-                    return RedirectToAction(nameof(Index));
-                }
+                        return RedirectToAction("Index", "Home");//si los datos son correctos al crear nueva cuenta retorna a LogIn
 
+                    }
+                }
             }
 
-            if (files != null)
+            if (caracter == "@")
             {
-
-                amigo = Singleton.Instance.Amigo_Chat; // se debe leer desde el parámetro
-
-                Message message = new Message();
-
-                //archivos enviados
-                byte[] readText = null;
-                using (var ms = new MemoryStream())
+                // chat grupal
+                if (mensaje != null)
                 {
-                    files.CopyTo(ms);
-                    readText = ms.ToArray();
+                    try
+                    {
+                        amigo = Singleton.Instance.Amigo_Chat; // se debe leer desde el parámetro
+                        string emisor = HttpContext.Session.GetString("userLogged");
+
+                        Message message = new Message();
+
+                        byte[] byteM = new byte[mensaje.Length * sizeof(char)];
+                        Buffer.BlockCopy(mensaje.ToCharArray(), 0, byteM, 0, byteM.Length);
+                        message.Texto = byteM;
+                        message.UsuarioEmisor = emisor;
+                        message.UsuarioReceptor = amigo; // nombre del grupo
+
+                        //API - MVC
+                        HttpClient client = Api.Initial();
+
+                        //Post-instancia a la api
+                        var Data = client.PostAsJsonAsync<Message>("api/group/send", message);
+                        Data.Wait();
+
+                        var result = Data.Result;
+                        if (result.IsSuccessStatusCode)
+                        {
+                            DownloadMessages(amigo);
+                            return RedirectToAction(nameof(Index));//si los datos son correctos al crear nueva cuenta retorna a LogIn
+                        }
+                        return RedirectToAction(nameof(Index));
+                    }
+                    catch
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+
                 }
 
-                message.Texto = readText;
-                message.UsuarioEmisor = HttpContext.Session.GetString("userLogged");
-                message.UsuarioReceptor = amigo;
-                message.FilePath = files.FileName.ToString();
-
-                //API - MVC
-                HttpClient client = Api.Initial();
-                //Post-instancia a la api
-                var Data = client.PostAsJsonAsync<Message>("api/lzwcompress/sendfile", message);
-                Data.Wait();
-                DownloadMessages(amigo);
-                var result = Data.Result;
-                if (result.IsSuccessStatusCode)
+                if (files != null)
                 {
-                    //GetUsers();
-                    DownloadMessages(amigo);
-                    return RedirectToAction("Index", "Home");//si los datos son correctos al crear nueva cuenta retorna a LogIn
+
+                    amigo = Singleton.Instance.Amigo_Chat; // se debe leer desde el parámetro
+
 
                 }
             }
