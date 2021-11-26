@@ -99,6 +99,13 @@
                                 {
                                     <input class="input-group-text" type="text" name="name" placeholder="Nombre del grupo" />
                                     <p class="p-1"><br /><b>Selecciona los integrantes del grupo</b></p>
+
+                                    <div class="form-check">
+                                        <input  checked  class="form-check-input" type="checkbox" name="members" value="@ViewBag.userLogin" id="defaultCheck1">
+                                        <label class="form-check-label" for="defaultCheck1">
+                                           Tú
+                                        </label>
+                                    </div>
                                     foreach (var amigo in ViewBag.Friends)
                                     {
                                         <div class="form-check">
@@ -242,9 +249,9 @@
                     <h2>
                         Grupos <font style="float:right;" type="button" width="100%" data-toggle="modal" data-target="#exampleModalCenter2" value="Solicitud de amistad">+</font>
                     </h2>
-                    @{if (ViewBag.Friends != null)
+                    @{if (ViewBag.groups != null)
                         {
-                            foreach (var amigo in ViewBag.Friends)
+                            foreach (var amigo in ViewBag.groups)
                             {
 
                                 <form method="post" asp-action="index">
@@ -375,7 +382,6 @@
                 <!--<input class="input-group-text" type="submit" value="recibir">
                     </div>
                 </form>--> 
-           <a asp-controller="home" asp-action="GetFile">dowload</a>
             </div><!--fin-->
 
         </div>

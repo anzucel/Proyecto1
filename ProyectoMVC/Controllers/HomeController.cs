@@ -42,6 +42,7 @@ namespace Proyecto1.Controllers
 
             User user = new User();
             user = Singleton.Instance.user;
+            metodos.GetGroups(HttpContext.Session.GetString("userLogged"));
             metodos.GetFriends(Singleton.Instance.usuario);
             metodos.GetFriendRequest(Singleton.Instance.usuario);
             metodos.GetUsers(Singleton.Instance.usuario);
@@ -49,7 +50,7 @@ namespace Proyecto1.Controllers
             ViewBag.userLogin = Singleton.Instance.usuario;//HttpContext.Session.GetString("userLogged");
             ViewBag.chatamigo = Singleton.Instance.Amigo_Chat;
             // DownloadMessages(Singleton.Instance.Amigo_Chat);
-
+            ViewBag.groups = Singleton.Instance.ListGroups;
             ViewBag.usuarios = Singleton.Instance.ListUsers;
             ViewBag.Friends = Singleton.Instance.List;
             ViewBag.FriendsRequest = Singleton.Instance.ListRequests;
@@ -212,6 +213,7 @@ namespace Proyecto1.Controllers
         {
             try
             {
+                
                 Group group = new Group();
                 group.GroupID = name;
                 group.Participants = members.ToList();
@@ -225,13 +227,14 @@ namespace Proyecto1.Controllers
 
                 if (result.IsSuccessStatusCode)
                 {
+                    metodos.GetGroups(HttpContext.Session.GetString("userLogged"));
                     // muestra mensaje de solicitud aceptada
-                    return Redirect("index");
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
                     //muestra mensaje de solicitud rechazada
-                    return Redirect("index");
+                    return RedirectToAction(nameof(Index));
                 }
             }
             catch
