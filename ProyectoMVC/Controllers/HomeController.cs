@@ -491,31 +491,65 @@ namespace Proyecto1.Controllers
             //usuario_delete = el usuario que esta haciendo la acción de eliminar
             try
             {
-                emisor = HttpContext.Session.GetString("userLogged");
-
-                StringMessage message = new StringMessage();
-
-                //byte[] byteM = new byte[Texto.Length * sizeof(char)];
-                //Buffer.BlockCopy(Texto.ToCharArray(), 0, byteM, 0, byteM.Length);
-                message.Texto = Texto;
-                message.UsuarioEmisor = emisor;
-                message.UsuarioReceptor = receptor;
-                if(deleteM == "me") { message.DeleteForMe = true; }
-                else { message.DeleteAll = true; }
-                
-                //API - MVC
-                HttpClient client = Api.Initial();
-
-                //Post-instancia a la api
-                var Data = client.PostAsJsonAsync<StringMessage>("api/message/deleteMessage", message);
-                Data.Wait();
-
-                var result = Data.Result;
-                if (result.IsSuccessStatusCode)
+                string caracter = receptor.Substring(0, 1);
+                if (caracter != "@")
                 {
-                    DownloadMessages(receptor);
-                    return RedirectToAction(nameof(Index));//si los datos son correctos al crear nueva cuenta retorna a LogIn
+                    emisor = HttpContext.Session.GetString("userLogged");
+
+                    StringMessage message = new StringMessage();
+
+                    //byte[] byteM = new byte[Texto.Length * sizeof(char)];
+                    //Buffer.BlockCopy(Texto.ToCharArray(), 0, byteM, 0, byteM.Length);
+                    message.Texto = Texto;
+                    message.UsuarioEmisor = emisor;
+                    message.UsuarioReceptor = receptor;
+                    if (deleteM == "me") { message.DeleteForMe = true; }
+                    else { message.DeleteAll = true; }
+
+                    //API - MVC
+                    HttpClient client = Api.Initial();
+
+                    //Post-instancia a la api
+                    var Data = client.PostAsJsonAsync<StringMessage>("api/message/deleteMessage", message);
+                    Data.Wait();
+
+                    var result = Data.Result;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        DownloadMessages(receptor);
+                        return RedirectToAction(nameof(Index));//si los datos son correctos al crear nueva cuenta retorna a LogIn
+                    }
                 }
+
+                if(caracter == "@")
+                {
+                    emisor = HttpContext.Session.GetString("userLogged");
+
+                    StringMessage message = new StringMessage();
+
+                    message.Texto = Texto;
+                    message.UsuarioEmisor = emisor;
+                    message.UsuarioReceptor = receptor;
+                    if (deleteM == "me") { message.DeleteForMe = true; }
+                    else { message.DeleteAll = true; }
+
+                    //API - MVC
+                    HttpClient client = Api.Initial();
+
+                    //Post-instancia a la api
+                    var Data = client.PostAsJsonAsync<StringMessage>("api/group/deleteMessage", message);
+                    Data.Wait();
+
+                    var result = Data.Result;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        DownloadMessages(receptor);
+                        return RedirectToAction(nameof(Index));//si los datos son correctos al crear nueva cuenta retorna a LogIn
+                    }
+                }
+
+
+                
                 return RedirectToAction(nameof(Index));
             }
             catch
