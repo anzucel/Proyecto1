@@ -33,5 +33,6 @@ namespace APIProyecto.Models
         public List<String> FriendsRequest { set; get; }
         // public bool Status { set; get; } //saber si el usuario está activo o inactivo
         public List<String> GroupID { set; get; }
+
     }
 }

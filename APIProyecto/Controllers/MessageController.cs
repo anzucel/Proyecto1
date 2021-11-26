@@ -180,26 +180,30 @@ namespace APIProyecto.Controllers
             // Descifrar mensajes 
             foreach (Messages mess in result)
             {
-                StringMessage message = new StringMessage();
-                if(mess.FilePath != null)
+                // mostrar el mensaje
+                if ((mess.DeleteForMe == false || (mess.DeleteForMe == true && emisor != mess.UsuarioEmisor)) && mess.DeleteAll == false)
                 {
-                    string[] splt = mess.FilePath.Split('.');
-                    string filename = splt[0] + "." + splt[1];
-                    message.Texto = filename;
-                    message.FilePath = filename;
-                }
-                else
-                {
-                    byte[] DesMessages = sdes.Descifrar(mess.Texto, key); // se guarda el texto descifrado
-                    char[] chars = new char[DesMessages.Length / sizeof(char)];
-                    Buffer.BlockCopy(DesMessages, 0, chars, 0, DesMessages.Length);
-                    message.Texto = new string(chars);
-                }
-                message.Fecha_envio = mess.Fecha_envio;
-                message.UsuarioEmisor = mess.UsuarioEmisor;
-                message.UsuarioReceptor = mess.UsuarioReceptor;
+                    StringMessage message = new StringMessage();
+                    if (mess.FilePath != null)
+                    {
+                        string[] splt = mess.FilePath.Split('.');
+                        string filename = splt[0] + "." + splt[1];
+                        message.Texto = filename;
+                        message.FilePath = filename;
+                    }
+                    else
+                    {
+                        byte[] DesMessages = sdes.Descifrar(mess.Texto, key); // se guarda el texto descifrado
+                        char[] chars = new char[DesMessages.Length / sizeof(char)];
+                        Buffer.BlockCopy(DesMessages, 0, chars, 0, DesMessages.Length);
+                        message.Texto = new string(chars);
+                    }
+                    message.Fecha_envio = mess.Fecha_envio;
+                    message.UsuarioEmisor = mess.UsuarioEmisor;
+                    message.UsuarioReceptor = mess.UsuarioReceptor;
 
-                ListMessages.Add(message);
+                    ListMessages.Add(message);
+                }
             }
 
             // retorna la lista de mensajes
@@ -256,6 +260,8 @@ namespace APIProyecto.Controllers
                 newMessage.Fecha_envio = DateTime.Now.ToString("yy-MM-dd H:m:ss");
                 key = GenerateKey(keyEmisor, keyReceptor);
                 newMessage.Texto = sdes.Cifrar(message.Texto, key);
+                newMessage.DeleteAll = false;
+                newMessage.DeleteForMe = false;
 
                 // extra ======================
                 // descifrado.Texto = sdes.Descifrar( newMessage.Texto, key);
@@ -266,6 +272,100 @@ namespace APIProyecto.Controllers
                 return Ok();
             }
         }
+
+        [HttpPost]
+        [Route("deleteMessage")]
+        public IActionResult DeleteMessage([FromBody] StringMessage message)
+        {
+            try
+            {
+                int keyEmisor = 0, keyReceptor = 0, key;
+
+                var client = new MongoClient("mongodb://127.0.0.1:27017");
+                var database = client.GetDatabase("ChatDB");
+
+                //bd mensajes
+                var dbmessages = database.GetCollection<Messages>("Messages");
+                var buscarMensaje = dbmessages.AsQueryable<Messages>(); //comentado
+                var result = from a in buscarMensaje
+                             where ((a.UsuarioEmisor == message.UsuarioEmisor && a.UsuarioReceptor == message.UsuarioReceptor))
+                             select a;
+
+                //bd usuarios 
+                var dbusers = database.GetCollection<User>("User");
+                var buscarUsuario = dbusers.AsQueryable<User>();
+                var resultusers = from a in buscarUsuario
+                                  where (a.Username == message.UsuarioEmisor || a.Username == message.UsuarioReceptor)
+                                  select a;
+
+                // Buscar llave entre usuarios 
+                foreach (User users in resultusers)
+                {
+                    if (users.Username == message.UsuarioEmisor) { keyEmisor = users.Key; }
+                    if (users.Username == message.UsuarioReceptor) { keyReceptor = users.Key; }
+                }
+
+                key = GenerateKey(keyEmisor, keyReceptor);
+
+                // Descifrar mensajes 
+                foreach (Messages mess in result)
+                {
+                    Messages updateMessage = new Messages();
+
+                    string filepath = "";
+                    string mensaje = "";
+                    if (mess.FilePath != null) {
+                        string[] splt = mess.FilePath.Split('.');
+                        string type = "." + splt[1];
+                        filepath = splt[0] + type;
+                    }
+                    else
+                    {
+                        byte[] DesMessages = sdes.Descifrar(mess.Texto, key); // se guarda el texto descifrado
+                        char[] chars = new char[DesMessages.Length / sizeof(char)];
+                        Buffer.BlockCopy(DesMessages, 0, chars, 0, DesMessages.Length);
+                        mensaje = new string(chars);
+                    }
+
+                    if (mensaje == message.Texto || filepath == message.Texto)
+                    {
+                        if (message.DeleteForMe)
+                        {
+                            updateMessage.Id = mess.Id;
+                            updateMessage.UsuarioEmisor = mess.UsuarioEmisor;
+                            updateMessage.UsuarioReceptor = mess.UsuarioReceptor;
+                            updateMessage.Texto = mess.Texto;
+                            updateMessage.FilePath = mess.FilePath;
+                            updateMessage.Fecha_envio = mess.Fecha_envio;
+                            updateMessage.SalaID = mess.SalaID;
+                            updateMessage.DeleteForMe = true;
+                            updateMessage.DeleteAll = false;
+                        }
+                        if(message.DeleteAll)
+                        {
+                            updateMessage.Id = mess.Id;
+                            updateMessage.UsuarioEmisor = mess.UsuarioEmisor;
+                            updateMessage.UsuarioReceptor = mess.UsuarioReceptor;
+                            updateMessage.Texto = mess.Texto;
+                            updateMessage.FilePath = mess.FilePath;
+                            updateMessage.Fecha_envio = mess.Fecha_envio;
+                            updateMessage.SalaID = mess.SalaID;
+                            updateMessage.DeleteForMe = false;
+                            updateMessage.DeleteAll = true;
+                        }
+
+                        dbmessages.ReplaceOne(u => u.Id == mess.Id, updateMessage);
+                    }
+                }
+
+                return Ok();
+            }
+            catch 
+            {
+                return BadRequest("Error");
+            }
+        }
+
 
         // Metodo obtener llave secreta entre emisor y receptor
         public int GenerateKey(int KEmisor, int KReceptor)
