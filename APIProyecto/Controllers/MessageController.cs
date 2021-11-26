@@ -186,6 +186,7 @@ namespace APIProyecto.Controllers
                     string[] splt = mess.FilePath.Split('.');
                     string filename = splt[0] + "." + splt[1];
                     message.Texto = filename;
+                    message.FilePath = filename;
                 }
                 else
                 {
