@@ -197,6 +197,9 @@ namespace Proyecto1.Controllers
         [HttpPost]
         public IActionResult creatgroup(string[] members, string name)
         {
+
+
+
             return Redirect("index");
         }
 
@@ -334,7 +337,14 @@ namespace Proyecto1.Controllers
             //deleteM = me-> eliminar para mi || all->eliminar para todos
             //Texto = mensaje que se quiere eliminar
             //usuario_delete = el usuario que esta haciendo la acción de eliminar
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
     }     
 }
